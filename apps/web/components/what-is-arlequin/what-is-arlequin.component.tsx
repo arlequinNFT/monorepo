@@ -60,7 +60,7 @@ const WhatIsArlequin = () => {
     //       src="/images/arlees.webp"
     //       alt="Dozens of cute 3D Arlees species"
     //     />
-    //     <p className="font-bold text-xl my-2">Cute 3D Animals</p>
+    //     <p className="font-bold text-xl my-2">Cute 3D Arlees</p>
     //     <p className="text-lg text-primary-700">
     //       Begin the collection of these cute 3D Animals NFTs known as Arlees.
     //     </p>
@@ -104,7 +104,7 @@ const WhatIsArlequin = () => {
     //   </div>
     // </section>
 
-    <section className="max-w-7xl mx-auto">
+    <section className="max-w-6xl mx-auto">
       <div className="grid grid-cols-2">
         <div className="col-span-1">
           <img
@@ -114,12 +114,35 @@ const WhatIsArlequin = () => {
             alt="The Artists Metaverse"
           />
         </div>
-        <div className="col-span-1 items-center">
-          <p className="font-bold text-xl my-2">The Artists Metaverse</p>
-          <p className="text-lg text-primary-700">
+        <div className="col-span-1 flex flex-col justify-center">
+          <p className="font-bold text-3xl my-2">The Artists Metaverse</p>
+          <p className="text-xl text-primary-700">
             Arlequin is a fully community driven Metaverse where Artists have
-            the // first role.
+            the first role. Lorem ipsum dolor, sit amet consectetur adipisicing
+            elit. Nostrum expedita accusamus optio modi, voluptate voluptas
+            laboriosam.
           </p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2">
+        <div className="col-span-1 flex flex-col justify-center">
+          <p className="font-bold text-3xl my-2">Cute 3D Arlees</p>
+          <p className="text-xl text-primary-700">
+            Arlequin is a fully community driven Metaverse where Artists have
+            the first role. Lorem ipsum dolor, sit amet consectetur adipisicing
+            elit. Nostrum expedita accusamus optio modi, voluptate voluptas
+            laboriosam.
+          </p>
+        </div>
+
+        <div className="col-span-1">
+          <img
+            width="100%"
+            height="100%"
+            src="/images/arlees.webp"
+            alt="Cute 3D Arlees"
+          />
         </div>
       </div>
     </section>

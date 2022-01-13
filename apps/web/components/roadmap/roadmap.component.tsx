@@ -61,14 +61,12 @@ const Roadmap = () => {
       <section
         ref={refRoadmapSection}
         id="roadmap"
-        className="bg-primary-1200 relative"
+        className="bg-sky-700 relative"
       >
         <div className=" w-full h-1 -top-[1px] bg-white absolute"></div>
         <img className="w-full" src="/images/cloud_1.svg" alt="cloud_1" />
         <div className="relative grid grid-cols-3 max-w-7xl mx-auto gap-x-4 py-12 lg:pt-36 lg:pb-48 px-6">
-          <p className={`col-span-3 mx-auto mb-12 text-7xl text-white`}>
-            Roadmap
-          </p>
+          <p className={`col-span-3 mx-auto mb-12 text-7xl`}>Roadmap</p>
 
           <div className="col-span-3 lg:col-span-2">
             <div className=" bg-primary-1100 relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-4 shadow-lg rounded-xl">
