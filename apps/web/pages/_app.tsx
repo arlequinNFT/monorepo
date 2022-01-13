@@ -3,21 +3,34 @@ import '../styles/main.scss';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 
+import Faq from '@components/faq/faq.component';
+import Footer from '@components/footer/footer.component';
+import Header from '@components/header/header.component';
+import Intro from '@components/intro/intro.component';
+import Roadmap from '@components/roadmap/roadmap.component';
+import Team from '@components/team/team.component';
+import WhatIsArlequin from '@components/what-is-arlequin/what-is-arlequin.component';
+
 function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
         <title>Arlequin - The Artists Metaverse</title>
       </Head>
-      <div className="app">
-        <header className="flex">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/nx-logo-white.svg" alt="Nx logo" width="75" height="50" />
-          <h1>Welcome to web!</h1>
-        </header>
-        <main>
-          <Component {...pageProps} />
-        </main>
+      <div className="bg-homepage bg-fixed bg-cover">
+        <Header></Header>
+        <Intro></Intro>
+      </div>
+
+      <WhatIsArlequin></WhatIsArlequin>
+
+      <Roadmap></Roadmap>
+
+      <Team></Team>
+      <Faq></Faq>
+
+      <div className="bg-homepage bg-fixed bg-cover">
+        <Footer></Footer>
       </div>
     </>
   );
