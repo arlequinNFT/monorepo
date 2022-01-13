@@ -1,6 +1,106 @@
 {
   "version": 2,
   "projects": {
+    "components-button": {
+      "root": "libs/components/button",
+      "sourceRoot": "libs/components/button/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/components/button/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/components/button"],
+          "options": {
+            "jestConfig": "libs/components/button/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "painter": {
+      "root": "apps/painter",
+      "sourceRoot": "apps/painter",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/next:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "root": "apps/painter",
+            "outputPath": "dist/apps/painter"
+          },
+          "configurations": {
+            "production": {}
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/next:server",
+          "options": {
+            "buildTarget": "painter:build",
+            "dev": true
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "painter:build:production",
+              "dev": false
+            }
+          }
+        },
+        "export": {
+          "executor": "@nrwl/next:export",
+          "options": {
+            "buildTarget": "painter:build:production"
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/painter"],
+          "options": {
+            "jestConfig": "apps/painter/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/painter/**/*.{ts,tsx,js,jsx}"]
+          }
+        }
+      }
+    },
+    "painter-e2e": {
+      "root": "apps/painter-e2e",
+      "sourceRoot": "apps/painter-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/painter-e2e/cypress.json",
+            "devServerTarget": "painter:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "painter:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/painter-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
     "web": {
       "root": "apps/web",
       "sourceRoot": "apps/web",

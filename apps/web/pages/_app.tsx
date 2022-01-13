@@ -1,12 +1,13 @@
+import '../styles/main.scss';
+
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import './styles.css';
 
 function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Welcome to web!</title>
+        <title>Arlequin - The Artists Metaverse</title>
       </Head>
       <div className="app">
         <header className="flex">

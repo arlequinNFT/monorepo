@@ -27,6 +27,16 @@
     ]
   },
   "projects": {
+    "components-button": {
+      "tags": []
+    },
+    "painter": {
+      "tags": []
+    },
+    "painter-e2e": {
+      "tags": [],
+      "implicitDependencies": ["painter"]
+    },
     "web": {
       "tags": []
     },
