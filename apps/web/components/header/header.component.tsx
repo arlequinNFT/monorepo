@@ -9,7 +9,9 @@ const Header = () => {
   });
 
   return (
-    <header className={`bg-transparent lg:py-4`}>
+    <header
+      className={`bg-transparent max-w-5xl mx-auto 3xl:max-w-7xl lg:py-4`}
+    >
       <div
         ref={ref}
         className={`${

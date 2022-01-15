@@ -3,14 +3,17 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        homepage: "url('/images/bg_homepage.jpg')",
+        clouds: "url('/images/bg_clouds.jpg')",
+        bubbles: "url('/images/bg_bubbles.jpg')",
       },
       colors: {
         cyan: '#22b8cf',
         blue: '#0070f3',
         green: '#37b679',
+        red: '#d6747a',
         pink: '#e64980',
         purple: '#7a81ff',
+        primary: '#282446',
       },
     },
 
