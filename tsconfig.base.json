@@ -15,7 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@arlequin/components/button": ["libs/components/button/src/index.ts"]
+      "@arlequin/components/button": ["libs/components/button/src/index.ts"],
+      "@arlequin/components/form": ["libs/components/form/src/index.ts"],
+      "@arlequin/components/input": ["libs/components/input/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

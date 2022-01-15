@@ -62,7 +62,7 @@ const Roadmap = () => {
                 inViewRoadmapFirstBlock
                   ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-100 lg:transition-all'
                   : 'lg:-translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
-              } bg-black/30 relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 shadow-xl rounded-xl`}
+              } bg-purple relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 shadow-xl rounded-xl`}
             >
               <p className={`font-bold text-4xl text-red mb-4`}>
                 <span className=" mr-2 ">1.</span>Official website is launched!
@@ -93,7 +93,7 @@ const Roadmap = () => {
                 inViewRoadmapSecondBlock
                   ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-50 lg:transition-all'
                   : 'lg:-translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
-              } bg-black/30 relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-xl`}
+              } bg-purple relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-xl`}
             >
               <p className={` font-bold text-4xl text-white mb-4`}>
                 <span className="text-secondary-300 mr-2">2.</span> First
@@ -121,7 +121,7 @@ const Roadmap = () => {
                 inViewRoadmapThirdBlock
                   ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-50 lg:transition-all'
                   : 'lg:-translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
-              } bg-black/30 relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-xl`}
+              } bg-purple relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-xl`}
             >
               <p className={`font-bold text-4xl text-white mb-4`}>
                 <span className="text-secondary-300 mr-2">3.</span> Marketplace
@@ -143,7 +143,7 @@ const Roadmap = () => {
                 inViewRoadmapFourthBlock
                   ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-50 lg:transition-all'
                   : 'lg:-translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
-              } bg-black/30 relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-xl`}
+              } bg-purple relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-xl`}
             >
               <p className={`font-bold text-4xl text-white mb-4`}>
                 <span className="text-secondary-300 mr-2">4.</span> Painting
@@ -175,7 +175,7 @@ const Roadmap = () => {
                 inViewRoadmapFifthBlock
                   ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-50 lg:transition-all'
                   : 'lg:-translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
-              } bg-black/30 relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-xl`}
+              } bg-purple relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-xl`}
             >
               <p className={`font-bold text-4xl text-white mb-4`}>
                 <span className="text-secondary-300 mr-2">5.</span> The Pool
@@ -205,7 +205,7 @@ const Roadmap = () => {
                 inViewRoadmapSixthBlock
                   ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-50 lg:transition-all'
                   : 'lg:-translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
-              } bg-black/30 relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-xl`}
+              } bg-purple relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-xl`}
             >
               <p className={`font-bold text-4xl text-white mb-4`}>
                 <span className="text-secondary-300 mr-2">6.</span> More

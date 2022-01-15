@@ -23,6 +23,50 @@
         }
       }
     },
+    "components-form": {
+      "root": "libs/components/form",
+      "sourceRoot": "libs/components/form/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/components/form/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/components/form"],
+          "options": {
+            "jestConfig": "libs/components/form/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "components-input": {
+      "root": "libs/components/input",
+      "sourceRoot": "libs/components/input/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/components/input/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/components/input"],
+          "options": {
+            "jestConfig": "libs/components/input/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "painter": {
       "root": "apps/painter",
       "sourceRoot": "apps/painter",

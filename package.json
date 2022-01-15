@@ -10,17 +10,25 @@
   },
   "private": true,
   "dependencies": {
+    "@chakra-ui/popover": "^1.11.1",
     "@nrwl/next": "12.10.1",
+    "@reduxjs/toolkit": "^1.7.1",
     "autoprefixer": "^10.4.2",
     "core-js": "^3.6.5",
     "next": "11.1.0",
     "postcss": "^8.4.5",
     "react": "17.0.2",
+    "react-colorful": "^5.5.1",
     "react-dom": "17.0.2",
+    "react-hook-form": "^7.24.0",
+    "react-hotkeys-hook": "^3.4.4",
     "react-intersection-observer": "^8.33.1",
+    "react-redux": "^7.2.6",
+    "react-unity-webgl": "^8.7.3",
     "regenerator-runtime": "0.13.7",
     "tailwindcss": "^3.0.13",
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.0",
+    "use-debounce": "^7.0.1"
   },
   "devDependencies": {
     "@nrwl/cli": "12.10.1",

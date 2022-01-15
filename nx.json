@@ -30,6 +30,12 @@
     "components-button": {
       "tags": []
     },
+    "components-form": {
+      "tags": []
+    },
+    "components-input": {
+      "tags": []
+    },
     "painter": {
       "tags": []
     },
