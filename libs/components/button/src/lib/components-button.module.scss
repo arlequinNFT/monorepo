@@ -6,22 +6,22 @@
 //   }
 
 //   &-primary {
-//     @apply text-white bg-primary-1200;
+//     @apply text-white bg-primary-dark;
 
 //     &:hover {
-//       @apply bg-primary-1100 transition-all duration-[250];
+//       @apply bg-primary transition-all duration-[250];
 //     }
 //   }
 
 //   &-secondary {
-//     @apply bg-secondary-600 text-white;
+//     @apply bg-secondary-dark text-white;
 
 //     &:hover {
-//       @apply bg-secondary-500 transition-all duration-[250];
+//       @apply bg-secondary transition-all duration-[250];
 //     }
 
 //     &-outline {
-//       @apply bg-transparent border border-secondary-600 text-secondary-600;
+//       @apply bg-transparent border border-secondary-dark text-secondary-dark;
 //     }
 //   }
 
@@ -36,7 +36,7 @@
 //     }
 
 //     &::after {
-//       content: "";
+//       content: '';
 //       position: absolute;
 //       width: 2rem;
 //       height: 2rem;

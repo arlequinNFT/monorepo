@@ -59,8 +59,11 @@ const Index: NextPage = () => {
   }, 100);
 
   const updateHardness = useDebouncedCallback((value: number) => {
-    console.log(value);
     unityContext?.send('HudManager', 'UpdateHardness', value);
+  }, 100);
+  const updateOpacity = useDebouncedCallback((value: number) => {
+    const normalizedValue = value / 100;
+    unityContext?.send('HudManager', 'UpdateOpacity', normalizedValue);
   }, 100);
   const updateAngle = useDebouncedCallback((value: number) => {
     unityContext?.send('HudManager', 'UpdateAngle', value);
@@ -208,7 +211,7 @@ const Index: NextPage = () => {
   return (
     <>
       {showLoadingScreen && (
-        <div className="absolute bg-primary-1000 h-screen w-screen z-10">
+        <div className="absolute bg-purple h-screen w-screen z-10">
           <div className="grid place-content-center h-full w-full">
             <div className="flex items-baseline">
               <p className="font-extrabold text-4xl text-white animate-pulse">
@@ -220,7 +223,7 @@ const Index: NextPage = () => {
       )}
 
       <div className={styles['layout']}>
-        <div className="flex items-center flex-col  bg-[#171717]">
+        <div className="flex items-center flex-col bg-grey-700">
           <div className="w-full p-4 text-center">
             <Link href="/">
               <a className="text-rainbow font-extrabold text-3xl">Arlequin</a>
@@ -237,7 +240,7 @@ const Index: NextPage = () => {
                     key={key}
                     className={`flex justify-center items-center rounded-2xl cursor-pointer bg-slate-200 ${
                       currentArlee?.species === arlee.species
-                        ? 'outline outline-8 outline-[#525252]'
+                        ? 'outline outline-8 outline-grey-300'
                         : ''
                     }`}
                     onClick={(e) => {
@@ -256,14 +259,14 @@ const Index: NextPage = () => {
             </div>
           </div>
 
-          <div className="flex items-center justify-center gap-x-2 w-full bg-[#242424] pt-4">
+          <div className="flex items-center justify-center gap-x-2 w-full bg-grey-600 pt-4">
             <a
               href="https://discord.gg/rBPP7uxnwd"
               target="_blank"
               rel="noreferrer"
             >
               <Image
-                className="bg-[#525252] rounded-full cursor-pointer"
+                className="bg-grey-300 rounded-full cursor-pointer"
                 src="/icons/discord.svg"
                 alt="Discord icon"
                 width="36px"
@@ -276,7 +279,7 @@ const Index: NextPage = () => {
               rel="noreferrer"
             >
               <Image
-                className="bg-[#525252] rounded-full cursor-pointer"
+                className="bg-grey-300 rounded-full cursor-pointer"
                 src="/icons/twitter.svg"
                 alt="Twitter icon"
                 width="36px"
@@ -312,7 +315,7 @@ const Index: NextPage = () => {
             </ul>
           </div>
         </div>
-        <div className="flex items-center flex-col  bg-[#171717] overflow-y-auto">
+        <div className="flex items-center flex-col  bg-grey-700 overflow-y-auto">
           <section className="flex-1 w-full p-4">
             <div className="flex items-center justify-between">
               <h2 className="uppercase text-white text-sm font-extrabold tracking-wider  mr-4">
@@ -321,7 +324,7 @@ const Index: NextPage = () => {
               <div className="flex gap-x-2">
                 <Image
                   onClick={(e) => undo()}
-                  className={`bg-[#303030] hover:bg-[#3f3f3f] transition-colors rounded-full cursor-pointer`}
+                  className={`bg-grey-500 hover:bg-grey-400 transition-colors rounded-full cursor-pointer`}
                   src="/icons/undo.svg"
                   alt="Undo icon"
                   width="28px"
@@ -329,7 +332,7 @@ const Index: NextPage = () => {
                 />
                 <Image
                   onClick={(e) => redo()}
-                  className={`bg-[#303030] hover:bg-[#3f3f3f] transition-colors rounded-full cursor-pointer`}
+                  className={`bg-grey-500 hover:bg-grey-400 transition-colors rounded-full cursor-pointer`}
                   src="/icons/redo.svg"
                   alt="Redo icon"
                   width="28px"
@@ -339,11 +342,11 @@ const Index: NextPage = () => {
             </div>
 
             <div className="p-1">
-              <p className="text-[#6B6B6B]">Mode</p>
-              <ul className="grid grid-cols-3 p-1 bg-[#242424] rounded-xl">
+              <p className="text-grey-200">Mode</p>
+              <ul className="grid grid-cols-3 p-1 bg-grey-600 rounded-xl">
                 <li
                   className={`${
-                    currentMode === 'brush' ? 'bg-[#303030] shadow-md' : "'"
+                    currentMode === 'brush' ? 'bg-grey-500 shadow-md' : "'"
                   } col-span-1 flex flex-col items-center py-1 rounded-lg  cursor-pointer`}
                   onClick={(e) => toggleBrushMode()}
                 >
@@ -357,7 +360,7 @@ const Index: NextPage = () => {
                   />
                   <p
                     className={`${
-                      currentMode === 'brush' ? 'text-white' : 'text-[#6B6B6B]'
+                      currentMode === 'brush' ? 'text-white' : 'text-grey-200'
                     }`}
                   >
                     Brush
@@ -366,7 +369,7 @@ const Index: NextPage = () => {
 
                 <li
                   className={`${
-                    currentMode === 'bucket' ? 'bg-[#303030] shadow-md' : "'"
+                    currentMode === 'bucket' ? 'bg-grey-500 shadow-md' : "'"
                   } col-span-1 flex flex-col items-center py-1 rounded-lg  cursor-pointer`}
                   onClick={(e) => toggleBucketMode()}
                 >
@@ -380,7 +383,7 @@ const Index: NextPage = () => {
                   />
                   <p
                     className={`${
-                      currentMode === 'bucket' ? 'text-white' : 'text-[#6B6B6B]'
+                      currentMode === 'bucket' ? 'text-white' : 'text-grey-200'
                     }`}
                   >
                     Bucket
@@ -389,7 +392,7 @@ const Index: NextPage = () => {
 
                 <li
                   className={`${
-                    currentMode === 'picker' ? 'bg-[#303030] shadow-md' : "'"
+                    currentMode === 'picker' ? 'bg-grey-500 shadow-md' : "'"
                   } col-span-1 flex flex-col  items-center py-1 rounded-lg  cursor-pointer `}
                   onClick={(e) => togglePickerMode()}
                 >
@@ -404,7 +407,7 @@ const Index: NextPage = () => {
                   />
                   <p
                     className={`${
-                      currentMode === 'picker' ? 'text-white' : 'text-[#6B6B6B]'
+                      currentMode === 'picker' ? 'text-white' : 'text-grey-200'
                     }`}
                   >
                     Dropper
@@ -413,13 +416,13 @@ const Index: NextPage = () => {
               </ul>
             </div>
             <div className="p-1">
-              <p className="text-[#6B6B6B]">Brush Style</p>
-              <ul className="grid grid-cols-2 p-1 bg-[#242424] rounded-xl">
+              <p className="text-grey-200">Brush Style</p>
+              <ul className="grid grid-cols-2 p-1 bg-grey-600 rounded-xl">
                 <li
                   className={`${
                     currentMode === 'brush' &&
                     currentBrushType === BrushType.Round
-                      ? 'bg-[#303030] shadow-md'
+                      ? 'bg-grey-500 shadow-md'
                       : "'"
                   } col-span-1 flex flex-col  items-center py-1 rounded-lg cursor-pointer`}
                   onClick={(e) => {
@@ -443,7 +446,7 @@ const Index: NextPage = () => {
                       currentMode === 'brush' &&
                       currentBrushType === BrushType.Round
                         ? 'text-white'
-                        : 'text-[#6B6B6B]'
+                        : 'text-grey-200'
                     }`}
                   >
                     Round
@@ -454,7 +457,7 @@ const Index: NextPage = () => {
                   className={`${
                     currentMode === 'brush' &&
                     currentBrushType === BrushType.Square
-                      ? 'bg-[#303030] shadow-md'
+                      ? 'bg-grey-500 shadow-md'
                       : "'"
                   } col-span-1 flex flex-col  items-center py-1 rounded-lg cursor-pointer`}
                   onClick={(e) => {
@@ -478,7 +481,7 @@ const Index: NextPage = () => {
                       currentMode === 'brush' &&
                       currentBrushType === BrushType.Square
                         ? 'text-white'
-                        : 'text-[#6B6B6B]'
+                        : 'text-grey-200'
                     }`}
                   >
                     Square
@@ -487,10 +490,10 @@ const Index: NextPage = () => {
               </ul>
             </div>
             <div className="p-1">
-              <p className="text-[#6B6B6B]">Size</p>
+              <p className="text-grey-200">Size</p>
               <div className="flex items-center justify-evenly p-1">
                 <Image
-                  className="bg-[#303030] rounded-full"
+                  className="bg-grey-500 rounded-full"
                   src={`/icons/small.svg`}
                   alt="Small icon"
                   width="36px"
@@ -500,13 +503,13 @@ const Index: NextPage = () => {
                   className="w-4/5 mx-1"
                   type="range"
                   id="size"
-                  min={2}
+                  min={1}
                   max={100}
                   defaultValue={25}
                   changed={(value) => updateSize(Number(value))}
                 />
                 <Image
-                  className="bg-[#303030] rounded-full"
+                  className="bg-grey-500 rounded-full"
                   src={`/icons/big.svg`}
                   alt="Big icon"
                   width="36px"
@@ -514,39 +517,39 @@ const Index: NextPage = () => {
                 />
               </div>
             </div>
-            {/* <div className="p-1">
-              <p className="text-[#6B6B6B]">Opacity</p>
+            <div className="p-1">
+              <p className="text-grey-200">Opacity</p>
               <div className="flex items-center justify-evenly p-1">
                 <Image
-                  className="bg-[#303030] rounded-full"
+                  className="bg-grey-500 rounded-full"
                   src={`/icons/small.svg`}
                   alt="Small icon"
                   width="36px"
                   height="36px"
                 />
-                <Input
+                <ComponentsInput
                   className="w-4/5 mx-1"
                   type="range"
-                  id="size"
-                  min={2}
+                  id="opacity"
+                  min={10}
                   max={100}
                   defaultValue={25}
-                  changed={(value) => updateSize(Number(value))}
+                  changed={(value) => updateOpacity(Number(value))}
                 />
                 <Image
-                  className="bg-[#303030] rounded-full"
+                  className="bg-grey-500 rounded-full"
                   src={`/icons/big.svg`}
                   alt="Big icon"
                   width="36px"
                   height="36px"
                 />
               </div>
-            </div> */}
+            </div>
             <div className="p-1">
-              <p className="text-[#6B6B6B]">Hardness</p>
+              <p className="text-grey-200">Hardness</p>
               <div className="flex items-center justify-evenly p-1">
                 <Image
-                  className="bg-[#303030] rounded-full"
+                  className="bg-grey-500 rounded-full"
                   src={`/icons/small.svg`}
                   alt="Small icon"
                   width="36px"
@@ -556,13 +559,13 @@ const Index: NextPage = () => {
                   className="w-4/5 mx-1"
                   type="range"
                   id="hardness"
-                  min={2}
+                  min={1}
                   max={100}
                   defaultValue={25}
                   changed={(value) => updateHardness(Number(value))}
                 />
                 <Image
-                  className="bg-[#303030] rounded-full"
+                  className="bg-grey-500 rounded-full"
                   src={`/icons/big.svg`}
                   alt="Big icon"
                   width="36px"
@@ -571,10 +574,10 @@ const Index: NextPage = () => {
               </div>
             </div>
             <div className="p-1">
-              <p className="text-[#6B6B6B]">Angle</p>
+              <p className="text-grey-200">Angle</p>
               <div className="flex items-center justify-evenly p-1">
                 <Image
-                  className="bg-[#303030] rounded-full"
+                  className="bg-grey-500 rounded-full"
                   src={`/icons/small.svg`}
                   alt="Small icon"
                   width="36px"
@@ -590,7 +593,7 @@ const Index: NextPage = () => {
                   changed={(value) => updateAngle(Number(value))}
                 />
                 <Image
-                  className="bg-[#303030] rounded-full"
+                  className="bg-grey-500 rounded-full"
                   src={`/icons/big.svg`}
                   alt="Big icon"
                   width="36px"
@@ -599,41 +602,22 @@ const Index: NextPage = () => {
               </div>
             </div>
             <div className="p-1">
-              <p className="text-[#6B6B6B]">Color</p>
+              <p className="text-grey-200">Color</p>
               <div className="grid grid-flow-col gap-x-2 items-center py-1">
-                <Popover placement="top" arrowPadding={0}>
+                <Popover>
                   <PopoverTrigger>
                     <div
                       className="w-8 h-8 border-primary-1200 hover:outline-primary-400 outline-primary-900  transition-all  border-2  cursor-pointer rounded-md"
                       style={{ backgroundColor: currentColor }}
                     ></div>
                   </PopoverTrigger>
-                  <PopoverContent>
-                    <PopoverArrow />
-
+                  <PopoverContent className="bg-grey-500 rounded-lg">
                     <PopoverBody>
                       <HexColorPicker
+                        className="w-full border-0"
                         color={currentColor}
                         onChange={updateColorViaColorPicker}
                       />
-                      <ul className={styles['colors-list']}>
-                        {swatches.map((color) => (
-                          <li
-                            key={color}
-                            style={{ backgroundColor: color }}
-                            className="h-6 w-6 rounded-md cursor-pointer"
-                            onClick={(e) => updateColorViaSwatches(color)}
-                          ></li>
-                        ))}
-                        <li
-                          className="grid place-content-center h-6 w-6 rounded-md cursor-pointer bg-white text-black text-3xl "
-                          onClick={(e) =>
-                            dispatch(addColorToSwatches(currentColor))
-                          }
-                        >
-                          +
-                        </li>
-                      </ul>
                     </PopoverBody>
                   </PopoverContent>
                 </Popover>
@@ -641,7 +625,7 @@ const Index: NextPage = () => {
                   <span className="absolute px-2 text-primary-700 ">#</span>
                   <HexColorInput
                     placeholder={'FFAEC9'}
-                    className="w-full bg-[#303030] text-white hover:bg-[#424242] placeholder-primary-800  px-7 py-1 rounded-lg transition-all"
+                    className="w-full bg-grey-500 text-white hover:bg-[#424242] placeholder-primary-800  px-7 py-1 rounded-lg transition-all"
                     color={currentColor}
                     onChange={updateColorViaColorPicker}
                   />
@@ -649,7 +633,7 @@ const Index: NextPage = () => {
               </div>
             </div>
           </section>
-          <section className="flex place-content-center w-full py-3  bg-[#242424]">
+          <section className="flex place-content-center w-full py-3  bg-grey-600">
             {/* <Button color="secondary" rounded onClick={onOpenShare}>
               Share
             </Button> */}
