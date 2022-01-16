@@ -136,8 +136,6 @@ const Index: NextPage = () => {
       frameworkUrl: 'builds/painter/painter.framework.js.unityweb',
       codeUrl: 'builds/painter/painter.wasm.unityweb',
     });
-    console.log(unityContext);
-
     if (unityContext) {
       setUnityContext(unityContext);
     }
@@ -164,11 +162,11 @@ const Index: NextPage = () => {
   useEffect(() => {
     if (unityContext && currentArlee.species) {
       unityContext?.on('SendIsPlaygroundReady', async () => {
-        console.log(currentArlee.species);
-
         unityContext?.send('HudManager', 'LoadMetaPet', currentArlee.species);
         unityContext?.send('HudManager', 'UpdateColor', currentColor);
         unityContext?.send('HudManager', 'UpdateSize', 23);
+        unityContext?.send('HudManager', 'UpdateHardness', 15);
+        unityContext?.send('HudManager', 'UpdateOpacity', 0.25);
         dispatch(hideLoadingScreen());
       });
     }
@@ -415,7 +413,7 @@ const Index: NextPage = () => {
                 </li>
               </ul>
             </div>
-            <div className="p-1">
+            {/* <div className="p-1">
               <p className="text-grey-200">Brush Style</p>
               <ul className="grid grid-cols-2 p-1 bg-grey-600 rounded-xl">
                 <li
@@ -488,7 +486,7 @@ const Index: NextPage = () => {
                   </p>
                 </li>
               </ul>
-            </div>
+            </div> */}
             <div className="p-1">
               <p className="text-grey-200">Size</p>
               <div className="flex items-center justify-evenly p-1">
@@ -560,8 +558,8 @@ const Index: NextPage = () => {
                   type="range"
                   id="hardness"
                   min={1}
-                  max={100}
-                  defaultValue={25}
+                  max={40}
+                  defaultValue={15}
                   changed={(value) => updateHardness(Number(value))}
                 />
                 <Image
@@ -573,7 +571,7 @@ const Index: NextPage = () => {
                 />
               </div>
             </div>
-            <div className="p-1">
+            {/* <div className="p-1">
               <p className="text-grey-200">Angle</p>
               <div className="flex items-center justify-evenly p-1">
                 <Image
@@ -600,7 +598,7 @@ const Index: NextPage = () => {
                   height="36px"
                 />
               </div>
-            </div>
+            </div> */}
             <div className="p-1">
               <p className="text-grey-200">Color</p>
               <div className="grid grid-flow-col gap-x-2 items-center py-1">
