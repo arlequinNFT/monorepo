@@ -1,0 +1,64 @@
+// .btn {
+//   @apply py-2 px-10 font-bold;
+
+//   &:disabled {
+//     @apply bg-gray-100 text-gray-300 border-gray-300;
+//   }
+
+//   &-primary {
+//     @apply text-white bg-primary-1200;
+
+//     &:hover {
+//       @apply bg-primary-1100 transition-all duration-[250];
+//     }
+//   }
+
+//   &-secondary {
+//     @apply bg-secondary-600 text-white;
+
+//     &:hover {
+//       @apply bg-secondary-500 transition-all duration-[250];
+//     }
+
+//     &-outline {
+//       @apply bg-transparent border border-secondary-600 text-secondary-600;
+//     }
+//   }
+
+//   &-rounded {
+//     @apply rounded-full;
+//   }
+
+//   &-loading {
+//     span {
+//       visibility: hidden;
+//       opacity: 0;
+//     }
+
+//     &::after {
+//       content: "";
+//       position: absolute;
+//       width: 2rem;
+//       height: 2rem;
+//       top: 0;
+//       left: 0;
+//       right: 0;
+//       bottom: 0;
+//       margin: auto;
+//       border: 0.25rem solid transparent;
+//       border-top-color: #ccc;
+//       border-radius: 50%;
+//       animation: button-loading-spinner 1s ease infinite;
+//     }
+//   }
+// }
+
+// @keyframes button-loading-spinner {
+//   from {
+//     transform: rotate(0turn);
+//   }
+
+//   to {
+//     transform: rotate(1turn);
+//   }
+// }

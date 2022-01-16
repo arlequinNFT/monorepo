@@ -3,7 +3,7 @@ import {
     FieldError, FieldValues, RegisterOptions, useFormContext, UseFormRegister
 } from 'react-hook-form';
 
-import styles from './input.module.scss';
+import styles from './components-input.module.scss';
 
 interface ComponentsInputProps {
   className?: string;
@@ -25,7 +25,7 @@ interface ComponentsInputProps {
   type: 'email' | 'text' | 'tel' | 'number' | 'password' | 'range';
 }
 
-const ComponentsInput = ({
+export const ComponentsInput = ({
   className,
   controls,
   defaultValue,
@@ -120,4 +120,3 @@ const ComponentsInput = ({
   );
   return input;
 };
-export default ComponentsInput;

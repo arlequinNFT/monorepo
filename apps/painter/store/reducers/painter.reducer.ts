@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export type Mode = 'brush' | 'bucket' | 'eraser' | 'picker';
-export const enum BrushType {
+export enum BrushType {
   Round = 'Round',
   Square = 'Square',
 }

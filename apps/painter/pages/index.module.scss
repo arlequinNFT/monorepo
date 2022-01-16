@@ -1,0 +1,23 @@
+.colors-list {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.375rem;
+  padding: 0.5rem;
+}
+
+#arlees-collection::-webkit-scrollbar {
+  width: 0.4rem;
+}
+
+#arlees-collection::-webkit-scrollbar-thumb {
+  background-color: #303030; /* color of the scroll thumb */
+  border-radius: 2rem;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 12rem minmax(0, 1fr) 20rem;
+
+  height: 100%;
+  overflow: hidden;
+}

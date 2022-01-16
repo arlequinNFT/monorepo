@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React, { MouseEventHandler, PropsWithChildren } from 'react';
 
-import styles from './button.module.scss';
+import styles from './components-button.module.scss';
 
 interface ComponentsButtonProps {
   color?: 'primary' | 'secondary';
@@ -13,7 +13,7 @@ interface ComponentsButtonProps {
   type?: 'submit';
 }
 
-const ComponentsButton = ({
+export const ComponentsButton = ({
   children,
   color = 'primary',
   disabled = false,
@@ -49,4 +49,3 @@ const ComponentsButton = ({
   }
   return button;
 };
-export default ComponentsButton;

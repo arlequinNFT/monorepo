@@ -7,8 +7,8 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import Unity, { UnityContext } from 'react-unity-webgl';
 import { useDebouncedCallback } from 'use-debounce';
 
-import ComponentsButton from '@arlequin/components/button';
-import ComponentsInput from '@arlequin/components/input';
+import { ComponentsButton } from '@arlequin/components/button';
+import { ComponentsInput } from '@arlequin/components/input';
 import {
     Popover, PopoverArrow, PopoverBody, PopoverContent, PopoverTrigger
 } from '@chakra-ui/popover';
@@ -18,7 +18,7 @@ import {
     addColorToSwatches, BrushType, hideLoadingScreen, setArlees, setCurrentArlee,
     setCurrentBrushType, setCurrentcolor, setCurrentMode
 } from '../store/reducers/painter.reducer';
-import styles from './style.module.scss';
+import styles from './index.module.scss';
 
 import type { NextPage } from 'next';
 const Index: NextPage = () => {
@@ -133,6 +133,8 @@ const Index: NextPage = () => {
       frameworkUrl: 'builds/painter/painter.framework.js.unityweb',
       codeUrl: 'builds/painter/painter.wasm.unityweb',
     });
+    console.log(unityContext);
+
     if (unityContext) {
       setUnityContext(unityContext);
     }
