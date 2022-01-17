@@ -1,64 +1,64 @@
-// .btn {
-//   @apply py-2 px-10 font-bold;
+.btn {
+  @apply py-2 px-10 font-bold;
 
-//   &:disabled {
-//     @apply bg-gray-100 text-gray-300 border-gray-300;
-//   }
+  // &:disabled {
+  //   @apply bg-gray-100 text-gray-300 border-gray-300;
+  // }
 
-//   &-primary {
-//     @apply text-white bg-primary-dark;
+  // &-primary {
+  //   @apply text-white bg-primary-dark;
 
-//     &:hover {
-//       @apply bg-primary transition-all duration-[250];
-//     }
-//   }
+  //   &:hover {
+  //     @apply bg-primary transition-all duration-[250];
+  //   }
+  // }
 
-//   &-secondary {
-//     @apply bg-secondary-dark text-white;
+  // &-secondary {
+  //   @apply bg-secondary-dark text-white;
 
-//     &:hover {
-//       @apply bg-secondary transition-all duration-[250];
-//     }
+  //   &:hover {
+  //     @apply bg-secondary transition-all duration-[250];
+  //   }
 
-//     &-outline {
-//       @apply bg-transparent border border-secondary-dark text-secondary-dark;
-//     }
-//   }
+  //   &-outline {
+  //     @apply bg-transparent border border-secondary-dark text-secondary-dark;
+  //   }
+  // }
 
-//   &-rounded {
-//     @apply rounded-full;
-//   }
+  &-rounded {
+    @apply rounded-full;
+  }
 
-//   &-loading {
-//     span {
-//       visibility: hidden;
-//       opacity: 0;
-//     }
+  &-loading {
+    span {
+      visibility: hidden;
+      opacity: 0;
+    }
 
-//     &::after {
-//       content: '';
-//       position: absolute;
-//       width: 2rem;
-//       height: 2rem;
-//       top: 0;
-//       left: 0;
-//       right: 0;
-//       bottom: 0;
-//       margin: auto;
-//       border: 0.25rem solid transparent;
-//       border-top-color: #ccc;
-//       border-radius: 50%;
-//       animation: button-loading-spinner 1s ease infinite;
-//     }
-//   }
-// }
+    &::after {
+      content: '';
+      position: absolute;
+      width: 2rem;
+      height: 2rem;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      border: 0.25rem solid transparent;
+      border-top-color: #ccc;
+      border-radius: 50%;
+      animation: button-loading-spinner 1s ease infinite;
+    }
+  }
+}
 
-// @keyframes button-loading-spinner {
-//   from {
-//     transform: rotate(0turn);
-//   }
+@keyframes button-loading-spinner {
+  from {
+    transform: rotate(0turn);
+  }
 
-//   to {
-//     transform: rotate(1turn);
-//   }
-// }
+  to {
+    transform: rotate(1turn);
+  }
+}

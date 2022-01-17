@@ -59,18 +59,15 @@ export const ComponentsInput = ({
   }
 
   let labelStyle = '';
-  let leftElementStyle = '';
   let inputStyle = '';
   switch (mode) {
     case 'primary':
       labelStyle = 'text-black';
-      leftElementStyle = 'text-gray-600';
       inputStyle =
         'text-black bg-gray-200 hover:bg-gray-100 placeholder-gray-300';
       break;
     case 'secondary':
       labelStyle = 'text-white';
-      leftElementStyle = 'text-primary-700';
       inputStyle =
         'text-white bg-primary-1000 hover:bg-primary-900  placeholder-primary-800 ';
       break;
@@ -85,9 +82,7 @@ export const ComponentsInput = ({
       )}
       <div className={`relative flex items-center ${className}`}>
         {leftElement && (
-          <span className={`absolute px-2 ${leftElementStyle}`}>
-            {leftElement}
-          </span>
+          <span className={`absolute px-2 text-white`}>{leftElement}</span>
         )}
         <input
           {...(formMethods?.register(id, controls) || null)}
@@ -98,7 +93,7 @@ export const ComponentsInput = ({
             ${sizeStyle}
             ${type !== 'range' ? 'rounded-lg' : styles.range}
             ${disabled ? 'cursor-not-allowed' : ''}
-            ${leftElement ? 'px-7' : 'px-3'}
+            ${leftElement ? 'px-7' : ''}
           `}
           defaultValue={defaultValue}
           disabled={disabled || loading}

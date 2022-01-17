@@ -9,9 +9,7 @@ import { useDebouncedCallback } from 'use-debounce';
 
 import { ComponentsButton } from '@arlequin/components/button';
 import { ComponentsInput } from '@arlequin/components/input';
-import {
-    Popover, PopoverArrow, PopoverBody, PopoverContent, PopoverTrigger
-} from '@chakra-ui/popover';
+import { Popover, PopoverBody, PopoverContent, PopoverTrigger } from '@chakra-ui/popover';
 
 import { useAppDispatch, useAppSelector } from '../store/hook';
 import {
@@ -29,9 +27,12 @@ const Index: NextPage = () => {
   const currentBrushType = useAppSelector(
     (state) => state.painter.currentBrushType
   );
+  const arlees = useAppSelector((state) => state.painter.arlees);
   const currentColor = useAppSelector((state) => state.painter.currentColor);
   const currentArlee = useAppSelector((state) => state.painter.currentArlee);
-  const arlees = useAppSelector((state) => state.painter.arlees);
+  const defaultSize = useAppSelector((state) => state.painter.defaultSize);
+  const maxSize = useAppSelector((state) => state.painter.maxSize);
+  const minSize = useAppSelector((state) => state.painter.minSize);
   const showLoadingScreen = useAppSelector(
     (state) => state.painter.showLoadingScreen
   );
@@ -289,14 +290,20 @@ const Index: NextPage = () => {
         <div className="p-24 bg-black">
           <div className="h-full w-full relative">
             {unityContext && (
-              <Unity
-                unityContext={unityContext}
-                style={{ width: '100%', height: '100%', borderRadius: '2rem' }}
-              />
+              <span onClick={(e) => dispatch(addColorToSwatches(currentColor))}>
+                <Unity
+                  unityContext={unityContext}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: '2rem',
+                  }}
+                />
+              </span>
             )}
 
             <ul className="absolute flex gap-x-2 p-1">
-              {swatches.map((color) => (
+              {swatches?.map((color) => (
                 <li
                   key={color}
                   style={{ backgroundColor: color }}
@@ -304,12 +311,6 @@ const Index: NextPage = () => {
                   onClick={(e) => updateColorViaSwatches(color)}
                 ></li>
               ))}
-              <li
-                className="grid place-content-center h-8 w-8 rounded-md cursor-pointer bg-white text-black text-3xl "
-                onClick={(e) => dispatch(addColorToSwatches(currentColor))}
-              >
-                +
-              </li>
             </ul>
           </div>
         </div>
@@ -501,9 +502,9 @@ const Index: NextPage = () => {
                   className="w-4/5 mx-1"
                   type="range"
                   id="size"
-                  min={1}
-                  max={100}
-                  defaultValue={25}
+                  min={minSize}
+                  max={maxSize}
+                  defaultValue={defaultSize}
                   changed={(value) => updateSize(Number(value))}
                 />
                 <Image
@@ -557,8 +558,8 @@ const Index: NextPage = () => {
                   className="w-4/5 mx-1"
                   type="range"
                   id="hardness"
-                  min={1}
-                  max={40}
+                  min={2}
+                  max={30}
                   defaultValue={15}
                   changed={(value) => updateHardness(Number(value))}
                 />
@@ -620,7 +621,7 @@ const Index: NextPage = () => {
                   </PopoverContent>
                 </Popover>
                 <div className="relative flex items-center gap-x-2">
-                  <span className="absolute px-2 text-primary-700 ">#</span>
+                  <span className="absolute px-2 text-white">#</span>
                   <HexColorInput
                     placeholder={'FFAEC9'}
                     className="w-full bg-grey-500 text-white hover:bg-[#424242] placeholder-primary-800  px-7 py-1 rounded-lg transition-all"

@@ -12,40 +12,34 @@ export interface Arlee {
 }
 
 interface State {
-  cid: string;
-  currentColor: string;
-  currentArlee: Arlee;
-  currentMode: Mode;
-  currentBrushType: BrushType;
   arlees: Arlee[];
+  cid: string;
+  currentArlee: Arlee;
+  currentBrushType: BrushType;
+  currentColor: string;
+  currentMode: Mode;
+  defaultSize: number;
+  maxSize: number;
+  minSize: number;
   showLoadingScreen: boolean;
   swatches: string[];
 }
 
 const initialState: State = {
+  arlees: [],
   cid: '',
-  currentColor: '#4dd17a',
   currentArlee: {
     image: '',
     species: '',
   },
-  currentMode: 'brush',
   currentBrushType: BrushType.Round,
-  arlees: [],
+  currentColor: '#4dd17a',
+  currentMode: 'brush',
+  defaultSize: 25,
+  maxSize: 100,
+  minSize: 1,
   showLoadingScreen: true,
-  swatches: [
-    '#4dd17a',
-    '#33c0fd',
-    '#8d93ff',
-    '#ffba33',
-    '#ff8a91',
-    '#41b066',
-    '#2ba1d5',
-    '#9b9dd6',
-    '#d69c2b',
-    '#d6747a',
-    '#dedef2',
-  ],
+  swatches: [],
 };
 
 export const painterSlice = createSlice({
@@ -53,7 +47,9 @@ export const painterSlice = createSlice({
   initialState,
   reducers: {
     addColorToSwatches: (state, action: PayloadAction<string>) => {
-      state.swatches.push(action.payload);
+      if (state.swatches.includes(action.payload) === false) {
+        state.swatches.push(action.payload);
+      }
     },
     hideLoadingScreen: (state) => {
       state.showLoadingScreen = false;

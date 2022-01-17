@@ -28,6 +28,8 @@ export const ComponentsButton = ({
     <button
       className={`
       relative
+      bg-red
+      text-white
       ${styles.btn}
       ${styles[`btn-${color}`]}
       ${rounded ? styles['btn-rounded'] : ''}
