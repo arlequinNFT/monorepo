@@ -5,8 +5,12 @@
   "scripts": {
     "start:web": "nx serve web",
     "start:painter": "nx serve painter",
-    "build": "nx build",
-    "test": "nx test"
+    "export:web": "nx export web",
+    "export:painter": "nx export painter",
+    "build:web": "nx serve web",
+    "build:painter": "nx serve painter",
+    "test:web": "nx serve web",
+    "test:painter": "nx serve painter"
   },
   "private": true,
   "dependencies": {

@@ -2,6 +2,8 @@ import Link from 'next/link';
 import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
+import styles from './roadmap.module.scss';
+
 const Roadmap = () => {
   const { ref: refRoadmapSection, inView: inViewRoadmapSection } = useInView(
     {}
@@ -29,7 +31,7 @@ const Roadmap = () => {
     bound = document.querySelector(bound);
     video = document.querySelector(video);
     const scrollVideo = () => {
-      if (video.duration) {
+      if (video?.duration) {
         const distanceFromTop =
           window.scrollY + bound.getBoundingClientRect().top;
         const rawPercentScrolled =
@@ -44,14 +46,20 @@ const Roadmap = () => {
     requestAnimationFrame(scrollVideo);
   };
 
+  // bg-[#d9d9ff];
+  // bg-[#ffe6ea]
+  // bg-red
+
   return (
     <>
-      <section ref={refRoadmapSection} id="roadmap" className="bg-primary">
+      <section
+        ref={refRoadmapSection}
+        id="roadmap"
+        className={styles['gradient-bg']}
+      >
         <img className="w-full" src="/images/cloud_1.svg" alt="cloud_1" />
         <div className="relative grid grid-cols-3 max-w-7xl mx-auto gap-x-4 py-12">
-          <p
-            className={`col-span-3 mx-auto mb-12 text-7xl text-white font-bold`}
-          >
+          <p className={`col-span-3 mx-auto mb-12 text-7xl text-red font-bold`}>
             Roadmap
           </p>
 
@@ -62,9 +70,9 @@ const Roadmap = () => {
                 inViewRoadmapFirstBlock
                   ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-100 lg:transition-all'
                   : 'lg:-translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
-              } bg-purple relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 shadow-xl rounded-xl`}
+              } bg-red relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 shadow-2xl rounded-xl`}
             >
-              <p className={`font-bold text-4xl text-red mb-4`}>
+              <p className={`font-bold text-4xl text-white mb-4`}>
                 <span className=" mr-2 ">1.</span>Official website is launched!
               </p>
 
@@ -72,7 +80,7 @@ const Roadmap = () => {
                 Arlequin.gg is out! You can try the{' '}
                 <a
                   href="https://painter.arlequin.gg/"
-                  className="italic underline font-bold text-white"
+                  className="italic underline font-bold"
                 >
                   Painter
                 </a>{' '}
@@ -91,9 +99,9 @@ const Roadmap = () => {
               ref={refRoadmapSecondBlock}
               className={`${
                 inViewRoadmapSecondBlock
-                  ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-50 lg:transition-all'
+                  ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-60 lg:transition-all'
                   : 'lg:-translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
-              } bg-purple relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-xl`}
+              } bg-red relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-xl`}
             >
               <p className={` font-bold text-4xl text-white mb-4`}>
                 <span className="text-secondary-300 mr-2">2.</span> First
@@ -119,9 +127,9 @@ const Roadmap = () => {
               ref={refRoadmapThirdBlock}
               className={`${
                 inViewRoadmapThirdBlock
-                  ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-50 lg:transition-all'
+                  ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-60 lg:transition-all'
                   : 'lg:-translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
-              } bg-purple relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-xl`}
+              } bg-red relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-xl`}
             >
               <p className={`font-bold text-4xl text-white mb-4`}>
                 <span className="text-secondary-300 mr-2">3.</span> Marketplace
@@ -141,9 +149,9 @@ const Roadmap = () => {
               ref={refRoadmapFourthBlock}
               className={`${
                 inViewRoadmapFourthBlock
-                  ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-50 lg:transition-all'
+                  ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-60 lg:transition-all'
                   : 'lg:-translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
-              } bg-purple relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-xl`}
+              } bg-red relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-xl`}
             >
               <p className={`font-bold text-4xl text-white mb-4`}>
                 <span className="text-secondary-300 mr-2">4.</span> Painting
@@ -173,9 +181,9 @@ const Roadmap = () => {
               ref={refRoadmapFifthBlock}
               className={`${
                 inViewRoadmapFifthBlock
-                  ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-50 lg:transition-all'
+                  ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-60 lg:transition-all'
                   : 'lg:-translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
-              } bg-purple relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-xl`}
+              } bg-red relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-xl`}
             >
               <p className={`font-bold text-4xl text-white mb-4`}>
                 <span className="text-secondary-300 mr-2">5.</span> The Pool
@@ -203,9 +211,9 @@ const Roadmap = () => {
               ref={refRoadmapSixthBlock}
               className={`${
                 inViewRoadmapSixthBlock
-                  ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-50 lg:transition-all'
+                  ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-60 lg:transition-all'
                   : 'lg:-translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
-              } bg-purple relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-xl`}
+              } bg-red relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-xl`}
             >
               <p className={`font-bold text-4xl text-white mb-4`}>
                 <span className="text-secondary-300 mr-2">6.</span> More
@@ -222,9 +230,15 @@ const Roadmap = () => {
             </div>
           </div>
 
-          <video className={`col-span-1 sticky top-12 hidden lg:flex`}>
-            <source src="/videos/arlee_painted.mp4" type="video/mp4"></source>
-          </video>
+          {/* <div className="absolute">
+            <video
+              className={`col-span-1 sticky top-12 hidden lg:flex `}
+              height="800"
+              width="800"
+            >
+              <source src="/videos/arlee_painted.mp4" type="video/mp4"></source>
+            </video>
+          </div> */}
         </div>
       </section>
 
