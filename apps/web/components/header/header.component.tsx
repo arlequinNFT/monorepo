@@ -21,7 +21,7 @@ const Header = () => {
         }  max-w-7xl mx-auto p-4 flex items-center`}
       >
         <Link href="/">
-          <a className="col-span-4 font-extrabold text-2xl sm:text-5xl text-rainbow">
+          <a className="col-span-4 font-extrabold text-5xl text-rainbow">
             Arlequin
           </a>
         </Link>

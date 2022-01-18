@@ -16,11 +16,10 @@ const Team = () => {
       <p className="mb-2 text-7xl text-purple font-bold text-center">
         Meet the team
       </p>
-      <p className="mb-6 text-3xl text-center text-purple">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis quod
-        sit magnam tempore veritatis eaque placeat pariatur praesentium.
-        Inventore sapiente nihil quas mollitia distinctio officiis quibusdam ab
-        alias hic dignissimos.
+      <p className="mb-6 p-6 text-3xl text-center text-purple">
+        We're a bunch of passionate folks (mostly from France 🥖) who've been
+        working in tech and art fields for many years. Our mission is to create
+        a fun game anyone can join for free and still earn NFTs!
       </p>
       <div className="flex flex-col lg:flex-row">
         <div className="flex flex-col items-center mb-6 lg:mb-0">
