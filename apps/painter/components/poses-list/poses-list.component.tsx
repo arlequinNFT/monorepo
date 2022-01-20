@@ -59,7 +59,7 @@
 //             key={key}
 //             className={`flex justify-center items-center rounded-2xl cursor-pointer bg-slate-200 ${
 //               currentPose.label === pose.label
-//                 ? 'outline outline-8 outline-grey-300'
+//                 ? 'outline outline-8 outline-black-300'
 //                 : ''
 //             }`}
 //             onClick={(e) => {

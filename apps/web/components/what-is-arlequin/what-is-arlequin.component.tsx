@@ -132,7 +132,7 @@ const WhatIsArlequin = () => {
           <p className="font-bold text-7xl mb-6 text-primary">Paint to earn</p>
           <p className="text-2xl">
             Participate to our painting contests, climb the leaderboard, win
-            NFTs and Nimo! <br />
+            NFTs and FUSD! <br />
             This is what we called the <strong>paint to earn</strong>!
           </p>
         </div>

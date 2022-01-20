@@ -64,7 +64,7 @@ const Intro = () => {
           </div>
         </div>
       </section>
-      <div className="relative h-[35vh] lg:h-[65vh] 3xl:h-[55vh] w-full">
+      <div className="relative h-[40vh] lg:h-[65vh] 3xl:h-[55vh] w-full">
         <img
           className="absolute bottom-0 w-full"
           src="/images/curve_1.svg"

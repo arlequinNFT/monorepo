@@ -9,6 +9,7 @@ interface ComponentsButtonProps {
   link?: string;
   loading?: boolean;
   onClick?: MouseEventHandler<HTMLButtonElement>;
+  outline?: boolean;
   rounded?: boolean;
   type?: 'submit';
 }
@@ -21,6 +22,7 @@ export const ComponentsButton = ({
   loading = false,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onClick = () => {},
+  outline = false,
   rounded = false,
   type,
 }: PropsWithChildren<ComponentsButtonProps>) => {
@@ -28,12 +30,11 @@ export const ComponentsButton = ({
     <button
       className={`
       relative
-      bg-red
-      text-white
       ${styles.btn}
       ${styles[`btn-${color}`]}
       ${rounded ? styles['btn-rounded'] : ''}
       ${loading ? styles['btn-loading'] : ''}
+      ${outline ? styles[`btn-${color}-outline`] : ''}
       `}
       disabled={disabled || loading}
       onClick={onClick}

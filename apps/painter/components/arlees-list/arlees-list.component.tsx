@@ -1,10 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../store/hook';
-import {
-  setArlees,
-  setCurrentArlee,
-} from '../../store/reducers/painter.reducer';
+import { setArlees, setCurrentArlee } from '../../store/reducers/painter.reducer';
 import styles from './arlees-list.module.scss';
 
 interface Props {
@@ -59,7 +56,7 @@ const ArleesList = ({ loadArlee }: Props) => {
             key={key}
             className={`flex justify-center items-center rounded-2xl cursor-pointer bg-slate-200 ${
               currentArlee?.species === arlee.species
-                ? 'outline outline-8 outline-grey-300'
+                ? 'outline outline-8 outline-black-300'
                 : ''
             }`}
             onClick={(e) => {

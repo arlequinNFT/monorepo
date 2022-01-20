@@ -2,6 +2,8 @@ import Link from 'next/link';
 import React from 'react';
 import { useInView } from 'react-intersection-observer';
 
+import { ComponentsButton } from '@arlequin/components/button';
+
 const Header = () => {
   const { ref, inView, entry } = useInView({
     /* Optional options */
@@ -18,14 +20,22 @@ const Header = () => {
           inView
             ? 'duration-1000 transition-all opacity-1 translate-y-0'
             : '-translate-y-5 opacity-0'
-        }  max-w-7xl mx-auto p-4 flex items-center`}
+        } flex flex-col md:flex-row items-center max-w-7xl mx-auto py-4`}
       >
         <Link href="/">
-          <a className="col-span-4 font-extrabold text-5xl text-rainbow">
+          <a className="order-3 md:order-1 font-extrabold text-7xl md:text-5xl text-rainbow">
             Arlequin
           </a>
         </Link>
-        <ul className="flex flex-1 justify-end gap-x-2">
+        <ul className="order-2 md:order-2 flex flex-1 justify-end items-center gap-x-6 px-12">
+          <li className="text-white text-2xl hover:underline cursor-pointer font-bold">
+            Painter
+          </li>
+          <li className="text-white text-2xl hover:underline cursor-pointer font-bold">
+            Litepaper
+          </li>
+        </ul>
+        <ul className="order-1 md:order-3 flex items-center gap-x-2 md:ml-auto">
           <li>
             <a
               href="https://discord.gg/rBPP7uxnwd"
@@ -35,8 +45,8 @@ const Header = () => {
               <img
                 src="/icons/discord.svg"
                 alt="Discord icon"
-                width="64px"
-                height="64px"
+                width="48px"
+                height="48px"
               />
             </a>
           </li>
@@ -49,8 +59,8 @@ const Header = () => {
               <img
                 src="/icons/twitter.svg"
                 alt="Twitter icon"
-                width="64px"
-                height="64px"
+                width="48px"
+                height="48px"
               />
             </a>
           </li>

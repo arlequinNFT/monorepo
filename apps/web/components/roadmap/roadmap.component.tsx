@@ -66,7 +66,7 @@ const Roadmap = () => {
                 inViewRoadmapFirstBlock
                   ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-100 lg:transition-all'
                   : 'lg:-translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
-              } bg-red relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 shadow-2xl rounded-3xl`}
+              } bg-red outline-white outline outline-[1rem] relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 shadow-2xl rounded-3xl`}
             >
               <p className={`font-bold text-4xl text-white mb-4`}>
                 <span className="mr-2">1.</span>Official website is launched!
@@ -80,8 +80,7 @@ const Roadmap = () => {
                 >
                   Painter
                 </a>{' '}
-                and show the world your beautiful Arlees by generating an avatar
-                and brag on Twitter! <br />
+                and show the world your beautiful Arlees! <br />
                 We are working hard on adding more and more cool Arlees,
                 enhanching the Painter and
                 <span className="font-bold">
@@ -105,15 +104,14 @@ const Roadmap = () => {
               </p>
 
               <p className={`text-white text-2xl`}>
-                10k packs, 3 bundles. One pig, one deer, one shiba inu. This is
-                our first genesis drop, and the first and last time these Arlees
-                species are available in the realm of Arlequin.
+                10k packs, 3 bundles. One pig, one deer, one shiba inu. <br />{' '}
+                This is our first genesis drop, and the first and last time
+                these Arlees species are available in the realm of Arlequin.
               </p>
               <br />
-              <p className={`text-white text-2xl`}>
-                Owning Arlees is important because it is the only way to vote!
-                Each Arlee gives you a number of Vote Points to distribute
-                during painting contests, which will make you earn Nimo!
+              <p className={`text-white text-2xl font-bold`}>
+                Owning Arlees offers you the possibility to vote during painting
+                contests which also make you earn Nimo!
               </p>
 
               <p className="text-white text-right">Est. Date: march 2022</p>
@@ -155,14 +153,14 @@ const Roadmap = () => {
               </p>
 
               <p className={`text-white text-2xl`}>
-                Each month, two painting contests are set up for every artists
-                in the world to show off their talents by painting on new Arlees
-                species and climb the leaderboard to win NFTs and Nimo!
+                Each week, a new painting contest is set up for anyone in the
+                world to show off their talents by painting on a new Arlee
+                species and climb the leaderboard to win NFTs and FUSD!
               </p>
               <br />
-              <p className={`text-white text-2xl`}>
-                The top 5 will get their submissions minted as NFTs and send to
-                their collection, the top 15 will get Nimo.
+              <p className={`text-white text-2xl font-bold`}>
+                The winner gets his or her submission minted as NFTs and send to
+                his or her collection! The top 5 also win FUSD!
               </p>
               <br />
               <p className={`text-white text-2xl`}>
@@ -186,18 +184,17 @@ const Roadmap = () => {
               </p>
 
               <p className={`text-white text-2xl`}>
-                The pool is where the non-winning painting contests entries go.
-                At the end of each contest, 30% of all non-winning Arlees
-                submissions are send to the pool. <br />
+                At the end of each contest, the top 30% Arlees entries are send
+                to the pool. <br />
                 Anyone can buy (in FUSD) an Arlee from that pool which is a
-                random process, meaning that you don't know what species or what
-                look your Arlee will be!
+                random process, meaning that you don't know what species, what
+                look or what rank the Arlee will be!
               </p>
               <br />
-              <p className={`text-white text-2xl`}>
-                The revenue from each sale will be split between Arlequin
-                treasury and the original artist! Meaning that the artist will
-                earn money even without reaching the top places!
+              <p className={`text-white text-2xl font-bold`}>
+                80% of the revenue are send to the original artist! That's
+                right: you can earn money even without reaching the top 5, and
+                all that for free!
               </p>
 
               <p className="text-white text-right">Est. Date: august 2022</p>

@@ -1,5 +1,5 @@
 .btn {
-  @apply py-2 px-10 font-bold;
+  @apply py-3 px-11 text-xl font-bold;
 
   // &:disabled {
   //   @apply bg-gray-100 text-gray-300 border-gray-300;
@@ -13,17 +13,17 @@
   //   }
   // }
 
-  // &-secondary {
-  //   @apply bg-secondary-dark text-white;
+  &-secondary {
+    @apply bg-red text-white transition-all;
 
-  //   &:hover {
-  //     @apply bg-secondary transition-all duration-[250];
-  //   }
+    &:hover {
+      @apply bg-red-light transition-all duration-[250ms];
+    }
 
-  //   &-outline {
-  //     @apply bg-transparent border border-secondary-dark text-secondary-dark;
-  //   }
-  // }
+    &-outline {
+      @apply bg-transparent border border-red text-red;
+    }
+  }
 
   &-rounded {
     @apply rounded-full;
