@@ -8,12 +8,22 @@ import { useDebouncedCallback } from 'use-debounce';
 
 import { ComponentsButton } from '@arlequin/components/button';
 import { ComponentsInput } from '@arlequin/components/input';
-import { Popover, PopoverBody, PopoverContent, PopoverTrigger } from '@chakra-ui/popover';
+import {
+  Popover,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+} from '@chakra-ui/popover';
 
+import ArleesList from '../components/arlees-list/arlees-list.component';
 import { useAppDispatch, useAppSelector } from '../store/hook';
 import {
-    addColorToSwatches, BrushType, hideLoadingScreen, setArlees, setCurrentArlee,
-    setCurrentBrushType, setCurrentcolor, setCurrentMode
+  addColorToSwatches,
+  BrushType,
+  hideLoadingScreen,
+  setCurrentBrushType,
+  setCurrentcolor,
+  setCurrentMode,
 } from '../store/reducers/painter.reducer';
 import styles from './index.module.scss';
 
@@ -26,11 +36,20 @@ const Index: NextPage = () => {
   const currentBrushType = useAppSelector(
     (state) => state.painter.currentBrushType
   );
-  const arlees = useAppSelector((state) => state.painter.arlees);
   const currentColor = useAppSelector((state) => state.painter.currentColor);
   const currentArlee = useAppSelector((state) => state.painter.currentArlee);
+  const defaultHardness = useAppSelector(
+    (state) => state.painter.defaultHardness
+  );
+  const defaultOpacity = useAppSelector(
+    (state) => state.painter.defaultOpacity
+  );
   const defaultSize = useAppSelector((state) => state.painter.defaultSize);
+  const maxHardness = useAppSelector((state) => state.painter.maxHardness);
+  const maxOpacity = useAppSelector((state) => state.painter.maxOpacity);
   const maxSize = useAppSelector((state) => state.painter.maxSize);
+  const minHardness = useAppSelector((state) => state.painter.minHardness);
+  const minOpacity = useAppSelector((state) => state.painter.minOpacity);
   const minSize = useAppSelector((state) => state.painter.minSize);
   const showLoadingScreen = useAppSelector(
     (state) => state.painter.showLoadingScreen
@@ -70,6 +89,8 @@ const Index: NextPage = () => {
   }, 100);
   const loadArlee = (species: string) =>
     unityContext?.send('HudManager', 'LoadMetaPet', species);
+  const setPose = (pose: string) =>
+    unityContext?.send('HudManager', 'SetPose', pose);
   const redo = () => unityContext?.send('HudManager', 'Redo');
   const setBrushType = (brushType: BrushType) => {
     unityContext?.send('HudManager', 'SetBrushType', brushType);
@@ -100,35 +121,6 @@ const Index: NextPage = () => {
   //#endregion
 
   //#region Use Effects
-  useEffect(() => {
-    if (arlees.length === 0) {
-      const list: any[] = [
-        {
-          image: '/images/cacatoes.png',
-          species: 'cacatoes',
-        },
-        {
-          image: '/images/pig.png',
-          species: 'pig',
-        },
-        {
-          image: '/images/turtle.png',
-          species: 'turtle',
-        },
-        {
-          image: '/images/deer.png',
-          species: 'deer',
-        },
-        {
-          image: '/images/elephant.png',
-          species: 'elephant',
-        },
-      ];
-      dispatch(setArlees(list));
-      dispatch(setCurrentArlee(list[0]));
-    }
-  }, [dispatch, arlees.length]);
-
   useEffect(() => {
     const unityContext = new UnityContext({
       loaderUrl: 'builds/painter/painter.loader.js',
@@ -227,34 +219,74 @@ const Index: NextPage = () => {
               <a className="text-rainbow font-extrabold text-3xl">Arlequin</a>
             </Link>
           </div>
-          <div className="w-full relative overflow-hidden flex-1">
-            <div
-              id={styles['arlees-collection']}
-              className="grid space-y-4 absolute -inset-0 overflow-y-scroll p-4"
+          {/* <button className="text-white" onClick={(e) => setPose('tpose')}>
+            tpose
+          </button>
+          <button className="text-white" onClick={(e) => setPose('hello')}>
+            hello
+          </button>
+          <button className="text-white" onClick={(e) => setPose('narutorun')}>
+            narutorun
+          </button>
+          <button className="text-white" onClick={(e) => setPose('run')}>
+            run
+          </button>
+          <button className="text-white" onClick={(e) => setPose('walk')}>
+            walk
+          </button>
+          <button className="text-white" onClick={(e) => setPose('stretch')}>
+            stretch
+          </button> */}
+          {/* <ul className="grid grid-cols-2 p-1 bg-grey-600 rounded-xl">
+            <li
+              className={`${
+                currentMode === 'brush' ? 'bg-grey-500 shadow-md' : "'"
+              } col-span-1 flex flex-col items-center py-1 rounded-lg  cursor-pointer`}
+              onClick={(e) => toggleBrushMode()}
             >
-              {arlees.map((arlee, key) => {
-                return (
-                  <div
-                    key={key}
-                    className={`flex justify-center items-center rounded-2xl cursor-pointer bg-slate-200 ${
-                      currentArlee?.species === arlee.species
-                        ? 'outline outline-8 outline-grey-300'
-                        : ''
-                    }`}
-                    onClick={(e) => {
-                      dispatch(setCurrentArlee(arlee));
-                      loadArlee(arlee.species);
-                    }}
-                  >
-                    <img
-                      className="h-52 object-contain rounded-2xl"
-                      src={arlee.image}
-                      alt={arlee.species}
-                    />
-                  </div>
-                );
-              })}
-            </div>
+              <img
+                src={`/icons/brush_${
+                  currentMode === 'brush' ? 'active' : 'inactive'
+                }.svg`}
+                alt="Brush icon"
+                width="36px"
+                height="36px"
+              />
+              <p
+                className={`${
+                  currentMode === 'brush' ? 'text-white' : 'text-grey-200'
+                }`}
+              >
+                Arlees
+              </p>
+            </li>
+
+            <li
+              className={`${
+                currentMode === 'bucket' ? 'bg-grey-500 shadow-md' : "'"
+              } col-span-1 flex flex-col items-center py-1 rounded-lg  cursor-pointer`}
+              onClick={(e) => toggleBucketMode()}
+            >
+              <img
+                src={`/icons/bucket_${
+                  currentMode === 'bucket' ? 'active' : 'inactive'
+                }.svg`}
+                alt="Bucket icon"
+                width="36px"
+                height="36px"
+              />
+              <p
+                className={`${
+                  currentMode === 'bucket' ? 'text-white' : 'text-grey-200'
+                }`}
+              >
+                Poses
+              </p>
+            </li>
+          </ul> */}
+          <div className="w-full relative overflow-hidden flex-1 p-4">
+            <ArleesList loadArlee={loadArlee}></ArleesList>
+            {/* <PosesList setPose={setPose}></PosesList> */}
           </div>
 
           <div className="flex items-center justify-center gap-x-2 w-full bg-grey-600 pt-4">
@@ -529,9 +561,9 @@ const Index: NextPage = () => {
                   className="w-4/5 mx-1"
                   type="range"
                   id="opacity"
-                  min={10}
-                  max={100}
-                  defaultValue={25}
+                  min={minOpacity}
+                  max={maxOpacity}
+                  defaultValue={defaultOpacity}
                   changed={(value) => updateOpacity(Number(value))}
                 />
                 <Image
@@ -557,9 +589,9 @@ const Index: NextPage = () => {
                   className="w-4/5 mx-1"
                   type="range"
                   id="hardness"
-                  min={2}
-                  max={30}
-                  defaultValue={15}
+                  min={minHardness}
+                  max={maxHardness}
+                  defaultValue={defaultHardness}
                   changed={(value) => updateHardness(Number(value))}
                 />
                 <Image

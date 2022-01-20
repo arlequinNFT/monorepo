@@ -1,11 +1,17 @@
 .gradient-bg {
-  background: linear-gradient(
-    rgb(184, 229, 245) 0%,
-    rgb(193, 230, 243) 16%,
-    rgb(201, 234, 245) 33%,
-    rgb(204, 233, 243) 50%,
-    rgb(214, 238, 247) 67%,
-    rgb(215, 236, 243) 83%,
-    rgb(223, 241, 247) 100%
+  background-image: linear-gradient(
+    to bottom,
+    #b3ceff,
+    #afd6ff,
+    #afdeff,
+    #b1e5ff,
+    #b6ebff,
+    #b6ebff,
+    #b6ebff,
+    #b6ebff,
+    #b1e5ff,
+    #afdeff,
+    #afd6ff,
+    #b3ceff
   );
 }

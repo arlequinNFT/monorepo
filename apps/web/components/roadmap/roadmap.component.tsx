@@ -95,7 +95,7 @@ const Roadmap = () => {
               ref={refRoadmapSecondBlock}
               className={`${
                 inViewRoadmapSecondBlock
-                  ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-60 lg:transition-all'
+                  ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-100 lg:transition-all'
                   : 'lg:-translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
               } bg-red relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-3xl`}
             >
@@ -123,7 +123,7 @@ const Roadmap = () => {
               ref={refRoadmapThirdBlock}
               className={`${
                 inViewRoadmapThirdBlock
-                  ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-60 lg:transition-all'
+                  ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-100 lg:transition-all'
                   : 'lg:-translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
               } bg-red relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-3xl`}
             >
@@ -145,7 +145,7 @@ const Roadmap = () => {
               ref={refRoadmapFourthBlock}
               className={`${
                 inViewRoadmapFourthBlock
-                  ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-60 lg:transition-all'
+                  ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-100 lg:transition-all'
                   : 'lg:-translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
               } bg-red relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-3xl`}
             >
@@ -177,7 +177,7 @@ const Roadmap = () => {
               ref={refRoadmapFifthBlock}
               className={`${
                 inViewRoadmapFifthBlock
-                  ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-60 lg:transition-all'
+                  ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-100 lg:transition-all'
                   : 'lg:-translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
               } bg-red relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-3xl`}
             >
@@ -207,7 +207,7 @@ const Roadmap = () => {
               ref={refRoadmapSixthBlock}
               className={`${
                 inViewRoadmapSixthBlock
-                  ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-60 lg:transition-all'
+                  ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-100 lg:transition-all'
                   : 'lg:-translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
               } bg-red relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-3xl`}
             >

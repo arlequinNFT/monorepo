@@ -18,8 +18,14 @@ interface State {
   currentBrushType: BrushType;
   currentColor: string;
   currentMode: Mode;
+  defaultHardness: number;
+  defaultOpacity: number;
   defaultSize: number;
+  maxHardness: number;
+  maxOpacity: number;
   maxSize: number;
+  minHardness: number;
+  minOpacity: number;
   minSize: number;
   showLoadingScreen: boolean;
   swatches: string[];
@@ -35,8 +41,14 @@ const initialState: State = {
   currentBrushType: BrushType.Round,
   currentColor: '#4dd17a',
   currentMode: 'brush',
+  defaultHardness: 5,
+  defaultOpacity: 50,
   defaultSize: 25,
+  maxHardness: 10,
+  maxOpacity: 100,
   maxSize: 100,
+  minHardness: 2,
+  minOpacity: 10,
   minSize: 1,
   showLoadingScreen: true,
   swatches: [],
