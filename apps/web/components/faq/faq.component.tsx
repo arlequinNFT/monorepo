@@ -15,10 +15,10 @@ const Faq = () => {
         inView
           ? 'lg:duration-1000 lg:translate-y-0 lg:opacity-100 lg:transition-all'
           : 'lg:translate-y-10 lg:opacity-0 lg:duration-500 lg:transition-all'
-      } flex items-center flex-col max-w-7xl mx-auto py-12`}
+      } flex items-center flex-col max-w-7xl mx-auto py-12 px-6`}
     >
       <p className="mb-8 text-7xl text-purple font-bold">Faq</p>
-      <Accordion allowToggle>
+      <Accordion allowMultiple>
         <AccordionItem>
           <h2>
             <AccordionButton className="justify-center">
