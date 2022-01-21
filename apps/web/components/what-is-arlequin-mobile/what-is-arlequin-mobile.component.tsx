@@ -135,8 +135,8 @@ const WhatIsArlequinMobile = () => {
           the official Arlequin currency
         </p>
         <p className="text-2xl">
-          Buy cosmetics items, poses for your Arlees, backgrounds, painting
-          slots and more with Nimo!
+          Buy cosmetics items, poses for your Arlees, backgrounds, level up your
+          Arlees and more with Nimo!
         </p>
       </div>
     </section>

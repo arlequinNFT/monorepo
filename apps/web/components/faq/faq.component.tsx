@@ -1,9 +1,8 @@
 import React from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import {
-    Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel
-} from '@chakra-ui/accordion';
+import { Accordion, AccordionButton, AccordionItem, AccordionPanel } from '@chakra-ui/accordion';
+import { Table, TableCaption, Tbody, Td, Tfoot, Th, Thead, Tr } from '@chakra-ui/table';
 
 const Faq = () => {
   const { ref, inView } = useInView({});
@@ -28,7 +27,46 @@ const Faq = () => {
             </AccordionButton>
           </h2>
           <AccordionPanel className="max-w-5xl text-center text-2xl mb-4">
-            <ul>
+            <Table className="w-full border bg-white">
+              <Thead>
+                <Tr className="border-b">
+                  <Th>Ranking</Th>
+                  <Th>FUSD</Th>
+                  <Th>
+                    Submission minted and <br /> send to collection
+                  </Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                <Tr className="border-b">
+                  <Td>Winner</Td>
+                  <Td>$150</Td>
+                  <Td>Yes</Td>
+                </Tr>
+                <Tr className="border-b">
+                  <Td>2nd</Td>
+                  <Td>$110</Td>
+                  <Td>No</Td>
+                </Tr>
+                <Tr className="border-b">
+                  <Td>3rd</Td>
+                  <Td>$70</Td>
+                  <Td>No</Td>
+                </Tr>
+                <Tr className="border-b">
+                  <Td>4th</Td>
+                  <Td>$40</Td>
+                  <Td>No</Td>
+                </Tr>
+                <Tr className="border-b">
+                  <Td>5th</Td>
+                  <Td>$20</Td>
+                  <Td>No</Td>
+                </Tr>
+              </Tbody>
+            </Table>
+
+            {/* <ul>
               <ol>
                 Winner: $150 + her or his submissions minted as NFTs and send to
                 her or his collection
@@ -37,7 +75,7 @@ const Faq = () => {
               <ol>3rd: $70</ol>
               <ol>4th: $40</ol>
               <ol>5th: $20</ol>
-            </ul>
+            </ul> */}
           </AccordionPanel>
         </AccordionItem>
 
@@ -68,10 +106,10 @@ const Faq = () => {
           <AccordionPanel className="max-w-5xl text-center text-2xl mb-4">
             <p>
               When a painting contest finishes, the top 30% of the submissions
-              (except the winning submission) are send to the pool. <br />
+              (except the winning one) are send to the pool. <br />
               Anyone can buy (at a fixed price in FUSD) an Arlee from that pool
-              in a random way: the buyer does know what look, species or ranking
-              the Arlee will be. <br />
+              in a random way: the buyer does not know what look, species or
+              ranking the Arlee will be. <br />
               80% of the revenue are send to the Original Artist. It means that
               even if the artist did not reach the top 5, she or he will
               eventually earn money!
@@ -82,7 +120,7 @@ const Faq = () => {
         <AccordionItem>
           <h2>
             <AccordionButton className="justify-center">
-              <p className="text-4xl my-2">Is Nimo a cryptocurrency?</p>
+              <p className="text-4xl my-2">Is Nimo a fungible token?</p>
             </AccordionButton>
           </h2>
           <AccordionPanel className="max-w-5xl text-center text-2xl mb-4">
@@ -90,6 +128,11 @@ const Faq = () => {
               At the moment, Nimo is an off-chain asset and is not intended to
               be a fungible token. As we don't want to offer unfair gameplay to
               the community, we decided to kept Nimo as an inside asset.
+            </p>
+            <p>
+              Nimo are spend in the shop or by leveling up your Arlees. Each
+              time an Arlee levels up, he gains more Voting Points and one new
+              Painting Slot.
             </p>
           </AccordionPanel>
         </AccordionItem>
