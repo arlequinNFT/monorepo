@@ -23,18 +23,18 @@ const Header = () => {
         } flex flex-col md:flex-row items-center max-w-7xl mx-auto py-4`}
       >
         <Link href="/">
-          <a className="order-3 md:order-1 font-extrabold text-7xl md:text-5xl text-rainbow">
+          <a className="order-3 md:order-1 font-extrabold text-7xl py-4 md:py-0 md:text-5xl text-rainbow">
             Arlequin
           </a>
         </Link>
-        <ul className="order-2 md:order-2 flex flex-1 justify-end items-center gap-x-6 px-12">
+        {/* <ul className="order-2 md:order-2 flex flex-1 justify-end items-center gap-x-6 px-12">
           <li className="text-white text-2xl hover:underline cursor-pointer font-bold">
             Painter
           </li>
           <li className="text-white text-2xl hover:underline cursor-pointer font-bold">
             Litepaper
           </li>
-        </ul>
+        </ul> */}
         <ul className="order-1 md:order-3 flex items-center gap-x-2 md:ml-auto">
           <li>
             <a

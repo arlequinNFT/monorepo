@@ -45,8 +45,15 @@ const WhatIsArlequinMobile = () => {
           src="/images/arlees.webp"
           alt="Cute 3D Arlees"
         />
-        <p className="font-bold text-2xl my-2 text-primary">Cute 3D Arlees</p>
-        <p className="text-xl">Collect cute 3D Animals NFTs known as Arlees.</p>
+        <p className="font-extrabold text-6xl text-primary uppercase">
+          Collect Arlees NFTs
+        </p>
+        <p className="font-bold text-3xl my-4 text-red uppercase">
+          Cute 3D animals living in Arlequin Metaverse
+        </p>
+        <p className="text-2xl">
+          Dozens species exist, and we are introducing one each week!
+        </p>
       </div>
 
       <div
@@ -59,10 +66,15 @@ const WhatIsArlequinMobile = () => {
           src="/images/paint_to_earn.webp"
           alt="Paint to earn"
         />
-        <p className="font-bold text-2xl mb-6 text-primary">Paint the Arlees</p>
-        <p className="text-xl">
-          What makes Arlequin unique is that you can paint your Arlees directly
-          in the browser.
+        <p className="font-extrabold text-6xl text-primary uppercase">
+          Paint the Arlees
+        </p>
+        <p className="font-bold text-3xl my-4 text-red uppercase">
+          Arlequin is the Artists Metaverse
+        </p>
+        <p className="text-2xl">
+          Add your personnal artistic touch by painting on the Arlees using
+          Arlequin's Painter.
         </p>
       </div>
 
@@ -76,10 +88,15 @@ const WhatIsArlequinMobile = () => {
           src="/images/paint_to_earn.webp"
           alt="Painting contest"
         />
-        <p className="font-bold text-2xl mb-6 text-primary">Paint to earn</p>
-        <p className="text-xl">
+        <p className="font-extrabold text-6xl text-primary uppercase">
+          Paint to earn
+        </p>
+        <p className="font-bold text-3xl my-4 text-red uppercase">
+          A unique way to earn with your art
+        </p>
+        <p className="text-2xl">
           Participate to our painting contests, climb the leaderboard, win NFTs
-          and Nimo!
+          and FUSD! <br />
         </p>
       </div>
 
@@ -93,10 +110,17 @@ const WhatIsArlequinMobile = () => {
           src="/images/vote_to_earn.webp"
           alt="Vote to earn"
         />
-        <p className="font-bold text-2xl mb-6 text-primary">Vote to earn</p>
-        <p className="text-xl">
-          If you are an Arlee owner, you can vote for your preferred Arlees
-          entries and earn Nimo!
+        <p className="font-extrabold text-6xl text-primary uppercase">
+          Vote to earn
+        </p>
+
+        <p className="font-bold text-3xl my-4 text-red uppercase">
+          Arlequin is fully community driven
+        </p>
+        <p className="text-2xl">
+          If you are an Arlee adopter, you can vote for your preferred Arlees
+          entries! <br />
+          Each vote makes you earn Nimo!
         </p>
       </div>
 
@@ -105,10 +129,14 @@ const WhatIsArlequinMobile = () => {
         className="flex flex-col justify-center p-6 text-center shadow-lg rounded-3xl bg-white"
       >
         <img width="100%" height="100%" src="/images/nimo.webp" alt="Nimo" />
-        <p className="font-bold text-2xl mb-6 text-primary">Nimo</p>
-        <p className="text-xl">
-          Buy cosmetics items, poses for your Arlees, backgrounds and more with
-          Nimo, the official Arlequin currency!
+        <p className="font-extrabold text-6xl text-primary uppercase">Nimo</p>
+
+        <p className="font-bold text-3xl my-4 text-red uppercase">
+          the official Arlequin currency
+        </p>
+        <p className="text-2xl">
+          Buy cosmetics items, poses for your Arlees, backgrounds, painting
+          slots and more with Nimo!
         </p>
       </div>
     </section>

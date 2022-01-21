@@ -18,8 +18,6 @@ const Roadmap = () => {
     useInView({});
   const { ref: refRoadmapFifthBlock, inView: inViewRoadmapFifthBlock } =
     useInView({});
-  const { ref: refRoadmapSixthBlock, inView: inViewRoadmapSixthBlock } =
-    useInView({});
 
   useEffect(() => {
     if (inViewRoadmapSection) {
@@ -72,22 +70,13 @@ const Roadmap = () => {
                 <span className="mr-2">1.</span>Official website is launched!
               </p>
 
-              <p className={`text-white text-2xl`}>
-                Arlequin.gg is out! You can try the{' '}
-                <a
-                  href="https://painter.arlequin.gg/"
-                  className="italic underline font-bold"
-                >
-                  Painter
-                </a>{' '}
-                and show the world your beautiful Arlees! <br />
-                We are working hard on adding more and more cool Arlees,
-                enhanching the Painter and
-                <span className="font-bold">
-                  {' '}
-                  preparing for the genesis drop.
-                </span>
-              </p>
+              <ul className="list-[circle] text-white text-2xl px-8">
+                <li>Arlequin.gg is out</li>
+                <li>Artists can use the alpha version Painter</li>
+                <li>Whitelisting for the presale begins</li>
+                <li>Partenering with Filecoin</li>
+              </ul>
+              <p className="text-white text-right">Done in January 2022 </p>
             </div>
 
             <div
@@ -100,21 +89,22 @@ const Roadmap = () => {
             >
               <p className={` font-bold text-4xl text-white mb-4`}>
                 <span className="text-secondary-300 mr-2">2.</span> First
-                genesis drop
+                genesis drop & Marketplace
               </p>
 
-              <p className={`text-white text-2xl`}>
-                10k packs, 3 bundles. One pig, one deer, one shiba inu. <br />{' '}
-                This is our first genesis drop, and the first and last time
-                these Arlees species are available in the realm of Arlequin.
-              </p>
-              <br />
-              <p className={`text-white text-2xl font-bold`}>
-                Owning Arlees offers you the possibility to vote during painting
-                contests which also make you earn Nimo!
-              </p>
+              <ul className="list-[circle] text-white text-2xl px-8">
+                <li>First ever NFTs drop from Arlequin</li>
+                <li>3 bundles containings Arlees, Cosmetic items</li>
+                <li>
+                  Artists can use the Painter to give their Arlees a unique look
+                </li>
+                <li>Nimo rewards for Arlees adopters</li>
+                <li>Trade your Arlees using our native Marketplace</li>
+              </ul>
 
-              <p className="text-white text-right">Est. Date: march 2022</p>
+              <p className="text-white text-right">
+                Est. Date: march/april 2022
+              </p>
             </div>
 
             <div
@@ -126,17 +116,18 @@ const Roadmap = () => {
               } bg-red relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-3xl`}
             >
               <p className={`font-bold text-4xl text-white mb-4`}>
-                <span className="text-secondary-300 mr-2">3.</span> Marketplace
+                <span className="text-secondary-300 mr-2">3.</span> Painting
+                contests
               </p>
 
-              <p className={`text-white text-2xl`}>
-                Do you want to trade some cute Arlees? The marketplace is here!{' '}
-                <br />
-                Many other NFTs will be tradeable using the Marketplace, like
-                cosmetics items for example. These NFTs will be introduced
-                throughout the year so please be patient!
-              </p>
-              <p className="text-white text-right">Est. Date: april 2022</p>
+              <ul className="list-[circle] text-white text-2xl px-8">
+                <li>First ever Paint To Earn system in the world</li>
+                <li>Participate for free to our weekly painting contests</li>
+                <li>Climb the leaderboard, win NFTs and FUSD</li>
+                <li>Vote for your preferred entries and earn Nimo</li>
+              </ul>
+
+              <p className="text-white text-right">Est. Date: june/july 2022</p>
             </div>
 
             <div
@@ -148,27 +139,22 @@ const Roadmap = () => {
               } bg-red relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-3xl`}
             >
               <p className={`font-bold text-4xl text-white mb-4`}>
-                <span className="text-secondary-300 mr-2">4.</span> Painting
-                contests
+                <span className="text-secondary-300 mr-2">4.</span> The Pool
               </p>
 
-              <p className={`text-white text-2xl`}>
-                Each week, a new painting contest is set up for anyone in the
-                world to show off their talents by painting on a new Arlee
-                species and climb the leaderboard to win NFTs and FUSD!
-              </p>
-              <br />
-              <p className={`text-white text-2xl font-bold`}>
-                The winner gets his or her submission minted as NFTs and send to
-                his or her collection! The top 5 also win FUSD!
-              </p>
-              <br />
-              <p className={`text-white text-2xl`}>
-                This is what we call the Paint To Earn. <br />
-                And guess what, it is 100% free to play!
-              </p>
+              <ul className="list-[circle] text-white text-2xl px-8">
+                <li>
+                  A pool full of Arlees from already finished painting contests
+                </li>
+                <li>
+                  Buy a random Arlee from the pool at a fixed price in FUSD
+                </li>
+                <li>Original Artist gets 80% of the revenue</li>
+              </ul>
 
-              <p className="text-white text-right">Est. Date: june 2022</p>
+              <p className="text-white text-right">
+                Est. Date: july/august 2022
+              </p>
             </div>
 
             <div
@@ -180,46 +166,26 @@ const Roadmap = () => {
               } bg-red relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-3xl`}
             >
               <p className={`font-bold text-4xl text-white mb-4`}>
-                <span className="text-secondary-300 mr-2">5.</span> The Pool
+                <span className="text-secondary-300 mr-2">5.</span> The Shop
               </p>
 
-              <p className={`text-white text-2xl`}>
-                At the end of each contest, the top 30% Arlees entries are send
-                to the pool. <br />
-                Anyone can buy (in FUSD) an Arlee from that pool which is a
-                random process, meaning that you don't know what species, what
-                look or what rank the Arlee will be!
-              </p>
-              <br />
-              <p className={`text-white text-2xl font-bold`}>
-                80% of the revenue are send to the original artist! That's
-                right: you can earn money even without reaching the top 5, and
-                all that for free!
-              </p>
+              <ul className="list-[circle] text-white text-2xl px-8">
+                <li>
+                  Introduction of The Shop, allowing you to buy NFTs with Nimo
+                </li>
+                <li>
+                  Buy cosmetic items for your Arlees, backgrounds, 3D poses and
+                  much more
+                </li>
+                <li>
+                  The marketplace now accepts trading of every NFTs in the
+                  Arlequin Metaverse
+                </li>
+              </ul>
 
-              <p className="text-white text-right">Est. Date: august 2022</p>
-            </div>
-
-            <div
-              ref={refRoadmapSixthBlock}
-              className={`${
-                inViewRoadmapSixthBlock
-                  ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-100 lg:transition-all'
-                  : 'lg:-translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
-              } bg-red relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-3xl`}
-            >
-              <p className={`font-bold text-4xl text-white mb-4`}>
-                <span className="text-secondary-300 mr-2">6.</span> More
-                customization!
+              <p className="text-white text-right">
+                Est. Date: august/october 2022
               </p>
-
-              <p className={` text-white text-2xl`}>
-                A lot of way to customize your Arlees will be added like
-                cosmetics items, poses, backgrounds... <br />
-                These customizations are buyable with Nimo.
-              </p>
-
-              <p className="text-white text-right">Est. Date: august 2022</p>
             </div>
           </div>
 

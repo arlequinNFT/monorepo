@@ -60,10 +60,14 @@ const WhatIsArlequin = () => {
               : 'lg:translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
           } col-span-1 flex flex-col justify-center`}
         >
-          <p className="font-bold text-7xl mb-6 text-primary">Cute 3D Arlees</p>
+          <p className="font-extrabold text-6xl text-primary uppercase">
+            Collect Arlees NFTs
+          </p>
+          <p className="font-bold text-3xl my-4 text-red uppercase">
+            Cute 3D animals living in Arlequin Metaverse
+          </p>
           <p className="text-2xl">
-            Collect cute 3D Animals NFTs known as Arlees. <br />
-            Dozens species exist, and we are introducing one each 2 weeks!
+            Dozens species exist, and we are introducing one each week!
           </p>
         </div>
       </div>
@@ -79,12 +83,15 @@ const WhatIsArlequin = () => {
               : 'lg:-translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
           } col-span-1 flex flex-col justify-center`}
         >
-          <p className="font-bold text-7xl mb-6 text-primary">
+          <p className="font-extrabold text-6xl text-primary uppercase">
             Paint the Arlees
           </p>
+          <p className="font-bold text-3xl my-4 text-red uppercase">
+            Arlequin is the Artists Metaverse
+          </p>
           <p className="text-2xl">
-            What makes Arlequin unique is that you can paint your Arlees
-            directly in the browser using Arlequin's Painter.
+            Add your personnal artistic touch by painting on the Arlees using
+            Arlequin's Painter.
           </p>
         </div>
 
@@ -129,11 +136,15 @@ const WhatIsArlequin = () => {
               : 'lg:translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
           } col-span-1 flex flex-col justify-center`}
         >
-          <p className="font-bold text-7xl mb-6 text-primary">Paint to earn</p>
+          <p className="font-extrabold text-6xl text-primary uppercase">
+            Paint to earn
+          </p>
+          <p className="font-bold text-3xl my-4 text-red uppercase">
+            A unique way to earn with your art
+          </p>
           <p className="text-2xl">
             Participate to our painting contests, climb the leaderboard, win
             NFTs and FUSD! <br />
-            This is what we called the <strong>paint to earn</strong>!
           </p>
         </div>
       </div>
@@ -149,9 +160,15 @@ const WhatIsArlequin = () => {
               : 'lg:-translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
           } col-span-1 flex flex-col justify-center`}
         >
-          <p className="font-bold text-7xl mb-6 text-primary">Vote to earn</p>
+          <p className="font-extrabold text-6xl text-primary uppercase">
+            Vote to earn
+          </p>
+
+          <p className="font-bold text-3xl my-4 text-red uppercase">
+            Arlequin is fully community driven
+          </p>
           <p className="text-2xl">
-            If you are an Arlee owner, you can vote for your preferred Arlees
+            If you are an Arlee adopter, you can vote for your preferred Arlees
             entries! <br />
             Each vote makes you earn Nimo!
           </p>
@@ -193,10 +210,14 @@ const WhatIsArlequin = () => {
               : 'lg:translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
           } col-span-1 flex flex-col justify-center`}
         >
-          <p className="font-bold text-7xl mb-6 text-primary">Nimo</p>
+          <p className="font-extrabold text-6xl text-primary uppercase">Nimo</p>
+
+          <p className="font-bold text-3xl my-4 text-red uppercase">
+            the official Arlequin currency
+          </p>
           <p className="text-2xl">
-            Buy cosmetics items, poses for your Arlees, backgrounds and more
-            with Nimo, the official Arlequin currency!
+            Buy cosmetics items, poses for your Arlees, backgrounds, painting
+            slots and more with Nimo!
           </p>
         </div>
       </div>

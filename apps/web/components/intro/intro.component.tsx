@@ -1,10 +1,12 @@
 import React from 'react';
 
+import { ComponentsButton } from '@arlequin/components/button';
+
 const Intro = () => {
   return (
     <div className="flex justify-center items-center">
       <section className="absolute max-w-5xl 3xl:max-w-7xl z-10 p-6">
-        <div className="relative py-16 3xl:py-32 backdrop-blur-lg bg-white/10 rounded-3xl lg:rounded-[5rem] shadow-xl">
+        <div className="relative py-8 3xl:py-32 backdrop-blur-lg bg-white/10 rounded-3xl text-center lg:rounded-[5rem] shadow-xl">
           <div className="flex justify-center">
             <img
               className="w-[15%] h-[15%] lg:w-[10%] lg:h-[10%] hover:scale-150 transition-all"
@@ -35,7 +37,7 @@ const Intro = () => {
           <h2 className="font-extrabold text-3xl lg:text-6xl text-rainbow text-center tracking-wide">
             Paint • Vote • Earn
           </h2>
-          <div className="flex justify-center">
+          <div className="flex justify-center mb-6">
             <img
               className="w-[15%] h-[15%] lg:w-[10%] lg:h-[10%] hover:scale-150 transition-all"
               src="/images/models/turtle2.webp"
@@ -62,6 +64,10 @@ const Intro = () => {
               alt="shiba"
             />
           </div>
+
+          <ComponentsButton rounded color="secondary">
+            TRY THE PAINTER
+          </ComponentsButton>
         </div>
       </section>
       <div className="relative h-[40vh] lg:h-[65vh] 3xl:h-[55vh] w-full">

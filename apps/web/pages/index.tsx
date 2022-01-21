@@ -1,3 +1,4 @@
+import Faq from '../components/faq/faq.component';
 import Footer from '../components/footer/footer.component';
 import Header from '../components/header/header.component';
 import Intro from '../components/intro/intro.component';
@@ -26,6 +27,10 @@ export function Index() {
       <Roadmap></Roadmap>
 
       <Team></Team>
+
+      <div className="bg-bubbles bg-cover">
+        <Faq></Faq>
+      </div>
 
       <div className="bg-clouds bg-fixed bg-cover">
         <Footer></Footer>

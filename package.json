@@ -14,6 +14,7 @@
   },
   "private": true,
   "dependencies": {
+    "@chakra-ui/accordion": "^1.4.3",
     "@chakra-ui/popover": "^1.11.1",
     "@nrwl/next": "12.10.1",
     "@reduxjs/toolkit": "^1.7.1",
