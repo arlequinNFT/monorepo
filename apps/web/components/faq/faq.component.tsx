@@ -89,10 +89,10 @@ const Faq = () => {
           </h2>
           <AccordionPanel className="max-w-5xl text-center text-2xl mb-4">
             <p>
-              Owning Arlees grants you of Voting Points. <br /> You will be able
-              to distribute these points to your preferred entries in a secured
-              and fair way. <br />
-              Each vote distributing grants you some Nimo.
+              Owning Arlees grants you of Voting Points. <br /> You can
+              distribute them to your preferred entries in a secured and fair
+              way. <br />
+              Each vote distributed grants you some Nimo.
             </p>
           </AccordionPanel>
         </AccordionItem>
@@ -105,14 +105,14 @@ const Faq = () => {
           </h2>
           <AccordionPanel className="max-w-5xl text-center text-2xl mb-4">
             <p>
-              When a painting contest finishes, the top 30% of the submissions
-              (except the winning one) are send to the pool. <br />
+              When a painting contest finishes, the top 30% submissions (except
+              the winning one) are send to the pool. <br />
               Anyone can buy (at a fixed price in FUSD) an Arlee from that pool
               in a random way: the buyer does not know what look, species or
               ranking the Arlee will be. <br />
               80% of the revenue are send to the Original Artist. It means that
-              even if the artist did not reach the top 5, she or he will
-              eventually earn money!
+              even if you did not reach the top 5, you will eventually earn
+              money!
             </p>
           </AccordionPanel>
         </AccordionItem>
@@ -127,7 +127,7 @@ const Faq = () => {
             <p>
               At the moment, Nimo is an off-chain asset and is not intended to
               be a fungible token. As we don't want to offer unfair gameplay to
-              the community, we decided to kept Nimo as an inside asset.
+              the community, we decided to kept Nimo as an internal asset.
             </p>
             <p>
               Nimo are spend in the shop or by leveling up your Arlees. Each

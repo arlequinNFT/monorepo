@@ -171,7 +171,8 @@ const Roadmap = () => {
 
               <ul className="list-[circle] text-white text-2xl px-8">
                 <li>
-                  Introduction of The Shop, allowing you to buy NFTs with Nimo
+                  Introduction of The Shop, allowing you to buy NFTs and more
+                  with Nimo
                 </li>
                 <li>
                   Buy cosmetic items for your Arlees, backgrounds, 3D poses and
