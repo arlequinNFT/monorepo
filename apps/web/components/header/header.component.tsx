@@ -2,8 +2,6 @@ import Link from 'next/link';
 import React from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import { ComponentsButton } from '@arlequin/components/button';
-
 const Header = () => {
   const { ref, inView, entry } = useInView({
     /* Optional options */

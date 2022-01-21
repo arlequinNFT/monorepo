@@ -1,8 +1,11 @@
 .btn {
-  @apply py-3 px-11 text-xl font-bold;
+  padding: 0.75rem 2.75rem;
+  font-size: 1.25rem /* 20px */;
+  line-height: 1.75rem /* 28px */;
+  font-weight: 700;
 
   // &:disabled {
-  //   @apply bg-gray-100 text-gray-300 border-gray-300;
+  // @apply bg-gray-100 text-gray-300 border-gray-300;
   // }
 
   // &-primary {
@@ -14,19 +17,26 @@
   // }
 
   &-secondary {
-    @apply bg-red text-white transition-all;
+    background: theme('colors.red');
+    color: white;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
 
     &:hover {
-      @apply bg-red-light transition-all duration-[250ms];
+      background: theme('colors.red-light');
+      transition-property: all;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 250ms;
     }
 
     &-outline {
-      @apply bg-transparent border border-red text-red;
+      // @apply bg-transparent border border-red text-red;
     }
   }
 
   &-rounded {
-    @apply rounded-full;
+    border-radius: 9999px;
   }
 
   &-loading {
