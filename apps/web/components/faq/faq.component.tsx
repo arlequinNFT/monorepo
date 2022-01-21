@@ -62,6 +62,26 @@ const Faq = () => {
         <AccordionItem>
           <h2>
             <AccordionButton className="justify-center">
+              <p className="text-4xl my-2">How does The Pool work?</p>
+            </AccordionButton>
+          </h2>
+          <AccordionPanel className="max-w-5xl text-center text-2xl mb-4">
+            <p>
+              When a painting contest finishes, the top 30% of the submissions
+              (except the winning submission) are send to the pool. <br />
+              Anyone can buy (at a fixed price in FUSD) an Arlee from that pool
+              in a random way: the buyer does know what look, species or ranking
+              the Arlee will be. <br />
+              80% of the revenue are send to the Original Artist. It means that
+              even if the artist did not reach the top 5, she or he will
+              eventually earn money!
+            </p>
+          </AccordionPanel>
+        </AccordionItem>
+
+        <AccordionItem>
+          <h2>
+            <AccordionButton className="justify-center">
               <p className="text-4xl my-2">Is Nimo a cryptocurrency?</p>
             </AccordionButton>
           </h2>
@@ -84,9 +104,9 @@ const Faq = () => {
           </h2>
           <AccordionPanel className="max-w-5xl text-center text-2xl mb-4">
             <ul>
-              <li>Pig pack: 1 Pig + 1 cosmetic item</li>
-              <li>Deer pack: 1 Deer + 2 cosmetic items</li>
-              <li>Shiba Inu pack: 1 Shiba Inu + 3 cosmetic items</li>
+              <li>Pig pack: 1 Pig + 1 cosmetic item + Nimo</li>
+              <li>Deer pack: 1 Deer + 2 cosmetic items + Nimo</li>
+              <li>Shiba Inu pack: 1 Shiba Inu + 3 cosmetic items + Nimo</li>
             </ul>
 
             <p className="mt-2">

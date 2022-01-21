@@ -94,7 +94,7 @@ const Roadmap = () => {
 
               <ul className="list-[circle] text-white text-2xl px-8">
                 <li>First ever NFTs drop from Arlequin</li>
-                <li>3 bundles containings Arlees, Cosmetic items</li>
+                <li>3 bundles containing Arlees, cosmetic items and Nimo</li>
                 <li>
                   Artists can use the Painter to give their Arlees a unique look
                 </li>
