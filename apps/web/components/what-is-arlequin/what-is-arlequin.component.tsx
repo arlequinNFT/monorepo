@@ -32,6 +32,12 @@ const WhatIsArlequin = () => {
   } = useInView({
     threshold: 0.5,
   });
+  const {
+    ref: refWhatIsArlequinSixthBlock,
+    inView: inViewWhatIsArlequinSixthBlock,
+  } = useInView({
+    threshold: 0.5,
+  });
 
   return (
     <section className="max-w-6xl mx-auto py-14">
@@ -219,6 +225,46 @@ const WhatIsArlequin = () => {
             Buy cosmetics items, poses for your Arlees, backgrounds, level up
             your Arlees and more with Nimo!
           </p>
+        </div>
+      </div>
+
+      <div
+        ref={refWhatIsArlequinSixthBlock}
+        className="grid grid-cols-2 gap-x-6"
+      >
+        <div
+          className={`${
+            inViewWhatIsArlequinSixthBlock
+              ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-100 lg:transition-all'
+              : 'lg:-translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
+          } col-span-1 flex flex-col justify-center`}
+        >
+          <p className="font-extrabold text-6xl text-primary uppercase">
+            Play for purpose
+          </p>
+
+          <p className="font-bold text-3xl my-4 text-red uppercase">
+            Arlequin is engaged in Animal care
+          </p>
+          <p className="text-2xl">
+            Each time an Arlee is bought from the Pool, 5% of the revenue goes
+            to an animal charity according to the Arlee species
+          </p>
+        </div>
+
+        <div
+          className={`${
+            inViewWhatIsArlequinSixthBlock
+              ? 'lg:duration-[1500ms] lg:translate-x-0  lg:opacity-100 lg:transition-all'
+              : 'lg:translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
+          } col-span-1`}
+        >
+          <img
+            width="100%"
+            height="100%"
+            src="/images/vote_to_earn.webp"
+            alt="Vote to earn"
+          />
         </div>
       </div>
     </section>

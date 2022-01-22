@@ -18,6 +18,8 @@ const Roadmap = () => {
     useInView({});
   const { ref: refRoadmapFifthBlock, inView: inViewRoadmapFifthBlock } =
     useInView({});
+  const { ref: refRoadmapSixthBlock, inView: inViewRoadmapSixthBlock } =
+    useInView({});
 
   useEffect(() => {
     if (inViewRoadmapSection) {
@@ -150,6 +152,10 @@ const Roadmap = () => {
                   Buy a random Arlee from the pool at a fixed price in FUSD
                 </li>
                 <li>Original Artist gets 80% of the revenue</li>
+                <li>
+                  5% of the revenue are send to animal charities according to
+                  the bought Arlees species
+                </li>
               </ul>
 
               <p className="text-white text-right">
@@ -184,9 +190,31 @@ const Roadmap = () => {
                 </li>
               </ul>
 
-              <p className="text-white text-right">
-                Est. Date: august/october 2022
+              <p className="text-white text-right">Est. Date: Q4 2022</p>
+            </div>
+
+            <div
+              ref={refRoadmapSixthBlock}
+              className={`${
+                inViewRoadmapSixthBlock
+                  ? 'lg:duration-[1500ms] lg:translate-x-0 lg:opacity-100 lg:transition-all'
+                  : 'lg:-translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
+              } bg-red relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-3xl`}
+            >
+              <p className={`font-bold text-4xl text-white mb-4`}>
+                <span className="text-secondary-300 mr-2">6.</span> Arlequin
+                Game
               </p>
+
+              <ul className="list-[circle] text-white text-2xl px-8">
+                <li>First release of private beta access to Arlequin Game</li>
+                <li>
+                  Artists will be able to incarnate their Arlees and discover
+                  the world of Arlequin
+                </li>
+              </ul>
+
+              <p className="text-white text-right">Est. Date: Mid 2023</p>
             </div>
           </div>
 

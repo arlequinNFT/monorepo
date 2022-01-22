@@ -175,6 +175,23 @@ const Faq = () => {
         <AccordionItem>
           <h2>
             <AccordionButton className="justify-center">
+              <p className="text-4xl my-2">
+                Which animal charities will you pick?
+              </p>
+            </AccordionButton>
+          </h2>
+          <AccordionPanel className="max-w-5xl text-center text-2xl mb-4">
+            <p>
+              We are working on gathering a set of the most efficient animal
+              charities. Every informations and data will be made public for
+              everyone to see!
+            </p>
+          </AccordionPanel>
+        </AccordionItem>
+
+        <AccordionItem>
+          <h2>
+            <AccordionButton className="justify-center">
               <p className="text-4xl my-2">What blockchain are you using?</p>
             </AccordionButton>
           </h2>
