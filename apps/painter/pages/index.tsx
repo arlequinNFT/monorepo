@@ -204,7 +204,7 @@ const Index: NextPage = () => {
       )}
 
       <div className={styles['layout']}>
-        <div className="flex items-center flex-col bg-black-700">
+        <div className="flex flex-col bg-black-700">
           <div className="w-full p-4 text-center">
             <Link href="/">
               <a className="text-rainbow font-extrabold text-3xl">Arlequin</a>
@@ -228,59 +228,62 @@ const Index: NextPage = () => {
           <button className="text-white" onClick={(e) => setPose('stretch')}>
             stretch
           </button> */}
-          {/* <ul className="grid grid-cols-2 p-1 bg-black-600 rounded-xl">
-            <li
-              className={`${
-                currentMode === 'brush' ? 'bg-black-500 shadow-md' : "'"
-              } col-span-1 flex flex-col items-center py-1 rounded-lg  cursor-pointer`}
-              onClick={(e) => toggleBrushMode()}
-            >
-              <img
-                src={`/icons/brush_${
-                  currentMode === 'brush' ? 'active' : 'inactive'
-                }.svg`}
-                alt="Brush icon"
-                width="36px"
-                height="36px"
-              />
-              <p
+          <div className="flex flex-col flex-1 px-4">
+            <p className="text-black-200">Arlees</p>
+            <ul className="grid grid-cols-2 w-full mb-2 bg-black-600 rounded-xl">
+              <li
                 className={`${
-                  currentMode === 'brush' ? 'text-white' : 'text-black-200'
-                }`}
+                  currentMode === 'brush' ? 'bg-black-500 shadow-md' : "'"
+                } col-span-1 flex flex-col items-center py-1 rounded-lg cursor-pointer`}
+                onClick={(e) => toggleBrushMode()}
               >
-                Arlees
-              </p>
-            </li>
+                <img
+                  src={`/icons/brush_${
+                    currentMode === 'brush' ? 'active' : 'inactive'
+                  }.svg`}
+                  alt="Brush icon"
+                  width="36px"
+                  height="36px"
+                />
+                <p
+                  className={`${
+                    currentMode === 'brush' ? 'text-white' : 'text-black-200'
+                  }`}
+                >
+                  Species
+                </p>
+              </li>
 
-            <li
-              className={`${
-                currentMode === 'bucket' ? 'bg-black-500 shadow-md' : "'"
-              } col-span-1 flex flex-col items-center py-1 rounded-lg  cursor-pointer`}
-              onClick={(e) => toggleBucketMode()}
-            >
-              <img
-                src={`/icons/bucket_${
-                  currentMode === 'bucket' ? 'active' : 'inactive'
-                }.svg`}
-                alt="Bucket icon"
-                width="36px"
-                height="36px"
-              />
-              <p
+              <li
                 className={`${
-                  currentMode === 'bucket' ? 'text-white' : 'text-black-200'
-                }`}
+                  currentMode === 'bucket' ? 'bg-black-500 shadow-md' : "'"
+                } col-span-1 flex flex-col items-center py-1 rounded-lg  cursor-pointer`}
+                onClick={(e) => toggleBucketMode()}
               >
-                Poses
-              </p>
-            </li>
-          </ul> */}
-          <div className="w-full relative overflow-hidden flex-1 p-4">
-            <ArleesList loadArlee={loadArlee}></ArleesList>
-            {/* <PosesList setPose={setPose}></PosesList> */}
+                <img
+                  src={`/icons/bucket_${
+                    currentMode === 'bucket' ? 'active' : 'inactive'
+                  }.svg`}
+                  alt="Bucket icon"
+                  width="36px"
+                  height="36px"
+                />
+                <p
+                  className={`${
+                    currentMode === 'bucket' ? 'text-white' : 'text-black-200'
+                  }`}
+                >
+                  Poses
+                </p>
+              </li>
+            </ul>
+            <div className="w-full relative overflow-hidden flex-1">
+              <ArleesList loadArlee={loadArlee}></ArleesList>
+              {/* <PosesList setPose={setPose}></PosesList> */}
+            </div>
           </div>
 
-          <div className="flex items-center justify-center gap-x-2 w-full bg-black-600 pt-4">
+          <div className="flex items-center justify-center pt-2 gap-x-2 w-full bg-black-600">
             <a
               href="https://discord.gg/rBPP7uxnwd"
               target="_blank"
@@ -654,7 +657,7 @@ const Index: NextPage = () => {
               </div>
             </div>
           </section>
-          <section className="flex place-content-center w-full py-3  bg-black-600">
+          <section className="flex place-content-center w-full py-3 bg-black-600">
             {/* <Button color="secondary" rounded onClick={onOpenShare}>
               Share
             </Button> */}
@@ -663,7 +666,7 @@ const Index: NextPage = () => {
               rounded
               onClick={generateAvatar}
             >
-              Generate Image
+              GENERATE AVATAR
             </ComponentsButton>
           </section>
         </div>
