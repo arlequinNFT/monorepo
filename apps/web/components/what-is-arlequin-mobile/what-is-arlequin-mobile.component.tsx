@@ -4,7 +4,7 @@ import { useInView } from 'react-intersection-observer';
 const WhatIsArlequinMobile = () => {
   return (
     <section className="grid gap-y-6 p-6">
-      <div className="flex flex-col justify-center p-6 text-center shadow-lg rounded-3xl bg-white">
+      <div className="flex flex-col justify-center py-6 text-center shadow-lg rounded-3xl bg-white">
         <img
           width="100%"
           height="100%"
