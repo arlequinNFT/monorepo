@@ -55,7 +55,9 @@ const Roadmap = () => {
       >
         <img className="w-full" src="/images/cloud_1.svg" alt="cloud_1" />
         <div className="relative grid grid-cols-3 max-w-7xl mx-auto gap-x-4 py-12 px-6">
-          <p className={`col-span-3 mx-auto mb-12 text-7xl text-red font-bold`}>
+          <p
+            className={`col-span-3 mx-auto mb-12 text-6xl lg:text-7xl text-red font-bold`}
+          >
             Roadmap
           </p>
 
