@@ -78,7 +78,7 @@ const Roadmap = () => {
                 <li>Whitelisting for the presale begins</li>
                 <li>Partenering with Filecoin</li>
               </ul>
-              <p className="text-white text-right">Done in January 2022 </p>
+              <p className="text-white text-right">Shipped in January 2022 </p>
             </div>
 
             <div
@@ -100,7 +100,6 @@ const Roadmap = () => {
                 <li>
                   Artists can use the Painter to give their Arlees a unique look
                 </li>
-                <li>Nimo rewards for Arlees adopters</li>
                 <li>Trade your Arlees using our native Marketplace</li>
               </ul>
 
@@ -124,7 +123,7 @@ const Roadmap = () => {
 
               <ul className="list-[circle] text-white text-2xl px-8">
                 <li>First ever Paint To Earn system in the world</li>
-                <li>Participate for free to our weekly painting contests</li>
+                <li>Participate for free in our weekly painting contests</li>
                 <li>Climb the leaderboard, win NFTs and FUSD</li>
                 <li>Vote for your preferred entries and earn Nimo</li>
               </ul>
@@ -145,16 +144,14 @@ const Roadmap = () => {
               </p>
 
               <ul className="list-[circle] text-white text-2xl px-8">
-                <li>
-                  A pool full of Arlees from already finished painting contests
-                </li>
+                <li>A pool full of Arlees from previous painting contests</li>
                 <li>
                   Buy a random Arlee from the pool at a fixed price in FUSD
                 </li>
                 <li>Original Artist gets 80% of the revenue</li>
                 <li>
-                  5% of the revenue are send to animal charities according to
-                  the bought Arlees species
+                  5% of the revenue are sent to the animal charity that
+                  corresponds to the species of the Arlees purchased
                 </li>
               </ul>
 

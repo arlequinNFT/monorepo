@@ -46,12 +46,12 @@ const Faq = () => {
                 <Tr className="border-b">
                   <Td>2nd</Td>
                   <Td>$110</Td>
-                  <Td>No</Td>
+                  <Td>Yes</Td>
                 </Tr>
                 <Tr className="border-b">
                   <Td>3rd</Td>
                   <Td>$70</Td>
-                  <Td>No</Td>
+                  <Td>Yes</Td>
                 </Tr>
                 <Tr className="border-b">
                   <Td>4th</Td>
@@ -106,7 +106,7 @@ const Faq = () => {
           <AccordionPanel className="max-w-5xl text-center text-2xl mb-4">
             <p>
               When a painting contest finishes, the top 30% submissions (except
-              the winning one) are send to the pool. <br />
+              the top 3) are send to the pool. <br />
               Anyone can buy (at a fixed price in FUSD) an Arlee from that pool
               in a random way: the buyer does not know what look, species or
               ranking the Arlee will be. <br />

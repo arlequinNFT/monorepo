@@ -90,7 +90,7 @@ const WhatIsArlequin = () => {
           } col-span-1 flex flex-col justify-center`}
         >
           <p className="font-extrabold text-6xl text-primary uppercase">
-            Paint the Arlees
+            Customize your arlees
           </p>
           <p className="font-bold text-3xl my-4 text-red uppercase">
             Arlequin is the Artists Metaverse
@@ -111,8 +111,8 @@ const WhatIsArlequin = () => {
           <img
             width="100%"
             height="100%"
-            src="/images/paint_to_earn.webp"
-            alt="Paint to earn"
+            src="/images/paint_the_arlees.webp"
+            alt="Customize your arlees"
           />
         </div>
       </div>
@@ -262,7 +262,7 @@ const WhatIsArlequin = () => {
           <img
             width="100%"
             height="100%"
-            src="/images/vote_to_earn.webp"
+            src="/images/arlees.webp"
             alt="Vote to earn"
           />
         </div>
