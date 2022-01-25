@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../store/hook';
-import { setArlees, setCurrentArlee } from '../../store/reducers/painter.reducer';
+import { setCurrentArlee } from '../../store/reducers/painter.reducer';
 import styles from './arlees-list.module.scss';
 
 interface Props {
@@ -14,40 +14,8 @@ const ArleesList = ({ loadArlee }: Props) => {
 
   const arlees = useAppSelector((state) => state.painter.arlees);
   const currentArlee = useAppSelector((state) => state.painter.currentArlee);
+  const currentPose = useAppSelector((state) => state.painter.currentPose);
   //#endregion
-
-  useEffect(() => {
-    if (arlees.length === 0) {
-      const list: any[] = [
-        {
-          image: '',
-          species: 'dog',
-        },
-        {
-          image: '/images/cacatoes.png',
-          species: 'cacatoes',
-        },
-        {
-          image: '/images/pig.png',
-          species: 'pig',
-        },
-        {
-          image: '/images/turtle.png',
-          species: 'turtle',
-        },
-        {
-          image: '/images/deer.png',
-          species: 'deer',
-        },
-        {
-          image: '/images/elephant.png',
-          species: 'elephant',
-        },
-      ];
-      dispatch(setArlees(list));
-      dispatch(setCurrentArlee(list[0]));
-    }
-  }, [dispatch, arlees.length]);
 
   return (
     <div
@@ -59,13 +27,13 @@ const ArleesList = ({ loadArlee }: Props) => {
           <img
             key={key}
             className={`h-52 w-full object-contain rounded-2xl flex justify-center items-center rounded-2xl cursor-pointer border border-8 bg-slate-200 ${
-              currentArlee?.species === arlee.species ? 'border-black-300' : ''
+              currentArlee === arlee ? 'border-black-300' : ''
             }`}
-            src={arlee.image}
-            alt={arlee.species}
+            src={`/images/${arlee}/${currentPose}.webp`}
+            alt={arlee}
             onClick={(e) => {
               dispatch(setCurrentArlee(arlee));
-              loadArlee(arlee.species);
+              loadArlee(arlee);
             }}
           />
         );

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../store/hook';
 import { setCurrentPose } from '../../store/reducers/painter.reducer';
@@ -13,6 +13,7 @@ const PosesList = ({ setPose }: Props) => {
   const dispatch = useAppDispatch();
 
   const poses = useAppSelector((state) => state.painter.poses);
+  const currentArlee = useAppSelector((state) => state.painter.currentArlee);
   const currentPose = useAppSelector((state) => state.painter.currentPose);
   //#endregion
 
@@ -26,13 +27,13 @@ const PosesList = ({ setPose }: Props) => {
           <img
             key={key}
             className={`h-52 w-full object-contain rounded-2xl flex justify-center items-center rounded-2xl cursor-pointer border border-8 bg-slate-200 ${
-              currentPose?.label === pose.label ? 'border-black-300' : ''
+              currentPose === pose ? 'border-black-300' : ''
             }`}
-            src={pose.image}
-            alt={pose.label}
+            src={`/images/${currentArlee}/${pose}.webp`}
+            alt={pose}
             onClick={(e) => {
               dispatch(setCurrentPose(pose));
-              setPose(pose.label);
+              setPose(pose);
             }}
           />
         );

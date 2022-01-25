@@ -17,7 +17,7 @@ import PosesList from '../components/poses-list/poses-list.component';
 import { useAppDispatch, useAppSelector } from '../store/hook';
 import {
     addColorToSwatches, BrushType, decreaseBrushHardness, decreaseBrushOpacity, decreaseBrushSize,
-    hideLoadingScreen, increaseBrushHardness, increaseBrushOpacity, increaseBrushSize, PoseLabels,
+    hideLoadingScreen, increaseBrushHardness, increaseBrushOpacity, increaseBrushSize, Pose,
     setCurrentArleesMode, setCurrentBrushColor, setCurrentBrushHardness, setCurrentBrushOpacity,
     setCurrentBrushSize, setCurrentBrushType, setCurrentPaintingMode, setSceneLoaded
 } from '../store/reducers/painter.reducer';
@@ -92,7 +92,7 @@ const Index: NextPage = () => {
     unityContext?.send('HudManager', 'LoadMetaPet', species);
     // dispatch(setPoses(species));
   }
-  const setPose = (pose: PoseLabels) =>
+  const setPose = (pose: Pose) =>
     unityContext?.send('HudManager', 'SetPose', pose);
   const redo = () => unityContext?.send('HudManager', 'Redo');
   const setBrushType = (brushType: BrushType) => {
@@ -155,9 +155,9 @@ const Index: NextPage = () => {
   }, [unityContext, dispatch]);
 
   useEffect(() => {
-    if (unityContext && currentArlee.species && !sceneLoaded) {
+    if (unityContext && currentArlee && !sceneLoaded) {
       unityContext?.on('SendIsPlaygroundReady', async () => {
-        unityContext?.send('HudManager', 'LoadMetaPet', currentArlee.species);
+        unityContext?.send('HudManager', 'LoadMetaPet', currentArlee);
         unityContext?.send('HudManager', 'UpdateColor', currentBrushColor);
         unityContext?.send('HudManager', 'UpdateSize', currentBrushSize);
         unityContext?.send(
@@ -172,13 +172,6 @@ const Index: NextPage = () => {
     }
   }, [unityContext, currentArlee, currentBrushColor, currentBrushSize, currentBrushHardness, currentBrushOpacity, sceneLoaded, dispatch]);
 
-  useEffect(() => {
-    if (unityContext) {
-      unityContext.on('SendIsUnityReady', async () => {
-        unityContext.send('Redirection', 'StartPlayground');
-      });
-    }
-  }, [unityContext]);
 
   useEffect(() => {
     if (unityContext) {
