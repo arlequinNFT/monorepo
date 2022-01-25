@@ -3,6 +3,8 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { HexColorInput, HexColorPicker } from 'react-colorful';
 import { useHotkeys } from 'react-hotkeys-hook';
+import ReactScrollWheelHandler from 'react-scroll-wheel-handler';
+import ReactTooltip from 'react-tooltip';
 import Unity, { UnityContext } from 'react-unity-webgl';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -13,8 +15,10 @@ import { Popover, PopoverBody, PopoverContent, PopoverTrigger } from '@chakra-ui
 import ArleesList from '../components/arlees-list/arlees-list.component';
 import { useAppDispatch, useAppSelector } from '../store/hook';
 import {
-    addColorToSwatches, BrushType, hideLoadingScreen, setCurrentBrushType, setCurrentcolor,
-    setCurrentMode
+    addColorToSwatches, BrushType, decreaseBrushHardness, decreaseBrushOpacity, decreaseBrushSize,
+    hideLoadingScreen, increaseBrushHardness, increaseBrushOpacity, increaseBrushSize,
+    setCurrentBrushColor, setCurrentBrushHardness, setCurrentBrushOpacity, setCurrentBrushSize,
+    setCurrentBrushType, setCurrentPaintingMode, setSceneLoaded
 } from '../store/reducers/painter.reducer';
 import styles from './index.module.scss';
 
@@ -23,29 +27,44 @@ const Index: NextPage = () => {
   //#region Selectors
   const dispatch = useAppDispatch();
 
-  const currentMode = useAppSelector((state) => state.painter.currentMode);
+  const currentArlee = useAppSelector((state) => state.painter.currentArlee);
   const currentBrushType = useAppSelector(
     (state) => state.painter.currentBrushType
   );
-  const currentColor = useAppSelector((state) => state.painter.currentColor);
-  const currentArlee = useAppSelector((state) => state.painter.currentArlee);
-  const defaultHardness = useAppSelector(
-    (state) => state.painter.defaultHardness
+  const currentBrushColor = useAppSelector(
+    (state) => state.painter.currentBrushColor
   );
-  const defaultOpacity = useAppSelector(
-    (state) => state.painter.defaultOpacity
+  const currentBrushOpacity = useAppSelector(
+    (state) => state.painter.currentBrushOpacity
   );
-  const defaultSize = useAppSelector((state) => state.painter.defaultSize);
-  const maxHardness = useAppSelector((state) => state.painter.maxHardness);
-  const maxOpacity = useAppSelector((state) => state.painter.maxOpacity);
-  const maxSize = useAppSelector((state) => state.painter.maxSize);
-  const minHardness = useAppSelector((state) => state.painter.minHardness);
-  const minOpacity = useAppSelector((state) => state.painter.minOpacity);
-  const minSize = useAppSelector((state) => state.painter.minSize);
+  const currentBrushHardness = useAppSelector(
+    (state) => state.painter.currentBrushHardness
+  );
+  const currentPaintingMode = useAppSelector(
+    (state) => state.painter.currentPaintingMode
+  );
+  const currentBrushSize = useAppSelector(
+    (state) => state.painter.currentBrushSize
+  );
+  const maxBrushHardness = useAppSelector(
+    (state) => state.painter.maxBrushHardness
+  );
+  const maxBrushOpacity = useAppSelector(
+    (state) => state.painter.maxBrushOpacity
+  );
+  const maxBrushSize = useAppSelector((state) => state.painter.maxBrushSize);
+  const minBrushHardness = useAppSelector(
+    (state) => state.painter.minBrushHardness
+  );
+  const minBrushOpacity = useAppSelector(
+    (state) => state.painter.minBrushOpacity
+  );
+  const minBrushSize = useAppSelector((state) => state.painter.minBrushSize);
   const showLoadingScreen = useAppSelector(
     (state) => state.painter.showLoadingScreen
   );
   const swatches = useAppSelector((state) => state.painter.swatches);
+  const sceneLoaded = useAppSelector((state) => state.painter.sceneLoaded);
   //#endregion
 
   //#region State
@@ -55,26 +74,15 @@ const Index: NextPage = () => {
   //#endregion
 
   //#region Unity
-  const updateColorViaColorPicker = useDebouncedCallback((color: string) => {
+  const updateColorUsingColorPicker = useDebouncedCallback((color: string) => {
     unityContext?.send('HudManager', 'UpdateColor', color);
-    dispatch(setCurrentcolor(color));
+    dispatch(setCurrentBrushColor(color));
   }, 50);
-  const updateColorViaSwatches = (color: string) => {
+  const updateColorUsingSwatches = (color: string) => {
     unityContext?.send('HudManager', 'UpdateColor', color);
-    dispatch(setCurrentcolor(color));
+    dispatch(setCurrentBrushColor(color));
     toggleBrushMode();
   };
-  const updateSize = useDebouncedCallback((value: number) => {
-    unityContext?.send('HudManager', 'UpdateSize', value);
-  }, 100);
-
-  const updateHardness = useDebouncedCallback((value: number) => {
-    unityContext?.send('HudManager', 'UpdateHardness', value);
-  }, 100);
-  const updateOpacity = useDebouncedCallback((value: number) => {
-    const normalizedValue = value / 100;
-    unityContext?.send('HudManager', 'UpdateOpacity', normalizedValue);
-  }, 100);
   const updateAngle = useDebouncedCallback((value: number) => {
     unityContext?.send('HudManager', 'UpdateAngle', value);
   }, 100);
@@ -93,14 +101,14 @@ const Index: NextPage = () => {
   };
   const toggleBrushMode = () => {
     unityContext?.send('HudManager', 'SetBrushType', currentBrushType);
-    dispatch(setCurrentMode('brush'));
+    dispatch(setCurrentPaintingMode('brush'));
   };
   const toggleBucketMode = () => {
-    dispatch(setCurrentMode('bucket'));
+    dispatch(setCurrentPaintingMode('bucket'));
     unityContext?.send('HudManager', 'ToggleBucketMode');
   };
   const togglePickerMode = () => {
-    dispatch(setCurrentMode('picker'));
+    dispatch(setCurrentPaintingMode('picker'));
     unityContext?.send('HudManager', 'TogglePickerMode');
   };
 
@@ -135,25 +143,30 @@ const Index: NextPage = () => {
   useEffect(() => {
     if (unityContext) {
       unityContext?.on('SendPickedColor', async (color: string) => {
-        dispatch(setCurrentcolor(color));
-        dispatch(setCurrentMode('brush'));
+        dispatch(setCurrentBrushColor(color));
+        dispatch(setCurrentPaintingMode('brush'));
         unityContext?.send('HudManager', 'SetBrushType', 'Round');
       });
     }
   }, [unityContext, dispatch]);
 
   useEffect(() => {
-    if (unityContext && currentArlee.species) {
+    if (unityContext && currentArlee.species && !sceneLoaded) {
       unityContext?.on('SendIsPlaygroundReady', async () => {
         unityContext?.send('HudManager', 'LoadMetaPet', currentArlee.species);
-        unityContext?.send('HudManager', 'UpdateColor', currentColor);
-        unityContext?.send('HudManager', 'UpdateSize', 23);
-        unityContext?.send('HudManager', 'UpdateHardness', 15);
-        unityContext?.send('HudManager', 'UpdateOpacity', 0.25);
+        unityContext?.send('HudManager', 'UpdateColor', currentBrushColor);
+        unityContext?.send('HudManager', 'UpdateSize', currentBrushSize);
+        unityContext?.send(
+          'HudManager',
+          'UpdateHardness',
+          currentBrushHardness
+        );
+        unityContext?.send('HudManager', 'UpdateOpacity', currentBrushOpacity);
         dispatch(hideLoadingScreen());
+        dispatch(setSceneLoaded());
       });
     }
-  }, [unityContext, currentArlee, currentColor, dispatch]);
+  }, [unityContext, currentArlee, currentBrushColor, currentBrushSize, currentBrushHardness, currentBrushOpacity, sceneLoaded, dispatch]);
 
   useEffect(() => {
     if (unityContext) {
@@ -176,17 +189,85 @@ const Index: NextPage = () => {
   //#endregion
 
   //#region HotKeys
-  useHotkeys('ctrl+z', () => undo(), [unityContext]);
-  useHotkeys('ctrl+y', () => redo(), [unityContext]);
+  useHotkeys('ctrl+z, command+z', () => undo(), [unityContext]);
+  useHotkeys('ctrl+y, command+y', () => redo(), [unityContext]);
   useHotkeys(
-    'ctrl+b',
+    'ctrl+b, command+b',
     () => {
-      dispatch(setCurrentMode('brush'));
+      toggleBrushMode();
     },
     [unityContext]
   );
-  useHotkeys('ctrl+g', () => toggleBucketMode(), [unityContext]);
-  useHotkeys('ctrl+i', () => togglePickerMode(), [unityContext]);
+  useHotkeys(
+    'ctrl+g, command+g',
+    (event) => {
+      event.preventDefault();
+      toggleBucketMode();
+    },
+    [unityContext]
+  );
+  useHotkeys(
+    'ctrl+i, command+i',
+    () => {
+      togglePickerMode();
+    },
+    [unityContext]
+  );
+  //#endregion
+
+  //#region Brush Size, Opacity, Hardness, Angle
+  useEffect(() => {
+    if (unityContext) {
+      unityContext?.send('HudManager', 'UpdateSize', currentBrushSize);
+    }
+  }, [unityContext, currentBrushSize]);
+
+  useEffect(() => {
+    if (unityContext) {
+      unityContext?.send('HudManager', 'UpdateOpacity', currentBrushOpacity);
+    }
+  }, [unityContext, currentBrushOpacity]);
+
+  useEffect(() => {
+    if (unityContext) {
+      unityContext?.send('HudManager', 'UpdateHardness', currentBrushHardness);
+    }
+  }, [unityContext, currentBrushHardness]);
+
+  const updateBrushSizeUsingInput = (value: number) => dispatch(setCurrentBrushSize(value));
+  const updateBrushOpacityUsingInput = (value: number) => dispatch(setCurrentBrushOpacity(value));
+  const updateBrushHardnessUsingInput = (value: number) => dispatch(setCurrentBrushHardness(value));
+
+  const handleScrollWheelUp = (e: WheelEvent) => {
+    if (e?.ctrlKey) {
+      dispatch(increaseBrushSize());
+    }
+
+    if (e?.shiftKey) {
+      dispatch(increaseBrushOpacity());
+    }
+
+    if (e?.altKey) {
+      dispatch(increaseBrushHardness());
+    }
+  };
+
+  const handleScrollWheelDown = (e: WheelEvent) => {
+    if (e?.ctrlKey) {
+      dispatch(decreaseBrushSize());
+    }
+
+    if (e?.shiftKey) {
+      dispatch(decreaseBrushOpacity());
+
+    }
+
+    if (e?.altKey) {
+      dispatch(decreaseBrushHardness());
+
+    }
+  };
+
   //#endregion
 
   return (
@@ -233,13 +314,15 @@ const Index: NextPage = () => {
             <ul className="grid grid-cols-2 w-full mb-2 bg-black-600 rounded-xl">
               <li
                 className={`${
-                  currentMode === 'brush' ? 'bg-black-500 shadow-md' : "'"
+                  currentPaintingMode === 'brush'
+                    ? 'bg-black-500 shadow-md'
+                    : "'"
                 } col-span-1 flex flex-col items-center py-1 rounded-lg cursor-pointer`}
                 onClick={(e) => toggleBrushMode()}
               >
                 <img
                   src={`/icons/brush_${
-                    currentMode === 'brush' ? 'active' : 'inactive'
+                    currentPaintingMode === 'brush' ? 'active' : 'inactive'
                   }.svg`}
                   alt="Brush icon"
                   width="36px"
@@ -247,7 +330,9 @@ const Index: NextPage = () => {
                 />
                 <p
                   className={`${
-                    currentMode === 'brush' ? 'text-white' : 'text-black-200'
+                    currentPaintingMode === 'brush'
+                      ? 'text-white'
+                      : 'text-black-200'
                   }`}
                 >
                   Species
@@ -256,13 +341,15 @@ const Index: NextPage = () => {
 
               <li
                 className={`${
-                  currentMode === 'bucket' ? 'bg-black-500 shadow-md' : "'"
+                  currentPaintingMode === 'bucket'
+                    ? 'bg-black-500 shadow-md'
+                    : "'"
                 } col-span-1 flex flex-col items-center py-1 rounded-lg  cursor-pointer`}
                 onClick={(e) => toggleBucketMode()}
               >
                 <img
                   src={`/icons/bucket_${
-                    currentMode === 'bucket' ? 'active' : 'inactive'
+                    currentPaintingMode === 'bucket' ? 'active' : 'inactive'
                   }.svg`}
                   alt="Bucket icon"
                   width="36px"
@@ -270,7 +357,9 @@ const Index: NextPage = () => {
                 />
                 <p
                   className={`${
-                    currentMode === 'bucket' ? 'text-white' : 'text-black-200'
+                    currentPaintingMode === 'bucket'
+                      ? 'text-white'
+                      : 'text-black-200'
                   }`}
                 >
                   Poses
@@ -315,7 +404,13 @@ const Index: NextPage = () => {
         <div className="p-24 bg-black">
           <div className="h-full w-full relative">
             {unityContext && (
-              <span onClick={(e) => dispatch(addColorToSwatches(currentColor))}>
+              <ReactScrollWheelHandler
+                className="h-full"
+                onClick={(e) => dispatch(addColorToSwatches(currentBrushColor))}
+                upHandler={(e) => handleScrollWheelUp(e)}
+                downHandler={(e) => handleScrollWheelDown(e)}
+                timeout={100}
+              >
                 <Unity
                   unityContext={unityContext}
                   style={{
@@ -324,7 +419,7 @@ const Index: NextPage = () => {
                     borderRadius: '2rem',
                   }}
                 />
-              </span>
+              </ReactScrollWheelHandler>
             )}
 
             <ul className="absolute flex gap-x-2 p-1">
@@ -333,7 +428,7 @@ const Index: NextPage = () => {
                   key={color}
                   style={{ backgroundColor: color }}
                   className="h-8 w-8 rounded-md cursor-pointer"
-                  onClick={(e) => updateColorViaSwatches(color)}
+                  onClick={(e) => updateColorUsingSwatches(color)}
                 ></li>
               ))}
             </ul>
@@ -347,6 +442,7 @@ const Index: NextPage = () => {
               </h2>
               <div className="flex gap-x-2">
                 <Image
+                  data-tip="Undo | CTRL + Z"
                   onClick={(e) => undo()}
                   className={`bg-black-500 hover:bg-black-400 transition-colors rounded-full cursor-pointer`}
                   src="/icons/undo.svg"
@@ -355,6 +451,7 @@ const Index: NextPage = () => {
                   height="28px"
                 />
                 <Image
+                  data-tip="Redo | CTRL + Y"
                   onClick={(e) => redo()}
                   className={`bg-black-500 hover:bg-black-400 transition-colors rounded-full cursor-pointer`}
                   src="/icons/redo.svg"
@@ -369,14 +466,17 @@ const Index: NextPage = () => {
               <p className="text-black-200">Mode</p>
               <ul className="grid grid-cols-3 p-1 bg-black-600 rounded-xl">
                 <li
+                  data-tip="CTRL + B"
                   className={`${
-                    currentMode === 'brush' ? 'bg-black-500 shadow-md' : "'"
+                    currentPaintingMode === 'brush'
+                      ? 'bg-black-500 shadow-md'
+                      : "'"
                   } col-span-1 flex flex-col items-center py-1 rounded-lg  cursor-pointer`}
                   onClick={(e) => toggleBrushMode()}
                 >
                   <img
                     src={`/icons/brush_${
-                      currentMode === 'brush' ? 'active' : 'inactive'
+                      currentPaintingMode === 'brush' ? 'active' : 'inactive'
                     }.svg`}
                     alt="Brush icon"
                     width="36px"
@@ -384,7 +484,9 @@ const Index: NextPage = () => {
                   />
                   <p
                     className={`${
-                      currentMode === 'brush' ? 'text-white' : 'text-black-200'
+                      currentPaintingMode === 'brush'
+                        ? 'text-white'
+                        : 'text-black-200'
                     }`}
                   >
                     Brush
@@ -392,14 +494,17 @@ const Index: NextPage = () => {
                 </li>
 
                 <li
+                  data-tip="CTRL + G"
                   className={`${
-                    currentMode === 'bucket' ? 'bg-black-500 shadow-md' : "'"
+                    currentPaintingMode === 'bucket'
+                      ? 'bg-black-500 shadow-md'
+                      : "'"
                   } col-span-1 flex flex-col items-center py-1 rounded-lg  cursor-pointer`}
                   onClick={(e) => toggleBucketMode()}
                 >
                   <img
                     src={`/icons/bucket_${
-                      currentMode === 'bucket' ? 'active' : 'inactive'
+                      currentPaintingMode === 'bucket' ? 'active' : 'inactive'
                     }.svg`}
                     alt="Bucket icon"
                     width="36px"
@@ -407,7 +512,9 @@ const Index: NextPage = () => {
                   />
                   <p
                     className={`${
-                      currentMode === 'bucket' ? 'text-white' : 'text-black-200'
+                      currentPaintingMode === 'bucket'
+                        ? 'text-white'
+                        : 'text-black-200'
                     }`}
                   >
                     Bucket
@@ -415,15 +522,18 @@ const Index: NextPage = () => {
                 </li>
 
                 <li
+                  data-tip="CTRL + I"
                   className={`${
-                    currentMode === 'picker' ? 'bg-black-500 shadow-md' : "'"
+                    currentPaintingMode === 'picker'
+                      ? 'bg-black-500 shadow-md'
+                      : "'"
                   } col-span-1 flex flex-col  items-center py-1 rounded-lg  cursor-pointer `}
                   onClick={(e) => togglePickerMode()}
                 >
                   <img
                     className="text-red-500"
                     src={`/icons/picker_${
-                      currentMode === 'picker' ? 'active' : 'inactive'
+                      currentPaintingMode === 'picker' ? 'active' : 'inactive'
                     }.svg`}
                     alt="Color Dropper icon"
                     width="36px"
@@ -431,7 +541,9 @@ const Index: NextPage = () => {
                   />
                   <p
                     className={`${
-                      currentMode === 'picker' ? 'text-white' : 'text-black-200'
+                      currentPaintingMode === 'picker'
+                        ? 'text-white'
+                        : 'text-black-200'
                     }`}
                   >
                     Dropper
@@ -444,19 +556,19 @@ const Index: NextPage = () => {
               <ul className="grid grid-cols-2 p-1 bg-black-600 rounded-xl">
                 <li
                   className={`${
-                    currentMode === 'brush' &&
+                    currentPaintingMode === 'brush' &&
                     currentBrushType === BrushType.Round
                       ? 'bg-black-500 shadow-md'
                       : "'"
                   } col-span-1 flex flex-col  items-center py-1 rounded-lg cursor-pointer`}
                   onClick={(e) => {
-                    dispatch(setCurrentMode('brush'));
+                    dispatch(setCurrentPaintingMode('brush'));
                     setBrushType(BrushType.Round);
                   }}
                 >
                   <Image
                     src={`/icons/pen_round_${
-                      currentMode === 'brush' &&
+                      currentPaintingMode === 'brush' &&
                       currentBrushType === BrushType.Round
                         ? 'active'
                         : 'inactive'
@@ -467,7 +579,7 @@ const Index: NextPage = () => {
                   />
                   <p
                     className={`${
-                      currentMode === 'brush' &&
+                      currentPaintingMode === 'brush' &&
                       currentBrushType === BrushType.Round
                         ? 'text-white'
                         : 'text-black-200'
@@ -479,19 +591,19 @@ const Index: NextPage = () => {
 
                 <li
                   className={`${
-                    currentMode === 'brush' &&
+                    currentPaintingMode === 'brush' &&
                     currentBrushType === BrushType.Square
                       ? 'bg-black-500 shadow-md'
                       : "'"
                   } col-span-1 flex flex-col  items-center py-1 rounded-lg cursor-pointer`}
                   onClick={(e) => {
-                    dispatch(setCurrentMode('brush'));
+                    dispatch(setCurrentPaintingMode('brush'));
                     setBrushType(BrushType.Square);
                   }}
                 >
                   <Image
                     src={`/icons/pen_square_${
-                      currentMode === 'brush' &&
+                      currentPaintingMode === 'brush' &&
                       currentBrushType === BrushType.Square
                         ? 'active'
                         : 'inactive'
@@ -502,7 +614,7 @@ const Index: NextPage = () => {
                   />
                   <p
                     className={`${
-                      currentMode === 'brush' &&
+                      currentPaintingMode === 'brush' &&
                       currentBrushType === BrushType.Square
                         ? 'text-white'
                         : 'text-black-200'
@@ -515,7 +627,10 @@ const Index: NextPage = () => {
             </div> */}
             <div className="p-1">
               <p className="text-black-200">Size</p>
-              <div className="flex items-center justify-evenly p-1">
+              <div
+                data-tip="Shortcut: CTRL + Mousewheel"
+                className="flex items-center justify-evenly p-1"
+              >
                 <Image
                   className="bg-black-500 rounded-full"
                   src={`/icons/small.svg`}
@@ -527,10 +642,10 @@ const Index: NextPage = () => {
                   className="w-4/5 mx-1"
                   type="range"
                   id="size"
-                  min={minSize}
-                  max={maxSize}
-                  defaultValue={defaultSize}
-                  changed={(value) => updateSize(Number(value))}
+                  min={minBrushSize}
+                  max={maxBrushSize}
+                  value={currentBrushSize}
+                  changed={(value) => updateBrushSizeUsingInput(Number(value))}
                 />
                 <Image
                   className="bg-black-500 rounded-full"
@@ -543,7 +658,10 @@ const Index: NextPage = () => {
             </div>
             <div className="p-1">
               <p className="text-black-200">Opacity</p>
-              <div className="flex items-center justify-evenly p-1">
+              <div
+                data-tip="Shortcut: Shift + Mousewheel"
+                className="flex items-center justify-evenly p-1"
+              >
                 <Image
                   className="bg-black-500 rounded-full"
                   src={`/icons/small.svg`}
@@ -555,10 +673,12 @@ const Index: NextPage = () => {
                   className="w-4/5 mx-1"
                   type="range"
                   id="opacity"
-                  min={minOpacity}
-                  max={maxOpacity}
-                  defaultValue={defaultOpacity}
-                  changed={(value) => updateOpacity(Number(value))}
+                  min={minBrushOpacity}
+                  max={maxBrushOpacity}
+                  value={currentBrushOpacity}
+                  changed={(value) =>
+                    updateBrushOpacityUsingInput(Number(value))
+                  }
                 />
                 <Image
                   className="bg-black-500 rounded-full"
@@ -571,7 +691,10 @@ const Index: NextPage = () => {
             </div>
             <div className="p-1">
               <p className="text-black-200">Hardness</p>
-              <div className="flex items-center justify-evenly p-1">
+              <div
+                data-tip="Shortcut: Alt + Mousewheel"
+                className="flex items-center justify-evenly p-1"
+              >
                 <Image
                   className="bg-black-500 rounded-full"
                   src={`/icons/small.svg`}
@@ -583,10 +706,12 @@ const Index: NextPage = () => {
                   className="w-4/5 mx-1"
                   type="range"
                   id="hardness"
-                  min={minHardness}
-                  max={maxHardness}
-                  defaultValue={defaultHardness}
-                  changed={(value) => updateHardness(Number(value))}
+                  min={minBrushHardness}
+                  max={maxBrushHardness}
+                  value={currentBrushHardness}
+                  changed={(value) =>
+                    updateBrushHardnessUsingInput(Number(value))
+                  }
                 />
                 <Image
                   className="bg-black-500 rounded-full"
@@ -632,15 +757,15 @@ const Index: NextPage = () => {
                   <PopoverTrigger>
                     <div
                       className="w-8 h-8 border-primary-1200 hover:outline-primary-400 outline-primary-900  transition-all  border-2  cursor-pointer rounded-md"
-                      style={{ backgroundColor: currentColor }}
+                      style={{ backgroundColor: currentBrushColor }}
                     ></div>
                   </PopoverTrigger>
                   <PopoverContent className="bg-black-500 rounded-lg">
                     <PopoverBody>
                       <HexColorPicker
                         className="w-full border-0"
-                        color={currentColor}
-                        onChange={updateColorViaColorPicker}
+                        color={currentBrushColor}
+                        onChange={updateColorUsingColorPicker}
                       />
                     </PopoverBody>
                   </PopoverContent>
@@ -650,8 +775,8 @@ const Index: NextPage = () => {
                   <HexColorInput
                     placeholder={'FFAEC9'}
                     className="w-full bg-black-500 text-white hover:bg-[#424242] placeholder-primary-800  px-7 py-1 rounded-lg transition-all"
-                    color={currentColor}
-                    onChange={updateColorViaColorPicker}
+                    color={currentBrushColor}
+                    onChange={updateColorUsingColorPicker}
                   />
                 </div>
               </div>
@@ -671,6 +796,7 @@ const Index: NextPage = () => {
           </section>
         </div>
       </div>
+      <ReactTooltip type="light" effect="solid" />
     </>
   );
 };

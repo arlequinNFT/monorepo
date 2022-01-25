@@ -15,18 +15,19 @@ interface State {
   arlees: Arlee[];
   cid: string;
   currentArlee: Arlee;
+  currentBrushColor: string;
+  currentBrushHardness: number;
+  currentBrushOpacity: number;
+  currentBrushSize: number;
   currentBrushType: BrushType;
-  currentColor: string;
-  currentMode: Mode;
-  defaultHardness: number;
-  defaultOpacity: number;
-  defaultSize: number;
-  maxHardness: number;
-  maxOpacity: number;
-  maxSize: number;
-  minHardness: number;
-  minOpacity: number;
-  minSize: number;
+  currentPaintingMode: Mode;
+  maxBrushHardness: number;
+  maxBrushOpacity: number;
+  maxBrushSize: number;
+  minBrushHardness: number;
+  minBrushOpacity: number;
+  minBrushSize: number;
+  sceneLoaded: boolean;
   showLoadingScreen: boolean;
   swatches: string[];
 }
@@ -38,18 +39,19 @@ const initialState: State = {
     image: '',
     species: '',
   },
+  currentBrushColor: '#4dd17a',
+  currentBrushHardness: 5,
+  currentBrushOpacity: 50,
+  currentBrushSize: 25,
   currentBrushType: BrushType.Round,
-  currentColor: '#4dd17a',
-  currentMode: 'brush',
-  defaultHardness: 5,
-  defaultOpacity: 50,
-  defaultSize: 25,
-  maxHardness: 10,
-  maxOpacity: 100,
-  maxSize: 100,
-  minHardness: 2,
-  minOpacity: 10,
-  minSize: 1,
+  currentPaintingMode: 'brush',
+  maxBrushHardness: 10,
+  maxBrushOpacity: 100,
+  maxBrushSize: 100,
+  minBrushHardness: 2,
+  minBrushOpacity: 10,
+  minBrushSize: 1,
+  sceneLoaded: false,
   showLoadingScreen: true,
   swatches: [],
 };
@@ -63,39 +65,91 @@ export const painterSlice = createSlice({
         state.swatches.push(action.payload);
       }
     },
+    decreaseBrushOpacity: (state) => {
+      if (state.currentBrushOpacity > state.minBrushOpacity) {
+        state.currentBrushOpacity -= 2;
+      }
+    },
+    decreaseBrushHardness: (state) => {
+      if (state.currentBrushHardness > state.minBrushHardness) {
+        state.currentBrushHardness -= 2;
+      }
+    },
+    decreaseBrushSize: (state) => {
+      if (state.currentBrushSize > state.minBrushSize) {
+        state.currentBrushSize -= 2;
+      }
+    },
+    increaseBrushOpacity: (state) => {
+      if (state.currentBrushOpacity < state.maxBrushOpacity) {
+        state.currentBrushOpacity += 2;
+      }
+    },
+    increaseBrushHardness: (state) => {
+      if (state.currentBrushHardness < state.maxBrushHardness) {
+        state.currentBrushHardness += 2;
+      }
+    },
+    increaseBrushSize: (state) => {
+      if (state.currentBrushSize < state.maxBrushSize) {
+        state.currentBrushSize += 2;
+      }
+    },
     hideLoadingScreen: (state) => {
       state.showLoadingScreen = false;
+    },
+    setArlees: (state, action: PayloadAction<Arlee[]>) => {
+      state.arlees = action.payload;
     },
     setCid: (state, action: PayloadAction<string>) => {
       state.cid = action.payload;
     },
-    setCurrentcolor: (state, action: PayloadAction<string>) => {
-      state.currentColor = action.payload;
-    },
     setCurrentArlee: (state, action: PayloadAction<Arlee>) => {
       state.currentArlee = action.payload;
     },
-    setCurrentMode: (state, action: PayloadAction<Mode>) => {
-      state.currentMode = action.payload;
+    setCurrentBrushColor: (state, action: PayloadAction<string>) => {
+      state.currentBrushColor = action.payload;
+    },
+    setCurrentPaintingMode: (state, action: PayloadAction<Mode>) => {
+      state.currentPaintingMode = action.payload;
     },
     setCurrentBrushType: (state, action: PayloadAction<BrushType>) => {
       state.currentBrushType = action.payload;
     },
-    setArlees: (state, action: PayloadAction<Arlee[]>) => {
-      state.arlees = action.payload;
+    setCurrentBrushSize: (state, action: PayloadAction<number>) => {
+      state.currentBrushSize = action.payload;
+    },
+    setCurrentBrushOpacity: (state, action: PayloadAction<number>) => {
+      state.currentBrushOpacity = action.payload;
+    },
+    setCurrentBrushHardness: (state, action: PayloadAction<number>) => {
+      state.currentBrushHardness = action.payload;
+    },
+    setSceneLoaded: (state) => {
+      state.sceneLoaded = true;
     },
   },
 });
 
 export const {
   addColorToSwatches,
+  decreaseBrushOpacity,
+  decreaseBrushHardness,
+  decreaseBrushSize,
   hideLoadingScreen,
-  setCid,
-  setCurrentcolor,
-  setCurrentBrushType,
+  increaseBrushOpacity,
+  increaseBrushHardness,
+  increaseBrushSize,
   setArlees,
+  setCid,
   setCurrentArlee,
-  setCurrentMode,
+  setCurrentBrushType,
+  setCurrentBrushColor,
+  setCurrentPaintingMode,
+  setCurrentBrushSize,
+  setCurrentBrushOpacity,
+  setCurrentBrushHardness,
+  setSceneLoaded
 } = painterSlice.actions;
 
 export default painterSlice.reducer;

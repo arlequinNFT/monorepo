@@ -19,7 +19,7 @@ const Team = () => {
       <p className="mb-6 p-6 text-3xl text-center text-purple">
         We're a bunch of passionate folks (mostly from France 🥖) who've been
         working in tech and art fields for many years. Our mission is to create
-        a fun game anyone can join for free and still earn NFTs!
+        a fun game anyone can join for free and still earn NFTs and FUSD!
       </p>
       <div className="flex flex-col lg:flex-row">
         <div className="flex flex-col items-center mb-6 lg:mb-0">

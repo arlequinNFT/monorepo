@@ -8,7 +8,6 @@ import styles from './components-input.module.scss';
 interface ComponentsInputProps {
   className?: string;
   controls?: RegisterOptions;
-  defaultValue?: string | number;
   disabled?: boolean;
   errorMessage?: string | undefined;
   id: string;
@@ -23,12 +22,12 @@ interface ComponentsInputProps {
   placeholder?: string;
   size?: 'md' | 'lg' | 'xl';
   type: 'email' | 'text' | 'tel' | 'number' | 'password' | 'range';
+  value?: string | number | readonly string[] | undefined;
 }
 
 export const ComponentsInput = ({
   className,
   controls,
-  defaultValue,
   disabled = false,
   id,
   label,
@@ -42,6 +41,7 @@ export const ComponentsInput = ({
   placeholder,
   size = 'md',
   type,
+  value = undefined,
 }: ComponentsInputProps) => {
   const formMethods = useFormContext();
 
@@ -95,12 +95,12 @@ export const ComponentsInput = ({
             ${disabled ? 'cursor-not-allowed' : ''}
             ${leftElement ? 'px-7' : ''}
           `}
-          defaultValue={defaultValue}
           disabled={disabled || loading}
           id={id}
           max={max}
           min={min}
           name={id}
+          value={value}
           onChange={(e) => changed(e.target.value)}
           placeholder={placeholder}
           type={type}
