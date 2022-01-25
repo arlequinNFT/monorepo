@@ -20,6 +20,10 @@ const ArleesList = ({ loadArlee }: Props) => {
     if (arlees.length === 0) {
       const list: any[] = [
         {
+          image: '',
+          species: 'dog',
+        },
+        {
           image: '/images/cacatoes.png',
           species: 'cacatoes',
         },
