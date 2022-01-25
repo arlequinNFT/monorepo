@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../store/hook';
 import { setCurrentPose } from '../../store/reducers/painter.reducer';
-import styles from './arlees-list.module.scss';
+import styles from './poses-list.module.scss';
 
 interface Props {
   setPose: (pose: string) => void;
@@ -16,35 +16,6 @@ const PosesList = ({ setPose }: Props) => {
   const currentPose = useAppSelector((state) => state.painter.currentPose);
   //#endregion
 
-  useEffect(() => {
-    if (arlees.length === 0) {
-      const list: any[] = [
-        {
-          image: '/images/cacatoes.png',
-          species: 'cacatoes',
-        },
-        {
-          image: '/images/pig.png',
-          species: 'pig',
-        },
-        {
-          image: '/images/turtle.png',
-          species: 'turtle',
-        },
-        {
-          image: '/images/deer.png',
-          species: 'deer',
-        },
-        {
-          image: '/images/elephant.png',
-          species: 'elephant',
-        },
-      ];
-      dispatch(setArlees(list));
-      dispatch(setCurrentArlee(list[0]));
-    }
-  }, [dispatch, arlees.length]);
-
   return (
     <div
       id={styles['poses-list']}
@@ -55,7 +26,7 @@ const PosesList = ({ setPose }: Props) => {
           <img
             key={key}
             className={`h-52 w-full object-contain rounded-2xl flex justify-center items-center rounded-2xl cursor-pointer border border-8 bg-slate-200 ${
-              currentPose?.label === arlee.label ? 'border-black-300' : ''
+              currentPose?.label === pose.label ? 'border-black-300' : ''
             }`}
             src={pose.image}
             alt={pose.label}

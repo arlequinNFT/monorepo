@@ -27,6 +27,9 @@ const Footer = () => {
           <p className="text-white text-xl">
             Copyright © {new Date().getFullYear()} arlequin.gg
           </p>
+          <p className="text-white text-xl">
+            contact@arlequin.gg
+          </p>
         </div>
 
         <div className="flex gap-x-4">

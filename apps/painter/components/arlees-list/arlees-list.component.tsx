@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../store/hook';
-import { setArlees, setCurrentArlee, setPoses } from '../../store/reducers/painter.reducer';
+import { setArlees, setCurrentArlee } from '../../store/reducers/painter.reducer';
 import styles from './arlees-list.module.scss';
 
 interface Props {

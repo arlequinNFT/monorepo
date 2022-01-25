@@ -1,6 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export type Mode = 'brush' | 'bucket' | 'eraser' | 'picker';
+export type PaintingMode = 'brush' | 'bucket' | 'eraser' | 'picker';
+export type ArleesMode = 'species' | 'poses';
+export type PoseLabels = 'idle' | 'run' | 'fall' | 'stretch' | 'look' | 'walk' | 'jump' | 'hello';
+
 export enum BrushType {
   Round = 'Round',
   Square = 'Square',
@@ -11,22 +14,30 @@ export interface Arlee {
   image: string;
 }
 
+export interface Pose {
+  label: PoseLabels;
+  image: string;
+}
+
 interface State {
   arlees: Arlee[];
   cid: string;
   currentArlee: Arlee;
+  currentArleesMode: ArleesMode;
   currentBrushColor: string;
   currentBrushHardness: number;
   currentBrushOpacity: number;
   currentBrushSize: number;
   currentBrushType: BrushType;
-  currentPaintingMode: Mode;
+  currentPaintingMode: PaintingMode;
+  currentPose: Pose;
   maxBrushHardness: number;
   maxBrushOpacity: number;
   maxBrushSize: number;
   minBrushHardness: number;
   minBrushOpacity: number;
   minBrushSize: number;
+  poses: Pose[];
   sceneLoaded: boolean;
   showLoadingScreen: boolean;
   swatches: string[];
@@ -39,18 +50,53 @@ const initialState: State = {
     image: '',
     species: '',
   },
+  currentArleesMode: 'species',
   currentBrushColor: '#4dd17a',
   currentBrushHardness: 5,
   currentBrushOpacity: 50,
   currentBrushSize: 25,
   currentBrushType: BrushType.Round,
   currentPaintingMode: 'brush',
+  currentPose: {
+    label: 'hello',
+    image: '',
+  },
   maxBrushHardness: 10,
   maxBrushOpacity: 100,
   maxBrushSize: 100,
   minBrushHardness: 2,
   minBrushOpacity: 10,
   minBrushSize: 1,
+  poses: [
+    {
+      label: 'hello',
+      image: '',
+    },
+    {
+      label: 'run',
+      image: '',
+    },
+    {
+      label: 'fall',
+      image: '',
+    },
+    {
+      label: 'stretch',
+      image: '',
+    },
+    {
+      label: 'look',
+      image: '',
+    },
+    {
+      label: 'walk',
+      image: '',
+    },
+    {
+      label: 'jump',
+      image: '',
+    },
+  ],
   sceneLoaded: false,
   showLoadingScreen: true,
   swatches: [],
@@ -101,16 +147,25 @@ export const painterSlice = createSlice({
     setArlees: (state, action: PayloadAction<Arlee[]>) => {
       state.arlees = action.payload;
     },
+    setPoses: (state, action: PayloadAction<string>) => {
+      // state.poses = state.poses.map(pose => ({...pose, }));
+    },
     setCid: (state, action: PayloadAction<string>) => {
       state.cid = action.payload;
     },
     setCurrentArlee: (state, action: PayloadAction<Arlee>) => {
       state.currentArlee = action.payload;
     },
+    setCurrentArleesMode: (state, action: PayloadAction<ArleesMode>) => {
+      state.currentArleesMode = action.payload;
+    },
+    setCurrentPose: (state, action: PayloadAction<Pose>) => {
+      state.currentPose = action.payload;
+    },
     setCurrentBrushColor: (state, action: PayloadAction<string>) => {
       state.currentBrushColor = action.payload;
     },
-    setCurrentPaintingMode: (state, action: PayloadAction<Mode>) => {
+    setCurrentPaintingMode: (state, action: PayloadAction<PaintingMode>) => {
       state.currentPaintingMode = action.payload;
     },
     setCurrentBrushType: (state, action: PayloadAction<BrushType>) => {
@@ -130,25 +185,26 @@ export const painterSlice = createSlice({
     },
   },
 });
-
 export const {
   addColorToSwatches,
-  decreaseBrushOpacity,
   decreaseBrushHardness,
+  decreaseBrushOpacity,
   decreaseBrushSize,
   hideLoadingScreen,
-  increaseBrushOpacity,
   increaseBrushHardness,
+  increaseBrushOpacity,
   increaseBrushSize,
   setArlees,
   setCid,
   setCurrentArlee,
-  setCurrentBrushType,
+  setCurrentArleesMode,
   setCurrentBrushColor,
-  setCurrentPaintingMode,
-  setCurrentBrushSize,
-  setCurrentBrushOpacity,
   setCurrentBrushHardness,
+  setCurrentBrushOpacity,
+  setCurrentBrushSize,
+  setCurrentBrushType,
+  setCurrentPaintingMode,
+  setCurrentPose,
   setSceneLoaded
 } = painterSlice.actions;
 

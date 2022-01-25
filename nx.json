@@ -36,6 +36,20 @@
     "components-input": {
       "tags": []
     },
+    "drop": {
+      "tags": []
+    },
+    "drop-e2e": {
+      "tags": [],
+      "implicitDependencies": ["drop"]
+    },
+    "marketplace": {
+      "tags": []
+    },
+    "marketplace-e2e": {
+      "tags": [],
+      "implicitDependencies": ["marketplace"]
+    },
     "painter": {
       "tags": []
     },

@@ -13,12 +13,13 @@ import { ComponentsInput } from '@arlequin/components/input';
 import { Popover, PopoverBody, PopoverContent, PopoverTrigger } from '@chakra-ui/popover';
 
 import ArleesList from '../components/arlees-list/arlees-list.component';
+import PosesList from '../components/poses-list/poses-list.component';
 import { useAppDispatch, useAppSelector } from '../store/hook';
 import {
     addColorToSwatches, BrushType, decreaseBrushHardness, decreaseBrushOpacity, decreaseBrushSize,
-    hideLoadingScreen, increaseBrushHardness, increaseBrushOpacity, increaseBrushSize,
-    setCurrentBrushColor, setCurrentBrushHardness, setCurrentBrushOpacity, setCurrentBrushSize,
-    setCurrentBrushType, setCurrentPaintingMode, setSceneLoaded
+    hideLoadingScreen, increaseBrushHardness, increaseBrushOpacity, increaseBrushSize, PoseLabels,
+    setCurrentArleesMode, setCurrentBrushColor, setCurrentBrushHardness, setCurrentBrushOpacity,
+    setCurrentBrushSize, setCurrentBrushType, setCurrentPaintingMode, setSceneLoaded
 } from '../store/reducers/painter.reducer';
 import styles from './index.module.scss';
 
@@ -28,6 +29,7 @@ const Index: NextPage = () => {
   const dispatch = useAppDispatch();
 
   const currentArlee = useAppSelector((state) => state.painter.currentArlee);
+  const currentArleesMode = useAppSelector((state) => state.painter.currentArleesMode);
   const currentBrushType = useAppSelector(
     (state) => state.painter.currentBrushType
   );
@@ -86,9 +88,11 @@ const Index: NextPage = () => {
   const updateAngle = useDebouncedCallback((value: number) => {
     unityContext?.send('HudManager', 'UpdateAngle', value);
   }, 100);
-  const loadArlee = (species: string) =>
+  const loadArlee = (species: string) => {
     unityContext?.send('HudManager', 'LoadMetaPet', species);
-  const setPose = (pose: string) =>
+    // dispatch(setPoses(species));
+  }
+  const setPose = (pose: PoseLabels) =>
     unityContext?.send('HudManager', 'SetPose', pose);
   const redo = () => unityContext?.send('HudManager', 'Redo');
   const setBrushType = (brushType: BrushType) => {
@@ -123,9 +127,9 @@ const Index: NextPage = () => {
   useEffect(() => {
     const unityContext = new UnityContext({
       loaderUrl: 'builds/painter/painter.loader.js',
-      dataUrl: 'builds/painter/painter.data.unityweb',
-      frameworkUrl: 'builds/painter/painter.framework.js.unityweb',
-      codeUrl: 'builds/painter/painter.wasm.unityweb',
+      dataUrl: 'builds/painter/painter.data',
+      frameworkUrl: 'builds/painter/painter.framework.js',
+      codeUrl: 'builds/painter/painter.wasm',
     });
     if (unityContext) {
       setUnityContext(unityContext);
@@ -250,6 +254,15 @@ const Index: NextPage = () => {
     if (e?.altKey) {
       dispatch(increaseBrushHardness());
     }
+
+    const enableZoom = !e?.ctrlKey && !e?.shiftKey && !e?.altKey;
+
+    if (enableZoom) {
+      unityContext?.send('HudManager', 'EnableZoom');
+    } else {
+      unityContext?.send('HudManager', 'DisableZoom');
+    }
+
   };
 
   const handleScrollWheelDown = (e: WheelEvent) => {
@@ -264,7 +277,13 @@ const Index: NextPage = () => {
 
     if (e?.altKey) {
       dispatch(decreaseBrushHardness());
+    }
 
+    const enableZoom = !e?.ctrlKey && !e?.shiftKey && !e?.altKey;
+    if (enableZoom) {
+      unityContext?.send('HudManager', 'EnableZoom');
+    } else {
+      unityContext?.send('HudManager', 'DisableZoom');
     }
   };
 
@@ -291,46 +310,28 @@ const Index: NextPage = () => {
               <a className="text-rainbow font-extrabold text-3xl">Arlequin</a>
             </Link>
           </div>
-          {/* <button className="text-white" onClick={(e) => setPose('tpose')}>
-            tpose
-          </button>
-          <button className="text-white" onClick={(e) => setPose('hello')}>
-            hello
-          </button>
-          <button className="text-white" onClick={(e) => setPose('narutorun')}>
-            narutorun
-          </button>
-          <button className="text-white" onClick={(e) => setPose('run')}>
-            run
-          </button>
-          <button className="text-white" onClick={(e) => setPose('walk')}>
-            walk
-          </button>
-          <button className="text-white" onClick={(e) => setPose('stretch')}>
-            stretch
-          </button> */}
           <div className="flex flex-col flex-1 px-4">
             <p className="text-black-200">Arlees</p>
             <ul className="grid grid-cols-2 w-full mb-2 bg-black-600 rounded-xl">
               <li
                 className={`${
-                  currentPaintingMode === 'brush'
+                  currentArleesMode === 'species'
                     ? 'bg-black-500 shadow-md'
                     : "'"
                 } col-span-1 flex flex-col items-center py-1 rounded-lg cursor-pointer`}
-                onClick={(e) => toggleBrushMode()}
+                onClick={(e) => dispatch(setCurrentArleesMode('species'))}
               >
-                <img
+                {/* <img
                   src={`/icons/brush_${
-                    currentPaintingMode === 'brush' ? 'active' : 'inactive'
+                    currentArleesMode === 'brush' ? 'active' : 'inactive'
                   }.svg`}
                   alt="Brush icon"
                   width="36px"
                   height="36px"
-                />
+                /> */}
                 <p
                   className={`${
-                    currentPaintingMode === 'brush'
+                    currentArleesMode === 'species'
                       ? 'text-white'
                       : 'text-black-200'
                   }`}
@@ -341,23 +342,21 @@ const Index: NextPage = () => {
 
               <li
                 className={`${
-                  currentPaintingMode === 'bucket'
-                    ? 'bg-black-500 shadow-md'
-                    : "'"
+                  currentArleesMode === 'poses' ? 'bg-black-500 shadow-md' : "'"
                 } col-span-1 flex flex-col items-center py-1 rounded-lg  cursor-pointer`}
-                onClick={(e) => toggleBucketMode()}
+                onClick={(e) => dispatch(setCurrentArleesMode('poses'))}
               >
-                <img
+                {/* <img
                   src={`/icons/bucket_${
-                    currentPaintingMode === 'bucket' ? 'active' : 'inactive'
+                    currentArleesMode === 'bucket' ? 'active' : 'inactive'
                   }.svg`}
                   alt="Bucket icon"
                   width="36px"
                   height="36px"
-                />
+                /> */}
                 <p
                   className={`${
-                    currentPaintingMode === 'bucket'
+                    currentArleesMode === 'poses'
                       ? 'text-white'
                       : 'text-black-200'
                   }`}
@@ -367,8 +366,12 @@ const Index: NextPage = () => {
               </li>
             </ul>
             <div className="w-full relative overflow-hidden flex-1">
-              <ArleesList loadArlee={loadArlee}></ArleesList>
-              {/* <PosesList setPose={setPose}></PosesList> */}
+              {currentArleesMode === 'species' && (
+                <ArleesList loadArlee={loadArlee}></ArleesList>
+              )}
+              {currentArleesMode === 'poses' && (
+                <PosesList setPose={setPose}></PosesList>
+              )}
             </div>
           </div>
 
