@@ -60,7 +60,7 @@ const Team = () => {
             className="rounded-2xl lg:rounded-none"
             width="100%"
             height="100%"
-            src="/images/lara.webp"
+            src="/images/hibou.webp"
             alt="hibou"
           />
           <p className="font-bold text-red text-xl mt-1">Hibou Barbu</p>
