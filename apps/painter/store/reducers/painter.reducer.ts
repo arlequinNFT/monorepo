@@ -49,7 +49,7 @@ interface State {
 }
 
 const initialState: State = {
-  arlees: ['dog', 'cacatoes', 'elephant',  'pig', 'deer', 'turtle'],
+  arlees: ['cacatoes', 'elephant',  'pig', 'deer', 'turtle'],
   cid: '',
   currentArlee: 'cacatoes',
   currentArleesMode: 'species',
