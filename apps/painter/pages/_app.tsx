@@ -14,10 +14,10 @@ function App({ Component, pageProps }: AppProps) {
         <title>Arlequin Painter</title>
       </Head>
       <Provider store={store}>
-        {/* <BrowserView>
+        <BrowserView>
           <Component {...pageProps} />
         </BrowserView>
-        <MobileView> */}
+        <MobileView>
         <div className="bg-primary h-screen grid-rows-[auto 1fr]">
           <header>
             <div className="w-full p-4 ">
@@ -38,7 +38,7 @@ function App({ Component, pageProps }: AppProps) {
             </p>
           </main>
         </div>
-        {/* </MobileView> */}
+        </MobileView>
       </Provider>
     </>
   );
