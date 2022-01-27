@@ -5,6 +5,7 @@ module.exports = {
       backgroundImage: {
         clouds: "url('/images/bg_clouds.jpg')",
         bubbles: "url('/images/bg_bubbles.jpg')",
+        team: "url('/images/bg_team.jpg')",
       },
     },
   },

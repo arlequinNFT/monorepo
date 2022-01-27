@@ -244,7 +244,7 @@ const WhatIsArlequin = () => {
           </p>
 
           <p className="font-bold text-3xl my-4 text-red uppercase">
-            Arlequin is engaged in Animal care
+            Arlequin is engaged in Animal welfare
           </p>
           <p className="text-2xl">
             Each time an Arlee is bought from the Pool, 5% of the revenue goes
@@ -262,8 +262,8 @@ const WhatIsArlequin = () => {
           <img
             width="100%"
             height="100%"
-            src="/images/arlees.webp"
-            alt="Vote to earn"
+            src="/images/animal_care.webp"
+            alt="animal_welfare"
           />
         </div>
       </div>

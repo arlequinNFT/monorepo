@@ -299,9 +299,14 @@ const Index: NextPage = () => {
       <div className={styles['layout']}>
         <div className="flex flex-col bg-black-700">
           <div className="w-full p-4 text-center">
-            <Link href="/">
-              <a className="text-rainbow font-extrabold text-3xl">Arlequin</a>
-            </Link>
+            <a
+              href="http://arlequin.gg/"
+              target='_blank'
+              rel='noreferrer'
+              className="text-rainbow font-extrabold text-3xl"
+            >
+              Arlequin
+            </a>
           </div>
           <div className="flex flex-col flex-1 px-4">
             <p className="text-black-200">Arlees</p>

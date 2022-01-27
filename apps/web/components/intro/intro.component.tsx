@@ -65,7 +65,11 @@ const Intro = () => {
             />
           </div>
 
-          <ComponentsButton rounded color="secondary">
+          <ComponentsButton
+            rounded
+            color="secondary"
+            link="https://painter.arlequin.gg/"
+          >
             TRY THE PAINTER
           </ComponentsButton>
         </div>

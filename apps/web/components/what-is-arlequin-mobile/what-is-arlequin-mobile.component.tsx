@@ -100,7 +100,7 @@ const WhatIsArlequinMobile = () => {
         <img
           width="100%"
           height="100%"
-          src="/images/arlees.webp"
+          src="/images/animal_care.webp"
           alt="Play for purpose"
         />
         <p className="font-extrabold text-5xl lg:text-6xl text-primary uppercase">
@@ -108,7 +108,7 @@ const WhatIsArlequinMobile = () => {
         </p>
 
         <p className="font-bold text-3xl my-4 text-red uppercase">
-          Arlequin is engaged in Animal care
+          Arlequin is engaged in Animal welfare
         </p>
         <p className="text-2xl">
           Each time an Arlee is bought from the Pool, 5% of the revenue goes to
