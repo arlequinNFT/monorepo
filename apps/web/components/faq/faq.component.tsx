@@ -125,9 +125,9 @@ const Faq = () => {
           </h2>
           <AccordionPanel className="max-w-5xl text-center text-2xl mb-4">
             <p>
-              At the moment, Nimo is an off-chain asset and is not intended to
+              At the moment, Nimo is an in-game asset and is not intended to
               be a fungible token. As we don't want to offer unfair gameplay to
-              the community, we decided to kept Nimo as an internal asset.
+              the community, we decided to kept Nimo as in-game currency and focus the economy around NFTs.
             </p>
             <p>
               Nimo are spend in the shop or by leveling up your Arlees. Each

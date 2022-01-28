@@ -88,7 +88,7 @@ const WhatIsArlequinMobile = () => {
         </p>
 
         <p className="font-bold text-3xl my-4 text-red uppercase">
-          the official Arlequin currency
+          the official Arlequin in-game currency
         </p>
         <p className="text-2xl">
           Buy cosmetics items, poses for your Arlees, backgrounds, level up your
