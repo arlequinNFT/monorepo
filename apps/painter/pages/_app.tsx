@@ -14,7 +14,7 @@ function App({ Component, pageProps }: AppProps) {
         <title>Arlequin Painter</title>
       </Head>
       <Provider store={store}>
-        <BrowserView>
+        <BrowserView className='h-full'>
           <Component {...pageProps} />
         </BrowserView>
         <MobileView>
