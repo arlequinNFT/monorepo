@@ -126,7 +126,7 @@ const Roadmap = () => {
               <ul className="list-[circle] text-white text-2xl px-8">
                 <li>First ever Paint To Earn system in the world</li>
                 <li>Participate for free in our weekly painting contests</li>
-                <li>Climb the leaderboard, win NFTs and FUSD</li>
+                <li>Climb the leaderboard, win NFTs and USDC</li>
                 <li>Vote for your preferred entries and earn Nimo</li>
               </ul>
 
@@ -148,7 +148,7 @@ const Roadmap = () => {
               <ul className="list-[circle] text-white text-2xl px-8">
                 <li>A pool full of Arlees from previous painting contests</li>
                 <li>
-                  Buy a random Arlee from the pool at a fixed price in FUSD
+                  Buy a random Arlee from the pool at a fixed price in USDC
                 </li>
                 <li>Original Artist gets 80% of the revenue</li>
                 <li>

@@ -31,7 +31,7 @@ const Faq = () => {
               <Thead>
                 <Tr className="border-b">
                   <Th>Ranking</Th>
-                  <Th>FUSD</Th>
+                  <Th>USDC</Th>
                   <Th>
                     Submission minted and <br /> send to collection
                   </Th>
@@ -107,7 +107,7 @@ const Faq = () => {
             <p>
               When a painting contest finishes, the top 30% submissions (except
               the top 3) are send to the pool. <br />
-              Anyone can buy (at a fixed price in FUSD) an Arlee from that pool
+              Anyone can buy (at a fixed price in USDC) an Arlee from that pool
               in a random way: the buyer does not know what look, species or
               ranking the Arlee will be. <br />
               80% of the revenue are send to the Original Artist. It means that

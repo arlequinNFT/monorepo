@@ -150,7 +150,7 @@ const WhatIsArlequin = () => {
           </p>
           <p className="text-2xl">
             Participate to our painting contests, climb the leaderboard, win
-            NFTs and FUSD! <br />
+            NFTs and USDC! <br />
           </p>
         </div>
       </div>
