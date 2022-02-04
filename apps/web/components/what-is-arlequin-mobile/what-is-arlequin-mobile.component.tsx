@@ -56,7 +56,7 @@ const WhatIsArlequinMobile = () => {
         </p>
         <p className="text-2xl">
           Participate to our painting contests, climb the leaderboard, win NFTs
-          and FUSD! <br />
+          and USDC! <br />
         </p>
       </div>
 
