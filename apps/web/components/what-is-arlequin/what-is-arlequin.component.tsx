@@ -219,7 +219,7 @@ const WhatIsArlequin = () => {
           <p className="font-extrabold text-6xl text-primary uppercase">Nimo</p>
 
           <p className="font-bold text-3xl my-4 text-red uppercase">
-            the official Arlequin  in-game currency
+            the official Arlequin in-game currency
           </p>
           <p className="text-2xl">
             Buy cosmetics items, poses for your Arlees, backgrounds, level up
@@ -244,7 +244,7 @@ const WhatIsArlequin = () => {
           </p>
 
           <p className="font-bold text-3xl my-4 text-red uppercase">
-            Arlequin is engaged in Animal welfare
+            Arlequin is involved in Animal welfare
           </p>
           <p className="text-2xl">
             Each time an Arlee is bought from the Pool, 5% of the revenue goes
