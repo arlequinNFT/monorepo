@@ -25,14 +25,14 @@ const Header = () => {
             Arlequin
           </a>
         </Link>
-        {/* <ul className="order-2 md:order-2 flex flex-1 justify-end items-center gap-x-6 px-12">
-          <li className="text-white text-2xl hover:underline cursor-pointer font-bold">
-            Painter
+        <ul className="order-2 md:order-2 flex flex-1 justify-end items-center gap-x-6 px-12">
+          <li className="text-white text-xl hover:underline cursor-pointer font-bold">
+            <Link href="/animal-welfare">Animal Welfare</Link>
           </li>
-          <li className="text-white text-2xl hover:underline cursor-pointer font-bold">
-            Litepaper
-          </li>
-        </ul> */}
+          {/* <li className="text-white text-2xl hover:underline cursor-pointer font-bold">
+            Whitepaper
+          </li> */}
+        </ul>
         <ul className="order-1 md:order-3 flex items-center gap-x-2 md:ml-auto">
           <li>
             <a
