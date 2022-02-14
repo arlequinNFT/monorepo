@@ -3,6 +3,7 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+  font-family: 'OktaNeue';
     animation: rainbow-slide 8s linear infinite;
     background-size: 300% 100%;
     background-image: linear-gradient(
@@ -28,6 +29,7 @@
     }
   }
 }
+
 
 @font-face {
   font-family: 'OktaNeue';
@@ -65,6 +67,37 @@
   font-display: swap;
 }
 
+
+
+@font-face {
+  font-family: 'Comfortaa';
+  src: url('/fonts/Comfortaa/Comfortaa-Light.ttf');
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Comfortaa';
+  src: url('/fonts/Comfortaa/Comfortaa-Regular.ttf');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Comfortaa';
+  src: url('/fonts/Comfortaa/Comfortaa-Medium.ttf');
+  font-style: medium;
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Comfortaa';
+  src: url('/fonts/Comfortaa/Comfortaa-Bold.ttf');
+  font-style: bold;
+  font-weight: 800;
+  font-display: swap;
+}
+
 * {
-  font-family: 'OktaNeue';
+  font-family: 'Comfortaa';
 }

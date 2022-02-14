@@ -1,21 +1,23 @@
 import React from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../store/hook';
-import { setCurrentPose } from '../../store/reducers/painter.reducer';
+import { Pose, setCurrentPose } from '../../store/reducers/painter.reducer';
 import styles from './poses-list.module.scss';
 
-interface Props {
-  setPose: (pose: string) => void;
-}
-
-const PosesList = ({ setPose }: Props) => {
-  //#region Selectors
+const PosesList = () => {
   const dispatch = useAppDispatch();
+  //#region Selectors
+    const unityContext = useAppSelector((state) => state.painter.unityContext);
+
 
   const poses = useAppSelector((state) => state.painter.poses);
   const currentArlee = useAppSelector((state) => state.painter.currentArlee);
   const currentPose = useAppSelector((state) => state.painter.currentPose);
   //#endregion
+
+  const setPose = (pose: Pose) =>
+    unityContext?.send('HudManager', 'SetPose', pose);
+
 
   return (
     <div

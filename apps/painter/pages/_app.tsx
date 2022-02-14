@@ -34,7 +34,7 @@ function App({ Component, pageProps }: AppProps) {
 
           <main className="flex items-center justify-center">
             <p className="text-white text-3xl">
-              Exprience not yet available on mobile
+              Experience not yet available on mobile
             </p>
           </main>
         </div>

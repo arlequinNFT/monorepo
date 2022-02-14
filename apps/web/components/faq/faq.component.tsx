@@ -27,7 +27,11 @@ const Faq = () => {
             </AccordionButton>
           </h2>
           <AccordionPanel className="max-w-5xl text-center text-2xl mb-4">
-            <Table className="w-full border bg-white">
+            <p>
+              Top 5 are rewarded with USDC and Top 3 get their entries minted as
+              NFTs and send to their collection.
+            </p>
+            {/* <Table className="w-full border bg-white">
               <Thead>
                 <Tr className="border-b">
                   <Th>Ranking</Th>
@@ -40,42 +44,31 @@ const Faq = () => {
               <Tbody>
                 <Tr className="border-b">
                   <Td>Winner</Td>
-                  <Td>$150</Td>
+                  <Td>$$$$$</Td>
                   <Td>Yes</Td>
                 </Tr>
                 <Tr className="border-b">
                   <Td>2nd</Td>
-                  <Td>$110</Td>
+                  <Td>$$$$</Td>
                   <Td>Yes</Td>
                 </Tr>
                 <Tr className="border-b">
                   <Td>3rd</Td>
-                  <Td>$70</Td>
+                  <Td>$$$</Td>
                   <Td>Yes</Td>
                 </Tr>
                 <Tr className="border-b">
                   <Td>4th</Td>
-                  <Td>$40</Td>
+                  <Td>$$</Td>
                   <Td>No</Td>
                 </Tr>
                 <Tr className="border-b">
                   <Td>5th</Td>
-                  <Td>$20</Td>
+                  <Td>$</Td>
                   <Td>No</Td>
                 </Tr>
               </Tbody>
-            </Table>
-
-            {/* <ul>
-              <ol>
-                Winner: $150 + her or his submissions minted as NFTs and send to
-                her or his collection
-              </ol>
-              <ol>2nd: $110</ol>
-              <ol>3rd: $70</ol>
-              <ol>4th: $40</ol>
-              <ol>5th: $20</ol>
-            </ul> */}
+            </Table> */}
           </AccordionPanel>
         </AccordionItem>
 
@@ -89,10 +82,14 @@ const Faq = () => {
           </h2>
           <AccordionPanel className="max-w-5xl text-center text-2xl mb-4">
             <p>
-              Owning Arlees grants you of Voting Points. <br /> You can
-              distribute them to your preferred entries in a secured and fair
-              way. <br />
-              Each vote distributed grants you some Nimo.
+              In order to vote, you have to own at least one Arlee. They also
+              act as utility NFTs.
+              <br />
+              Each Arlee gives you a number of votes to distribute among your
+              preferred entries in a secured and fair way.
+              <br />
+              At the end of each contest, you get credited with $NIMO depending
+              on how many votes you distributed
             </p>
           </AccordionPanel>
         </AccordionItem>
@@ -120,19 +117,15 @@ const Faq = () => {
         <AccordionItem>
           <h2>
             <AccordionButton className="justify-center">
-              <p className="text-4xl my-2">Is Nimo a fungible token?</p>
+              <p className="text-4xl my-2">What can I do with $NIMO?</p>
             </AccordionButton>
           </h2>
           <AccordionPanel className="max-w-5xl text-center text-2xl mb-4">
             <p>
-              At the moment, Nimo is an in-game asset and is not intended to
-              be a fungible token. As we don't want to offer unfair gameplay to
-              the community, we decided to kept Nimo as in-game currency and focus the economy around NFTs.
-            </p>
-            <p>
-              Nimo are spend in the shop or by leveling up your Arlees. Each
-              time an Arlee levels up, he gains more Voting Points and one new
-              Painting Slot.
+              You can buy in-game items such as Arlees accessories, emoji,
+              backgrounds... <br />
+              You can also level up your Arlees so they can hold more Voting
+              Points and have a new Painting Slot!
             </p>
           </AccordionPanel>
         </AccordionItem>
@@ -146,15 +139,9 @@ const Faq = () => {
             </AccordionButton>
           </h2>
           <AccordionPanel className="max-w-5xl text-center text-2xl mb-4">
-            <ul>
-              <li>Pig pack: 1 Pig + 1 cosmetic item + Nimo</li>
-              <li>Deer pack: 1 Deer + 2 cosmetic items + Nimo</li>
-              <li>Shiba Inu pack: 1 Shiba Inu + 3 cosmetic items + Nimo</li>
-            </ul>
-
-            <p className="mt-2">
-              The number of packs and the prices will be communicate few days
-              before the drop.
+            <p>
+              We will be selling packs containing Arlees and accessories. <br />
+              These Arlee species won't be accessible ever again in Arlequin except by trading with users in the marketplace
             </p>
           </AccordionPanel>
         </AccordionItem>

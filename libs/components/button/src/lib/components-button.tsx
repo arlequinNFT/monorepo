@@ -40,7 +40,7 @@ export const ComponentsButton = ({
       onClick={onClick}
       type={type}
     >
-      <span> {children}</span>
+      {children}
     </button>
   );
   if (link) {
