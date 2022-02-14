@@ -26,9 +26,9 @@ const Header = () => {
           </a>
         </Link>
         <ul className="order-2 md:order-2 flex flex-1 justify-end items-center gap-x-6 px-12">
-          <li className="text-white text-xl hover:underline cursor-pointer font-bold">
+          {/* <li className="text-white text-xl hover:underline cursor-pointer font-bold">
             <Link href="/animal-welfare">Animal Welfare</Link>
-          </li>
+          </li> */}
           {/* <li className="text-white text-2xl hover:underline cursor-pointer font-bold">
             Whitepaper
           </li> */}
