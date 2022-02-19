@@ -94,12 +94,14 @@ pub contract ArlequinNFT: NonFungibleToken {
         pub let artistAddress: Address
         pub let name: String
         pub let description: String
+        pub let isLocked: Bool
         
-        init(ipfsCID: String, artistAddress: Address, name: String, description: String) {
+        init(ipfsCID: String, artistAddress: Address, name: String, description: String, isLocked: Bool) {
             self.ipfsCID = ipfsCID
             self.artistAddress = artistAddress
             self.name = name
             self.description = description
+            self.isLocked = isLocked
         }
     }
 
@@ -187,7 +189,7 @@ pub contract ArlequinNFT: NonFungibleToken {
                 UInt64(self.wardrobe.length) < self.maxWardrobeSize : "Wardrobe is full!"
             }
             self.wardrobe.append(
-                Skin(ipfsCID: ipfsCID, artistAddress: self.owner?.address!, name: name, description: description)
+                Skin(ipfsCID: ipfsCID, artistAddress: self.owner?.address!, name: name, description: description, isLocked: false)
             )
         }
 
@@ -196,6 +198,9 @@ pub contract ArlequinNFT: NonFungibleToken {
         // Removes a skin from an Arlequin's wardrobe
         //
         pub fun removeFromWardrobe( index: UInt64 ) {
+            pre {
+                self.wardrobe[index].isLocked == false : "Cannot remove original minters artwork!"
+            }
             self.wardrobe.remove(at: index)
         }
 
@@ -428,7 +433,9 @@ pub contract ArlequinNFT: NonFungibleToken {
 
         pub fun mintNFTWithSkin(recipient: &{NonFungibleToken.CollectionPublic}, species: String, originalArtist: Address, ipfsCID: String, name: String, description: String) {
             var newNFT <- create NFT(initID: ArlequinNFT.totalSupply, species: species, originalArtist: originalArtist)
-            newNFT.addToWardrobe(ipfsCID: ipfsCID, name: name, description: description)
+            newNFT.wardrobe.append(
+                Skin(ipfsCID: ipfsCID, artistAddress: self.owner?.address!, name: name, description: description, isLocked: true)
+            )
             recipient.deposit(token: <-newNFT)
             ArlequinNFT.totalSupply = ArlequinNFT.totalSupply + 1
         }
