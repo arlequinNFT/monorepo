@@ -43,7 +43,7 @@ const PaintingMode = () => {
 
   return (
     <>
-      <p className="text-black-200 font-bold text-[0.875rem]">Mode</p>
+      <p className="text-black-200 font-bold text-[0.875rem] my-2">Mode</p>
       <ul className="flex p-1 bg-black-600 rounded-xl">
         <li
           data-tip="CTRL + B"

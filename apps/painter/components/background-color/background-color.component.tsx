@@ -1,5 +1,4 @@
 import { HexColorInput, HexColorPicker } from 'react-colorful';
-import { HiOutlineEye, HiOutlineEyeOff } from 'react-icons/hi';
 import { useDebouncedCallback } from 'use-debounce';
 
 import { Popover, PopoverBody, PopoverContent, PopoverTrigger } from '@chakra-ui/popover';
@@ -25,7 +24,7 @@ const BackgroundColor = () => {
 
   return (
     <>
-      <p className="text-black-200 font-bold text-[0.875rem] mt-2">Color</p>
+      <p className="text-black-200 font-bold text-[0.875rem] mt-3 mb-1">Color</p>
 
       <div className="grid grid-flow-col gap-x-2 items-center py-1 ">
         <Popover>
@@ -35,16 +34,16 @@ const BackgroundColor = () => {
               style={{ backgroundColor: currentBackgroundColor }}
             ></div>
           </PopoverTrigger>
-          <div className='z-50'>
-          <PopoverContent>
-            <PopoverBody>
-              <HexColorPicker
-                className="w-full border-0"
-                color={currentBackgroundColor}
-                onChange={setBackgroundColorUsingColorPicker}
-              />
-            </PopoverBody>
-          </PopoverContent>
+          <div className="z-50">
+            <PopoverContent>
+              <PopoverBody>
+                <HexColorPicker
+                  className="w-full border-0"
+                  color={currentBackgroundColor}
+                  onChange={setBackgroundColorUsingColorPicker}
+                />
+              </PopoverBody>
+            </PopoverContent>
           </div>
         </Popover>
         <div className="relative flex items-center gap-x-2">

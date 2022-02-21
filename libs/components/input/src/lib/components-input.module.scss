@@ -1,0 +1,23 @@
+.range {
+  -webkit-appearance: none;
+  height: 1px;
+  background: theme('colors.black-400');
+  border-radius: 5px;
+}
+
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 1.25rem;
+  width: 1.25rem;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 0 2px 0 #555;
+  transition: background .3s ease-in-out;
+}
+.range::-webkit-slider-runnable-track  {
+  -webkit-appearance: none;
+  box-shadow: none;
+  border: none;
+  background: transparent;
+}

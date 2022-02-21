@@ -22,7 +22,7 @@ const BackgroundMode = () => {
 
   return (
     <div className="flex flex-col">
-      <p className="text-black-200 font-bold text-[0.875rem]">Mode</p>
+      <p className="text-black-200 font-bold text-[0.875rem] my-2">Mode</p>
 
       <ul className="flex bg-black-600 rounded-lg">
         <li

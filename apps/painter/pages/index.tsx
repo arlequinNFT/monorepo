@@ -232,7 +232,7 @@ const Index: NextPage = () => {
             <UndoRedo></UndoRedo>
 
             <Accordion defaultIndex={[0]} allowMultiple>
-              <AccordionItem className="py-3">
+              <AccordionItem className="py-4 ">
                 <AccordionButton className="flex justify-between">
                   <p className="uppercase text-white text-xs font-bold">
                     Brush
@@ -246,7 +246,7 @@ const Index: NextPage = () => {
                 </AccordionPanel>
               </AccordionItem>
 
-              <AccordionItem className="py-3 border-t border-black-400">
+              <AccordionItem className="py-4 border-t border-black-400">
                 <AccordionButton className="flex justify-between">
                   <p className="uppercase text-white text-xs font-bold">
                     Background
@@ -259,7 +259,7 @@ const Index: NextPage = () => {
                 </AccordionPanel>
               </AccordionItem>
 
-              <AccordionItem className="py-3 border-t border-black-400">
+              <AccordionItem className="py-4 border-t border-black-400">
                 <AccordionButton className="flex justify-between">
                   <p className="uppercase text-white text-xs font-bold">
                     Light

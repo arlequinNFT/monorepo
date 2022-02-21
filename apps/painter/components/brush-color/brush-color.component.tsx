@@ -34,9 +34,9 @@ const BrushColor = () => {
   // }, [unityContext, currentBrushColor, dispatch]);
 
   return (
-    <>
-      <p className="text-black-200 font-bold text-[0.875rem]">Color</p>
-      <div className="grid grid-flow-col gap-x-2 items-center py-1 mb-2 z-50">
+    <div className="my-3">
+      <p className="text-black-200 font-bold text-[0.875rem] mb-2">Color</p>
+      <div className="grid grid-flow-col gap-x-2 items-center z-50">
         <Popover>
           <PopoverTrigger>
             <div
@@ -44,7 +44,7 @@ const BrushColor = () => {
               style={{ backgroundColor: currentBrushColor }}
             ></div>
           </PopoverTrigger>
-          <div className='z-50'>
+          <div className="z-50">
             <PopoverContent>
               <PopoverBody>
                 <HexColorPicker
@@ -69,7 +69,7 @@ const BrushColor = () => {
           <FaEyeDropper></FaEyeDropper>
         </div> */}
       </div>
-    </>
+    </div>
   );
 };
 

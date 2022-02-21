@@ -24,8 +24,8 @@ const LightColor = () => {
 
   return (
     <>
-      <p className="text-black-200 font-bold text-[0.875rem]">Color</p>
-      <div className="grid grid-flow-col gap-x-2 items-center py-1 mb-2">
+      <p className="text-black-200 font-bold text-[0.875rem] my-2">Color</p>
+      <div className="grid grid-flow-col gap-x-2 items-center">
         <Popover>
           <PopoverTrigger>
             <div
@@ -33,16 +33,16 @@ const LightColor = () => {
               style={{ backgroundColor: currentLightColor }}
             ></div>
           </PopoverTrigger>
-          <div className='z-50'>
-          <PopoverContent>
-            <PopoverBody>
-              <HexColorPicker
-                className="w-full border-0"
-                color={currentLightColor}
-                onChange={setLightColorUsingColorPicker}
-              />
-            </PopoverBody>
-          </PopoverContent>
+          <div className="z-50">
+            <PopoverContent>
+              <PopoverBody>
+                <HexColorPicker
+                  className="w-full border-0"
+                  color={currentLightColor}
+                  onChange={setLightColorUsingColorPicker}
+                />
+              </PopoverBody>
+            </PopoverContent>
           </div>
         </Popover>
         <div className="relative flex items-center gap-x-2">
