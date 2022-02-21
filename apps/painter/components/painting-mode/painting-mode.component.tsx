@@ -42,55 +42,58 @@ const PaintingMode = () => {
   );
 
   return (
-    <ul className="flex p-1 bg-black-600 rounded-xl">
-      <li
-        data-tip="CTRL + B"
-        className={`${
-          currentPaintingMode === 'brush' ? 'bg-black-500 shadow-md' : "'"
-        } flex-1 flex flex-col items-center py-1 rounded-lg  cursor-pointer`}
-        onClick={(e) => toggleBrushMode()}
-      >
-        <Image
-          src={`/icons/brush_${
-            currentPaintingMode === 'brush' ? 'active' : 'inactive'
-          }.svg`}
-          alt="Brush icon"
-          width="36px"
-          height="36px"
-        />
-        <p
+    <>
+      <p className="text-black-200 font-bold text-[0.875rem]">Mode</p>
+      <ul className="flex p-1 bg-black-600 rounded-xl">
+        <li
+          data-tip="CTRL + B"
           className={`${
-            currentPaintingMode === 'brush' ? 'text-white' : 'text-black-200'
-          }`}
+            currentPaintingMode === 'brush' ? 'bg-black-500 shadow-md' : "'"
+          } flex-1 flex flex-col items-center py-1 rounded-lg  cursor-pointer`}
+          onClick={(e) => toggleBrushMode()}
         >
-          Brush
-        </p>
-      </li>
+          <Image
+            src={`/icons/brush_${
+              currentPaintingMode === 'brush' ? 'active' : 'inactive'
+            }.svg`}
+            alt="Brush icon"
+            width="36px"
+            height="36px"
+          />
+          <p
+            className={`${
+              currentPaintingMode === 'brush' ? 'text-white' : 'text-black-200'
+            }`}
+          >
+            Round Pen
+          </p>
+        </li>
 
-      <li
-        data-tip="CTRL + G"
-        className={`${
-          currentPaintingMode === 'bucket' ? 'bg-black-500 shadow-md' : "'"
-        } flex-1 flex flex-col items-center py-1 rounded-lg  cursor-pointer`}
-        onClick={(e) => toggleBucketMode()}
-      >
-        <Image
-          src={`/icons/bucket_${
-            currentPaintingMode === 'bucket' ? 'active' : 'inactive'
-          }.svg`}
-          alt="Bucket icon"
-          width="36px"
-          height="36px"
-        />
-        <p
+        <li
+          data-tip="CTRL + G"
           className={`${
-            currentPaintingMode === 'bucket' ? 'text-white' : 'text-black-200'
-          }`}
+            currentPaintingMode === 'bucket' ? 'bg-black-500 shadow-md' : "'"
+          } flex-1 flex flex-col items-center py-1 rounded-lg  cursor-pointer`}
+          onClick={(e) => toggleBucketMode()}
         >
-          Bucket
-        </p>
-      </li>
-    </ul>
+          <Image
+            src={`/icons/bucket_${
+              currentPaintingMode === 'bucket' ? 'active' : 'inactive'
+            }.svg`}
+            alt="Bucket icon"
+            width="36px"
+            height="36px"
+          />
+          <p
+            className={`${
+              currentPaintingMode === 'bucket' ? 'text-white' : 'text-black-200'
+            }`}
+          >
+            Fill
+          </p>
+        </li>
+      </ul>
+    </>
   );
 };
 

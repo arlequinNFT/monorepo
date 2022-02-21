@@ -26,9 +26,9 @@ const LightXAxis = () => {
 
   return (
     <>
-      <p className="text-black-200 font-bold text-[0.875rem]">X Axis</p>
+      <p className="text-black-200 font-bold text-[0.875rem]">Vertical Direction</p>
       <div
-        className="flex items-center justify-evenly p-1 mb-2"
+        className="flex items-center justify-evenly mb-2"
       >
         <Image
           className="bg-black-500 rounded-full"

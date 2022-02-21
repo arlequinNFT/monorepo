@@ -5,13 +5,10 @@ import { useDebouncedCallback } from 'use-debounce';
 import { Popover, PopoverBody, PopoverContent, PopoverTrigger } from '@chakra-ui/popover';
 
 import { useAppDispatch, useAppSelector } from '../../store/hook';
-import {
-    setCurrentBackgroundColor, setIsBackgroundEnable
-} from '../../store/reducers/painter.reducer';
+import { setCurrentBackgroundColor } from '../../store/reducers/painter.reducer';
 
 const BackgroundColor = () => {
   const unityContext = useAppSelector((state) => state.painter.unityContext);
-  const isBackgroundEnable = useAppSelector((state) => state.painter.isBackgroundEnable);
 
   const dispatch = useAppDispatch();
   const currentBackgroundColor = useAppSelector(
@@ -26,19 +23,11 @@ const BackgroundColor = () => {
     50
   );
 
-  const enableBackground = () => {
-      unityContext?.send('HudManager', 'EnableBackground');
-      dispatch(setIsBackgroundEnable(true));
-  }
-  const disableBackground = () => {
-    unityContext?.send('HudManager', 'DisableBackground');
-    dispatch(setIsBackgroundEnable(false));
-  };
-
   return (
     <>
-      <p className="text-black-200 font-bold text-[0.875rem]">Background</p>
-      <div className="grid grid-flow-col gap-x-2 items-center py-1 mb-2">
+      <p className="text-black-200 font-bold text-[0.875rem] mt-2">Color</p>
+
+      <div className="grid grid-flow-col gap-x-2 items-center py-1 ">
         <Popover>
           <PopoverTrigger>
             <div
@@ -46,7 +35,8 @@ const BackgroundColor = () => {
               style={{ backgroundColor: currentBackgroundColor }}
             ></div>
           </PopoverTrigger>
-          <PopoverContent className="bg-black-500 rounded-lg">
+          <div className='z-50'>
+          <PopoverContent>
             <PopoverBody>
               <HexColorPicker
                 className="w-full border-0"
@@ -55,6 +45,7 @@ const BackgroundColor = () => {
               />
             </PopoverBody>
           </PopoverContent>
+          </div>
         </Popover>
         <div className="relative flex items-center gap-x-2">
           <span className="absolute px-2 text-white">#</span>
@@ -64,14 +55,6 @@ const BackgroundColor = () => {
             color={currentBackgroundColor}
             onChange={setBackgroundColorUsingColorPicker}
           />
-        </div>
-        <div className="bg-black-500 text-white p-2 hover:bg-[#424242] rounded-lg transition-all cursor-pointer">
-          {isBackgroundEnable && (
-            <HiOutlineEye onClick={disableBackground}></HiOutlineEye>
-          )}
-          {!isBackgroundEnable && (
-            <HiOutlineEyeOff onClick={enableBackground}></HiOutlineEyeOff>
-          )}
         </div>
       </div>
     </>

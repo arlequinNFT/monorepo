@@ -27,9 +27,7 @@ const LightIntensity = () => {
   return (
     <>
       <p className="text-black-200 font-bold text-[0.875rem]">Intensity</p>
-      <div
-        className="flex items-center justify-evenly p-1 mb-2"
-      >
+      <div className="flex items-center justify-evenly mb-2">
         <Image
           className="bg-black-500 rounded-full"
           src={`/icons/small.svg`}

@@ -2,7 +2,6 @@ import React from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../store/hook';
 import { Pose, setCurrentPose } from '../../store/reducers/painter.reducer';
-import styles from './poses-list.module.scss';
 
 const PosesList = () => {
   const dispatch = useAppDispatch();
@@ -21,7 +20,6 @@ const PosesList = () => {
 
   return (
     <div
-      id={styles['poses-list']}
       className="grid space-y-4 absolute -inset-0 overflow-y-scroll pr-2"
     >
       {poses.map((pose, key) => {

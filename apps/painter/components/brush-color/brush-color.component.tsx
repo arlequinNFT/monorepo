@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { HexColorInput, HexColorPicker } from 'react-colorful';
 import { FaEyeDropper } from 'react-icons/fa';
 import { useDebouncedCallback } from 'use-debounce';
@@ -34,8 +35,8 @@ const BrushColor = () => {
 
   return (
     <>
-      <p className="text-black-200 font-bold text-[0.875rem]">Brush</p>
-      <div className="grid grid-flow-col gap-x-2 items-center py-1 mb-2">
+      <p className="text-black-200 font-bold text-[0.875rem]">Color</p>
+      <div className="grid grid-flow-col gap-x-2 items-center py-1 mb-2 z-50">
         <Popover>
           <PopoverTrigger>
             <div
@@ -43,15 +44,17 @@ const BrushColor = () => {
               style={{ backgroundColor: currentBrushColor }}
             ></div>
           </PopoverTrigger>
-          <PopoverContent className="bg-black-500 rounded-lg">
-            <PopoverBody>
-              <HexColorPicker
-                className="w-full border-0"
-                color={currentBrushColor}
-                onChange={setBrushColorUsingColorPicker}
-              />
-            </PopoverBody>
-          </PopoverContent>
+          <div className='z-50'>
+            <PopoverContent>
+              <PopoverBody>
+                <HexColorPicker
+                  className="w-full border-0 "
+                  color={currentBrushColor}
+                  onChange={setBrushColorUsingColorPicker}
+                />
+              </PopoverBody>
+            </PopoverContent>
+          </div>
         </Popover>
         <div className="relative flex items-center gap-x-2">
           <span className="absolute px-2 text-white">#</span>

@@ -36,6 +36,7 @@ interface State {
   currentArlee: ArleesSpecies | '';
   currentArleesMode: ArleesMode;
   currentBackgroundColor: string;
+  currentBackgroundMode: '3d' | 'flat';
   currentBrushColor: string;
   currentBrushHardness: number;
   currentBrushOpacity: number;
@@ -47,7 +48,6 @@ interface State {
   currentLightYAxis: number;
   currentPaintingMode: PaintingMode;
   currentPose: Pose;
-  isBackgroundEnable: boolean;
   maxBrushHardness: number;
   maxBrushOpacity: number;
   maxBrushSize: number;
@@ -74,6 +74,7 @@ const initialState: State = {
   currentArlee: 'cacatoes',
   currentArleesMode: 'species',
   currentBackgroundColor: '#ffffff',
+  currentBackgroundMode: 'flat',
   currentBrushColor: '#4dd17a',
   currentBrushHardness: 15,
   currentBrushOpacity: 100,
@@ -85,7 +86,6 @@ const initialState: State = {
   currentLightXAxis: 50,
   currentLightYAxis: 225,
   currentPose: 'hello',
-  isBackgroundEnable: false,
   maxBrushHardness: 15,
   maxBrushOpacity: 100,
   maxBrushSize: 100,
@@ -148,8 +148,11 @@ export const painterSlice = createSlice({
     hideLoadingScreen: (state) => {
       state.showLoadingScreen = false;
     },
-    setIsBackgroundEnable: (state, action: PayloadAction<boolean>) => {
-      state.isBackgroundEnable = action.payload;
+    setBackgroundModeTo3D: (state) => {
+      state.currentBackgroundMode = '3d';
+    },
+    setBackgroundModeToFlat: (state) => {
+      state.currentBackgroundMode = 'flat';
     },
     setCid: (state, action: PayloadAction<string>) => {
       state.cid = action.payload;
@@ -228,7 +231,8 @@ export const {
   setCurrentLightYAxis,
   setCurrentPaintingMode,
   setCurrentPose,
-  setIsBackgroundEnable,
+  setBackgroundModeTo3D,
+  setBackgroundModeToFlat,
   setSceneLoaded,
   setUnityContext,
 } = painterSlice.actions;

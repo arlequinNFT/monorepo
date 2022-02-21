@@ -41,10 +41,10 @@ const BrushSize = () => {
 
   return (
     <>
-      <p className="text-black-200 font-bold text-[0.875rem]">Size</p>
+      <p className="text-black-200 font-bold text-[0.875rem] mt-2">Size</p>
       <div
-        data-tip="Shortcut: CTRL + Mousewheel"
-        className="flex items-center justify-evenly p-1 mb-2"
+        data-tip="CTRL + Mousewheel"
+        className="flex items-center justify-evenly mb-2"
       >
         <Image
           className="bg-black-500 rounded-full"

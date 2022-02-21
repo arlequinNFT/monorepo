@@ -9,3 +9,12 @@ body,
 #__next {
   height: 100%;
 }
+
+::-webkit-scrollbar {
+  width: 0.4rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #303030; /* color of the scroll thumb */
+  border-radius: 2rem;
+}

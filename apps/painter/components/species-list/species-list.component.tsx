@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../store/hook';
 import { setCurrentArlee } from '../../store/reducers/painter.reducer';
-import styles from './species-list.module.scss';
 
 const SpeciesList = () => {
   const dispatch = useAppDispatch();
@@ -19,7 +18,6 @@ const SpeciesList = () => {
 
   return (
     <div
-      id={styles['arlees-list']}
       className="grid space-y-4 absolute -inset-0 overflow-y-scroll pr-2"
     >
       {arlees.map((arlee, key) => {

@@ -15,6 +15,7 @@ import { Popover, PopoverBody, PopoverContent, PopoverTrigger } from '@chakra-ui
 
 import ArleesMode from '../components/arlees-mode/arlees-mode.component';
 import BackgroundColor from '../components/background-color/background-color.component';
+import BackgroundMode from '../components/background-mode/background-mode.component';
 import BrushColor from '../components/brush-color/brush-color.component';
 import BrushHardness from '../components/brush-hardness/brush-hardness.component';
 import BrushOpacity from '../components/brush-opacity/brush-opacity.component';
@@ -67,7 +68,6 @@ const Index: NextPage = () => {
   const generateAvatar = () =>
     unityContext?.send('HudManager', 'RequestAvatar');
 
-
   //#region Use Effects
   useEffect(() => {
     const unityContext = new UnityContext({
@@ -92,7 +92,6 @@ const Index: NextPage = () => {
   useEffect(() => {
     if (unityContext && currentArlee && !sceneLoaded) {
       unityContext?.on('SendIsPlaygroundReady', async () => {
-
         // initialization
         unityContext?.send('HudManager', 'LoadMetaPet', currentArlee);
         unityContext?.send('HudManager', 'SetBrushColor', currentBrushColor);
@@ -209,65 +208,54 @@ const Index: NextPage = () => {
             </a>
           </div>
         </div>
-        <div className="p-24 bg-black">
+        <div className="px-36 py-12 3xl:px-72 3xl:py-24 bg-black">
           <div className="h-full w-full relative">
             {unityContext && (
-              <Unity
-                unityContext={unityContext}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  borderRadius: '2rem',
-                }}
-              />
+              <>
+                <Unity
+                  unityContext={unityContext}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: '2rem',
+                  }}
+                />
+              </>
             )}
 
             <Swatches></Swatches>
           </div>
         </div>
 
-        <div className="flex items-center flex-col  bg-black-700 overflow-y-auto">
-          <section className="flex-1 w-full p-4">
+        <div className="flex flex-col bg-black-700 overflow-hidden  relative">
+          <section className="top-6 p-4 overflow-y-auto w-full pb-16">
             <UndoRedo></UndoRedo>
 
-            <Accordion defaultIndex={[0, 1, 2, 3]} allowMultiple>
+            <Accordion defaultIndex={[0]} allowMultiple>
               <AccordionItem className="py-3">
                 <AccordionButton className="flex justify-between">
                   <p className="uppercase text-white text-xs font-bold">
-                    Painting Mode
+                    Brush
                   </p>
                   <AccordionIcon className="!text-white" />
                 </AccordionButton>
                 <AccordionPanel className="py-2">
                   <PaintingMode></PaintingMode>
-                </AccordionPanel>
-              </AccordionItem>
-
-              <AccordionItem className="py-3 border-t border-black-400">
-                <AccordionButton className="flex justify-between">
-                  <p className="uppercase text-white text-xs font-bold">
-                    Brush settings
-                  </p>
-                  <AccordionIcon className="!text-white" />
-                </AccordionButton>
-                <AccordionPanel className="py-2">
-                  <BrushSize></BrushSize>
-                  <BrushOpacity></BrushOpacity>
-                  <BrushHardness></BrushHardness>
-                </AccordionPanel>
-              </AccordionItem>
-
-              <AccordionItem className="py-3 border-t border-black-400">
-                <AccordionButton className="flex justify-between">
-                  <p className="uppercase text-white text-xs font-bold">
-                    Color
-                  </p>
-                  <AccordionIcon className="!text-white" />
-                </AccordionButton>
-                <AccordionPanel className="py-2">
                   <BrushColor></BrushColor>
+                  <BrushSize></BrushSize>
+                </AccordionPanel>
+              </AccordionItem>
+
+              <AccordionItem className="py-3 border-t border-black-400">
+                <AccordionButton className="flex justify-between">
+                  <p className="uppercase text-white text-xs font-bold">
+                    Background
+                  </p>
+                  <AccordionIcon className="!text-white" />
+                </AccordionButton>
+                <AccordionPanel className="py-2">
+                  <BackgroundMode></BackgroundMode>
                   <BackgroundColor></BackgroundColor>
-                  <LightColor></LightColor>
                 </AccordionPanel>
               </AccordionItem>
 
@@ -279,21 +267,23 @@ const Index: NextPage = () => {
                   <AccordionIcon className="!text-white" />
                 </AccordionButton>
                 <AccordionPanel className="py-2">
+                  <LightColor></LightColor>
+                  <LightIntensity></LightIntensity>
                   <LightXAxis></LightXAxis>
                   <LightYAxis></LightYAxis>
-                  <LightIntensity></LightIntensity>
                 </AccordionPanel>
               </AccordionItem>
             </Accordion>
           </section>
-          <section className="flex place-content-center w-full py-3 bg-black-600">
-            <ComponentsButton
-              color="secondary"
-              rounded
-              onClick={generateAvatar}
-            >
-              GENERATE AVATAR
-            </ComponentsButton>
+
+          <section className="flex justify-center absolute bottom-0 w-full py-3 bg-black-600">
+              <ComponentsButton
+                color="secondary"
+                rounded
+                onClick={generateAvatar}
+              >
+                GENERATE AVATAR
+              </ComponentsButton>
           </section>
         </div>
       </div>
