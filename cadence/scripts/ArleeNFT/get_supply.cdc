@@ -1,8 +1,8 @@
 import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
-import ArlequinNFT from "../../contracts/ArlequinNFT.cdc"
+import ArleeNFT from "../../contracts/ArleeNFT.cdc"
 
 // This transaction returns a UInt64 
 
 pub fun main(): UInt64 {
-    return ArlequinNFT.totalSupply
+    return ArleeNFT.totalSupply
 }

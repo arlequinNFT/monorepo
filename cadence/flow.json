@@ -19,6 +19,12 @@
             "aliases": {
                 "testnet": "0x631e88ae7f1d7c20"
             }
+        }, 
+		"MetadataViews": {
+            "source": "./contracts/MetadataViews.cdc",
+            "aliases": {
+                "testnet": "0x631e88ae7f1d7c20"
+            }
         },
 		"FlowToken": {
             "source": "./contracts/FlowToken.cdc",
@@ -29,9 +35,9 @@
             }
         },
 		"FUSD": "./contracts/FUSD.cdc",
-        "ArlequinItems": "./contracts/ArlequinItems.cdc",
-        "ArlequinNFT": "./contracts/ArlequinNFT.cdc",
-        "ArlequinPresale": "./contracts/ArlequinPresale.cdc",
+        "ArleeItems": "./contracts/ArleeItems.cdc",
+        "ArleeNFT": "./contracts/ArleeNFT.cdc",
+        "ArleePresale": "./contracts/ArleePresale.cdc",
         "Nimo": "./contracts/Nimo.cdc"
 	},
 	"networks": {
@@ -64,12 +70,13 @@
         "emulator": {
             "emulator-account": [
                 "NonFungibleToken",
-				"FUSD"                
+				"MetadataViews",
+				"FUSD"            
             ],
 			"admin-account": [
-				"ArlequinItems",
-                "ArlequinNFT",
-                "ArlequinPresale",
+				"ArleeItems",
+				"ArleeNFT",
+                "ArleePresale",
                 "Nimo"
 			]
 

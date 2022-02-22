@@ -1,5 +1,5 @@
 import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
-import ArlequinNFT from "../../contracts/ArlequinNFT.cdc"
+import ArleeItems from "../../contracts/ArleeItems.cdc"
 
 // This transaction is for transferring and NFT from
 // one account to another
@@ -12,11 +12,11 @@ transaction(recipient: Address, withdrawID: UInt64) {
         let recipient = getAccount(recipient)
 
         // borrow a reference to the signer's NFT collection
-        let collectionRef = acct.borrow<&ArlequinNFT.Collection>(from: ArlequinNFT.CollectionStoragePath)
+        let collectionRef = acct.borrow<&ArleeItems.Collection>(from: ArleeItems.CollectionStoragePath)
             ?? panic("Could not borrow a reference to the owner's collection")
 
         // borrow a public reference to the receivers collection
-        let depositRef = recipient.getCapability(ArlequinNFT.CollectionPublicPath)
+        let depositRef = recipient.getCapability(ArleeItems.CollectionPublicPath)
             .borrow<&{NonFungibleToken.CollectionPublic}>()
             ?? panic("Could not borrow a reference to the receiver's collection")
 

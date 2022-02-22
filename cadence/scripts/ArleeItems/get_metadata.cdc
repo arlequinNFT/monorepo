@@ -1,6 +1,6 @@
 import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
 import MetadataViews from "../../contracts/MetadataViews.cdc"
-import ArlequinNFT from "../../contracts/ArlequinNFT.cdc"
+import ArleeItems from "../../contracts/ArleeItems.cdc"
 
 // This script returns the metadata for an NFT in an account's collection.
 
@@ -8,13 +8,13 @@ pub fun main(address: Address, itemID: UInt64): AnyStruct? {
     // get the public account object for the token owner
     let account = getAccount(address)
 
-    let collectionRef = account.getCapability(ArlequinNFT.CollectionPublicPath)!
-        .borrow<&{ArlequinNFT.ArleeCollectionPublic}>()
+    let collectionRef = account.getCapability(ArleeItems.CollectionPublicPath)
+        .borrow<&{ArleeItems.ArleeItemsCollectionPublic}>()
         ?? panic("Could not borrow capability from public collection")
 
     
     // borrow a reference to a specific NFT in the collection
-    let arlee = collectionRef.borrowArlee(id: itemID) 
+    let arlee = collectionRef.borrowArleeItem(id: itemID)!
     
     if let view = arlee.resolveView(Type<MetadataViews.Display>()) {
         let display = view as! MetadataViews.Display
@@ -31,5 +31,5 @@ pub fun main(address: Address, itemID: UInt64): AnyStruct? {
     }
 
     // return collectionRef.getArleeMetadata(id: itemID) // Arlee.metadata
-    return arlee.resolveView(Type<ArlequinNFT.ArleeMeta>())
+    return arlee.resolveView(Type<ArleeItems.ArleeItemMeta>())
 }

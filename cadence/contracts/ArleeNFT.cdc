@@ -1,18 +1,18 @@
-// Arlequin NFT Contract
+// Arlee NFT Contract
 //
-// Extends the NonFungibleToken standard with extra metadata for each Arlequin's features. 
+// Extends the NonFungibleToken standard with extra metadata for each Arlee's features. 
 
 import NonFungibleToken from "./NonFungibleToken.cdc"
 import MetadataViews from "./MetadataViews.cdc"
-import ArlequinItems from "./ArlequinItems.cdc"
+import ArleeItems from "./ArleeItems.cdc"
 import Nimo from "./Nimo.cdc"
 
-pub contract ArlequinNFT: NonFungibleToken {
+pub contract ArleeNFT: NonFungibleToken {
 
-    // Total number of Arlequin's in existance
+    // Total number of Arlee's in existance
     pub var totalSupply: UInt64 
 
-    // inital max length for Arlequin's wardrobe (dictionary of skins/textures ipfs pins)
+    // inital max length for Arlee's wardrobe (dictionary of skins/textures ipfs pins)
     pub let initalWardrobeSize : UInt64
 
     // Total times name can be set.
@@ -66,14 +66,14 @@ pub contract ArlequinNFT: NonFungibleToken {
         pub let description: String
         pub let species: String
         pub let level: UInt64
-        pub let currentSkin: &Skin
+        pub let currentSkin: &Skin?
         pub let wardrobe: [Skin]
         pub let maxWardrobeSize: UInt64
         pub let points: UInt64
-        pub let items: [ArlequinItems.ArleeItemMeta]
+        pub let items: [ArleeItems.ArleeItemMeta]
         pub let originalArtist: Address
 
-        init(ref: &ArlequinNFT.NFT) {
+        init(ref: &ArleeNFT.NFT) {
             self.id = ref.id
             self.name = ref.name
             self.description = ref.description
@@ -105,30 +105,27 @@ pub contract ArlequinNFT: NonFungibleToken {
         }
     }
 
-    pub resource interface ArleeCollectionPublic {
-        pub fun borrowArlee(id: UInt64): &NFT
-        pub fun getArleeMetadata(id: UInt64): ArleeMeta
-    }
-
-    // ArlequinOwner Interface 
+    // ArleeOwner Interface 
     //
     // capability to access these functions can be given to other users by linking and sharing a private capability
     //
-    pub resource interface ArlequinOwner {
-        pub fun updateName(name: String)
-        pub fun updateDescription(newDescription: String)
-        pub fun addToWardrobe(ipfsCID: String, name: String, description: String)
-        pub fun removeFromWardrobe( index: UInt64 )
-        pub fun setCurrentSkin(index: UInt64)
-        pub fun getCurrentSkin(): &Skin
-        pub fun getItemsMeta(): [ArlequinItems.ArleeItemMeta]
-        pub fun equip( item: @ArlequinItems.NFT)
-        pub fun withdrawItem( atIndex: UInt64 ) : @ArlequinItems.NFT
+    pub resource interface ArleeNFTPublic {
+        pub fun getCurrentSkin(): &Skin?
+        pub fun getItemsMeta(): [ArleeItems.ArleeItemMeta]
         pub fun getMetadata(): ArleeMeta
-
     }
 
-    pub resource NFT: NonFungibleToken.INFT, ArlequinOwner, MetadataViews.Resolver {
+    pub resource interface ArleeOwner {
+        pub fun equip(item: @NonFungibleToken.NFT)
+        pub fun updateName(name: String)
+        pub fun addToWardrobe(ipfsCID: String, name: String, description: String)
+        pub fun updateWardrobe(index: UInt64, ipfsCID: String, name: String, description: String)
+        pub fun removeFromWardrobe(index: UInt64)
+        pub fun setCurrentSkin(index: UInt64)
+        pub fun withdrawItem( atIndex: UInt64 ) : @NonFungibleToken.NFT
+    }
+
+    pub resource NFT: NonFungibleToken.INFT, ArleeOwner, ArleeNFTPublic, MetadataViews.Resolver {
         pub let id: UInt64
         access(contract) var species: String
         // open question should name and description come from the skin?
@@ -137,19 +134,20 @@ pub contract ArlequinNFT: NonFungibleToken {
         access(contract) var level: UInt64
         access(contract) var points: UInt64
         access(contract) var originalArtist: Address
+        //access(contract) var originalArtistFTReceiverCap: Capability<&{FungibleToken.Receiver}>
         access(contract) var maxNameChangeCount: UInt64
         
         // can limit number of times name has been set
         pub var nameChangeCount : UInt64
 
-        // wardrobe dictionary of ipfs pins for each 'outfit' the Arlequin owns
+        // wardrobe dictionary of ipfs pins for each 'outfit' the Arlee owns
         access(contract) let wardrobe: [Skin]
         
-        // maximum size of this Arlequin's wardrobe.... (could make this upgradeable by spending a fungible token)
+        // maximum size of this Arlee's wardrobe.... (could make this upgradeable by spending a fungible token)
         access(contract) var maxWardrobeSize : UInt64
 
-        // Each Arlequin can own ArlequinItemsNFTs
-        access(contract) var itemsCollection : @ArlequinItems.Collection
+        // Each Arlee can own ArleeItemsNFTs
+        access(contract) var itemsCollection : @ArleeItems.Collection
 
         // updateName
         //
@@ -181,25 +179,36 @@ pub contract ArlequinNFT: NonFungibleToken {
 
         // addToWardrobe
         //
-        // Adds a new skin to the Arlequin's wardrobe 
+        // Adds a new skin to the Arlee's wardrobe 
         // In this version of contract any owner can freely update their wardrobe with no cost
         //
         pub fun addToWardrobe(ipfsCID: String, name: String, description: String) {
             pre {
                 UInt64(self.wardrobe.length) < self.maxWardrobeSize : "Wardrobe is full!"
+                self.owner != nil : "NFT Refernce is nil"
+                self.owner!.address != nil : "No owners found"
             }
             self.wardrobe.append(
                 Skin(ipfsCID: ipfsCID, artistAddress: self.owner?.address!, name: name, description: description, isLocked: false)
             )
         }
 
+        pub fun updateWardrobe(index: UInt64, ipfsCID: String, name: String, description: String) {
+            pre {
+                self.wardrobe[index] != nil : "Nothing in that slot"
+                self.wardrobe[index].artistAddress == self.owner!.address : "Must be owner to update"
+            }
+            self.wardrobe[index] = Skin(ipfsCID: ipfsCID, artistAddress: self.owner?.address!, name: name, description: description, isLocked: false)
+        }
+
         // removeFromWardrobe
         //
-        // Removes a skin from an Arlequin's wardrobe
+        // Removes a skin from an Arlee's wardrobe
         //
         pub fun removeFromWardrobe( index: UInt64 ) {
             pre {
                 self.wardrobe[index].isLocked == false : "Cannot remove original minters artwork!"
+                self.wardrobe[index].artistAddress == self.owner!.address : "Can only remove your own creations!"
             }
             self.wardrobe.remove(at: index)
         }
@@ -209,26 +218,30 @@ pub contract ArlequinNFT: NonFungibleToken {
             self.wardrobe.insert(at: 0, skin)
         }
 
-        pub fun getCurrentSkin() : &Skin {
-            return &self.wardrobe[0] as &Skin
+        pub fun getCurrentSkin() : &Skin? {
+            if self.wardrobe.length > 0 {
+                return &self.wardrobe[0] as &Skin
+            } else {
+                return nil
+            }
         }
 
         // getItemsMeta 
         //
         // returns all the metadata for the items owned by this arlee
         //
-        pub fun getItemsMeta(): [ArlequinItems.ArleeItemMeta] {
+        pub fun getItemsMeta(): [ArleeItems.ArleeItemMeta] {
             return self.itemsCollection.getAllItemMetadata()
         }
 
         // adds an item to the arlee's collection
-        pub fun equip( item: @ArlequinItems.NFT ) { 
+        pub fun equip( item: @NonFungibleToken.NFT ) {
             self.itemsCollection.deposit(token: <- item )
         }
 
         // removes items from arlee's collection
-        pub fun withdrawItem( atIndex: UInt64 ) : @ArlequinItems.NFT {
-            let item <- self.itemsCollection.withdraw(withdrawID: atIndex) as! @ArlequinItems.NFT
+        pub fun withdrawItem( atIndex: UInt64 ) : @NonFungibleToken.NFT {
+            let item <- self.itemsCollection.withdraw(withdrawID: atIndex) // as! @ArleeItems.NFT
             return <- item
         }
 
@@ -278,7 +291,7 @@ pub contract ArlequinNFT: NonFungibleToken {
         pub fun getViews(): [Type] {
             return [
                 Type<MetadataViews.Display>(),
-                Type<ArlequinNFT.ArleeMeta>()
+                Type<ArleeNFT.ArleeMeta>()
             ]
         }
 
@@ -289,7 +302,7 @@ pub contract ArlequinNFT: NonFungibleToken {
                         name: self.name,
                         description: self.description,
                         thumbnail: MetadataViews.IPFSFile(
-                            cid: self.getCurrentSkin().ipfsCID,
+                            cid: self.getCurrentSkin()?.ipfsCID ?? self.species.concat(""), // j00lz note: need default implementation for genesis arlee's with no skin
                             path: nil
                         )
                     )
@@ -310,8 +323,8 @@ pub contract ArlequinNFT: NonFungibleToken {
             self.species = species
             self.name = "Arlee #".concat(initID.toString())
             self.description = "Freshly minted Arle #".concat(initID.toString())
-            self.maxNameChangeCount = ArlequinNFT.maxNameChangeCount
-            self.maxWardrobeSize = ArlequinNFT.initalWardrobeSize
+            self.maxNameChangeCount = ArleeNFT.maxNameChangeCount
+            self.maxWardrobeSize = ArleeNFT.initalWardrobeSize
 
             self.nameChangeCount = 0
             self.level = 0
@@ -319,7 +332,7 @@ pub contract ArlequinNFT: NonFungibleToken {
             self.originalArtist = originalArtist
             
             self.wardrobe = []
-            self.itemsCollection <- ArlequinItems.createEmptyCollection() as! @ArlequinItems.Collection
+            self.itemsCollection <- ArleeItems.createEmptyCollection() as! @ArleeItems.Collection
         }
 
         destroy() {
@@ -328,14 +341,24 @@ pub contract ArlequinNFT: NonFungibleToken {
         }
     }
 
-    // Public Interface for ArlequinNFTs Collection to expose metadata as required.
-    // Can change this to return a structure custom rather than key value pairs  
-    pub resource interface CollectionPublic {
-        pub fun getArlequinMetadata(id: UInt64): ArleeMeta
+    pub resource interface ArleeCollectionPublic {
+        pub fun deposit(token: @NonFungibleToken.NFT)
+        pub fun batchDeposit(collection: @NonFungibleToken.Collection)
+        pub fun getIDs(): [UInt64]
+        pub fun borrowNFT(id: UInt64): &NonFungibleToken.NFT
+        pub fun borrowArlee(id: UInt64): &ArleeNFT.NFT? {
+            // If the result isn't nil, the id of the returned reference
+            // should be the same as the argument to the function
+            post {
+                (result == nil) || (result?.id == id): 
+                    "Cannot borrow Arlee reference: The ID of the returned reference is incorrect"
+            }
+        }
+        pub fun getArleeMetadata(id: UInt64): ArleeMeta
     }
 
     // standard implmentation for managing a collection of NFTs
-    pub resource Collection: NonFungibleToken.Provider, NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, CollectionPublic {
+    pub resource Collection: NonFungibleToken.Provider, NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, ArleeCollectionPublic {
         // dictionary of NFT conforming tokens
         // NFT is a resource type with an `UInt64` ID field
         // pub var ownedNFTs: @{UInt64: NonFungibleToken.NFT}
@@ -354,10 +377,19 @@ pub contract ArlequinNFT: NonFungibleToken {
             return <-token
         }
 
+        pub fun batchWithdraw(ids: [UInt64]): @NonFungibleToken.Collection {
+            let collection <- ArleeNFT.createEmptyCollection()
+            for id in ids {
+                let nft <- self.ownedNFTs.remove(key: id)!
+                collection.deposit(token: <- nft) 
+            }
+            return <- collection
+        }
+
         // deposit takes a NFT and adds it to the collections dictionary
         // and adds the ID to the id array
         pub fun deposit(token: @NonFungibleToken.NFT) {
-            let token <- token as! @ArlequinNFT.NFT
+            let token <- token as! @ArleeNFT.NFT
 
             let id: UInt64 = token.id
 
@@ -369,37 +401,44 @@ pub contract ArlequinNFT: NonFungibleToken {
             destroy oldToken
         }
 
+        pub fun batchDeposit(collection: @NonFungibleToken.Collection) {
+            for id in collection.getIDs() {
+                let token <- collection.withdraw(withdrawID: id)
+                self.deposit(token: <- token)
+            }
+            destroy collection
+        }
+
         // getIDs returns an array of the IDs that are in the collection
         pub fun getIDs(): [UInt64] {
             return self.ownedNFTs.keys
         }
 
         // borrowNFT gets a reference to an NFT in the collection
-        // so that the caller can read its metadata and call its methods
         pub fun borrowNFT(id: UInt64): &NonFungibleToken.NFT {
             return &self.ownedNFTs[id] as &NonFungibleToken.NFT
         }
 
-        // borrowArlee gets a reference to an Arlequin from the collection
+        // borrowArlee gets a reference to an Arlee from the collection
         // so the caller can read the NFT's extended information
-        pub fun borrowArlee(id: UInt64): &ArlequinNFT.NFT? {
+        pub fun borrowArlee(id: UInt64): &ArleeNFT.NFT? {
             if self.ownedNFTs[id] != nil {
                     let ref = &self.ownedNFTs[id] as auth &NonFungibleToken.NFT
-                    return ref as! &ArlequinNFT.NFT
+                    return ref as! &ArleeNFT.NFT
                 } else {
                     return nil
             }
         }
 
-        pub fun getArlequinMetadata(id: UInt64): ArleeMeta {
+        pub fun getArleeMetadata(id: UInt64): ArleeMeta {
             return self.borrowArlee(id: id)!.getMetadata()
         }
 
         // new style metadata
         pub fun borrowViewResolver(id: UInt64): &AnyResource{MetadataViews.Resolver} {
             let nft = &self.ownedNFTs[id] as auth &NonFungibleToken.NFT
-            let ArlequinNFT = nft as! &ArlequinNFT.NFT
-            return ArlequinNFT // as &AnyResource{MetadataViews.Resolver}
+            let ArleeNFT = nft as! &ArleeNFT.NFT
+            return ArleeNFT // as &AnyResource{MetadataViews.Resolver}
         }
 
         destroy() {
@@ -420,24 +459,24 @@ pub contract ArlequinNFT: NonFungibleToken {
         // mintNFT mints a new NFT with a new ID
         // and deposit it in the recipients collection using their collection reference
         //
-        pub fun mintNFT(recipient: &{NonFungibleToken.CollectionPublic}, species: String, originalArtist: Address) {
+        pub fun mintNFT(recipient: &{ArleeNFT.ArleeCollectionPublic}, species: String, originalArtist: Address) {
 
             // create a new NFT
-            var newNFT <- create NFT(initID: ArlequinNFT.totalSupply, species: species, originalArtist: originalArtist)
+            var newNFT <- create NFT(initID: ArleeNFT.totalSupply, species: species, originalArtist: originalArtist)
 
             // deposit it in the recipient's account using their reference
             recipient.deposit(token: <-newNFT)
 
-            ArlequinNFT.totalSupply = ArlequinNFT.totalSupply + 1
+            ArleeNFT.totalSupply = ArleeNFT.totalSupply + 1
         }
 
-        pub fun mintNFTWithSkin(recipient: &{NonFungibleToken.CollectionPublic}, species: String, originalArtist: Address, ipfsCID: String, name: String, description: String) {
-            var newNFT <- create NFT(initID: ArlequinNFT.totalSupply, species: species, originalArtist: originalArtist)
+        pub fun mintNFTWithSkin(recipient: &{ArleeNFT.ArleeCollectionPublic}, species: String, originalArtist: Address, ipfsCID: String, name: String, description: String) {
+            var newNFT <- create NFT(initID: ArleeNFT.totalSupply, species: species, originalArtist: originalArtist)
             newNFT.wardrobe.append(
                 Skin(ipfsCID: ipfsCID, artistAddress: self.owner?.address!, name: name, description: description, isLocked: true)
             )
             recipient.deposit(token: <-newNFT)
-            ArlequinNFT.totalSupply = ArlequinNFT.totalSupply + 1
+            ArleeNFT.totalSupply = ArleeNFT.totalSupply + 1
         }
     }
 
@@ -452,25 +491,25 @@ pub contract ArlequinNFT: NonFungibleToken {
     //    - create new admin
     //
     pub resource Admin {
-        pub fun replenishPoints(ref: &ArlequinNFT.NFT, amount: UInt64) {
+        pub fun replenishPoints(ref: &ArleeNFT.NFT, amount: UInt64) {
             ref.increasePointsBy(amount: amount)
         }
-        pub fun spendPoints(ref: &ArlequinNFT.NFT, amount: UInt64) {
+        pub fun spendPoints(ref: &ArleeNFT.NFT, amount: UInt64) {
             ref.decreasePointsBy(amount: amount)
         }
-        pub fun increaseLevel(ref: &ArlequinNFT.NFT, amount: UInt64) {
+        pub fun increaseLevel(ref: &ArleeNFT.NFT, amount: UInt64) {
             ref.increaseLevelBy(amount: amount)
         }
-        pub fun decreaseLevelBy(ref: &ArlequinNFT.NFT, amount: UInt64) {
+        pub fun decreaseLevelBy(ref: &ArleeNFT.NFT, amount: UInt64) {
             ref.decreaseLevelBy(amount: amount)
         }
-        pub fun increaseMaxNameChangeCountBy(ref: &ArlequinNFT.NFT, amount: UInt64) {
+        pub fun increaseMaxNameChangeCountBy(ref: &ArleeNFT.NFT, amount: UInt64) {
             ref.increaseMaxNameChangeCountBy(amount: amount)
         }
-        pub fun increaseMaxWardrobeSizeBy(ref: &ArlequinNFT.NFT, amount: UInt64) {
+        pub fun increaseMaxWardrobeSizeBy(ref: &ArleeNFT.NFT, amount: UInt64) {
             ref.increaseMaxWardrobeSizeBy(amount: amount)
         }
-        pub fun changeSpecies(ref: &ArlequinNFT.NFT, newSpecies: String) {
+        pub fun changeSpecies(ref: &ArleeNFT.NFT, newSpecies: String) {
             ref.changeSpecies(newSpecies: newSpecies)
         }
 
@@ -489,24 +528,24 @@ pub contract ArlequinNFT: NonFungibleToken {
         self.maxNameChangeCount = 1
 
         // Initalize paths for scripts and transactions usage
-        self.MinterStoragePath = /storage/ArlequinMinter
-        self.AdminStoragePath = /storage/ArlequinAdmin
-        self.CollectionStoragePath = /storage/ArlequinNFTCollection
-        self.CollectionPublicPath = /public/ArlequinNFTCollection
+        self.MinterStoragePath = /storage/ArleeNFTMinter
+        self.AdminStoragePath = /storage/ArleeNFTAdmin
+        self.CollectionStoragePath = /storage/ArleeNFTCollection
+        self.CollectionPublicPath = /public/ArleeNFTCollection
 
         // Create a Collection resource and save it to storage
         let collection <- create Collection()
-        self.account.save(<-collection, to: ArlequinNFT.CollectionStoragePath)
+        self.account.save(<-collection, to: ArleeNFT.CollectionStoragePath)
 
         // create a public capability for the collection
-        self.account.link<&{NonFungibleToken.CollectionPublic}>(
-            ArlequinNFT.CollectionPublicPath,
-            target: ArlequinNFT.CollectionStoragePath
+        self.account.link<&{ArleeNFT.ArleeCollectionPublic}>(
+            ArleeNFT.CollectionPublicPath,
+            target: ArleeNFT.CollectionStoragePath
         )
 
         // Create a Minter resource and save it to storage
-        self.account.save(<-create NFTMinter(), to: ArlequinNFT.MinterStoragePath)
-        self.account.save(<-create Admin(), to: ArlequinNFT.AdminStoragePath)
+        self.account.save(<-create NFTMinter(), to: ArleeNFT.MinterStoragePath)
+        self.account.save(<-create Admin(), to: ArleeNFT.AdminStoragePath)
         
         emit ContractInitialized()
     }
