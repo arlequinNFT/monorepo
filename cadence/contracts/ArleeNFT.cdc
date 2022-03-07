@@ -13,9 +13,6 @@ pub contract ArleeNFT: NonFungibleToken {
     // Total number of Arlee's in existance
     pub var totalSupply: UInt64 
 
-    // inital max length for Arlee's wardrobe (dictionary of skins/textures ipfs pins)
-    pub let initalWardrobeSize : UInt64
-
     // Total times name can be set.
     pub var maxNameChangeCount : UInt64
 
@@ -97,6 +94,11 @@ pub contract ArleeNFT: NonFungibleToken {
         pub fun withdrawItem( atIndex: UInt64 ) : @NonFungibleToken.NFT
     }
 
+    // Resources 
+    //
+
+    // NFT Resource
+    //
     pub resource NFT: NonFungibleToken.INFT, ArleeOwner, ArleeNFTPublic, MetadataViews.Resolver {
         pub let id: UInt64
         access(contract) var species: String
@@ -270,16 +272,14 @@ pub contract ArleeNFT: NonFungibleToken {
 
         // NFT initalization
         //
-        // Mints with some default values
-        //  these could be passed in to add more flexibility
         //
         init(initID: UInt64, species: String, name: String, originalArtist: Address,
             wardrobeSize: UInt64, maxNameChange: UInt64, points: UInt64, level: UInt64) {
             self.id = initID
             self.species = species
             self.name = name
-            self.maxNameChangeCount = maxNameChange // ArleeNFT.maxNameChangeCount
-            self.maxWardrobeSize = wardrobeSize // ArleeNFT.initalWardrobeSize
+            self.maxNameChangeCount = maxNameChange
+            self.maxWardrobeSize = wardrobeSize 
 
 
             self.nameChangeCount = 0
