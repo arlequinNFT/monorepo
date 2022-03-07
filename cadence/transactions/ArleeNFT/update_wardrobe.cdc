@@ -12,6 +12,6 @@ transaction(id: UInt64, index: UInt64, ipfsCID: String, name: String, descriptio
             ?? panic("Could not borrow a reference to the owner's collection")
 
         let alreeRef = collectionRef.borrowArlee(id: id)!
-        alreeRef.updateWardrobe(index: index, ipfsCID: ipfsCID, name: name, description: description)
+        alreeRef.updateWardrobe(index: index, ipfsCID: ipfsCID, description: description)
     }
 }

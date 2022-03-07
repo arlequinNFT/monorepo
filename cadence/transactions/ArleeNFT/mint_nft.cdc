@@ -7,7 +7,7 @@ import ArleeNFT from "../../contracts/ArleeNFT.cdc"
 // It must be run with the account that has the minter resource
 // stored in /storage/NFTMinter
 
-transaction(recipient: Address, species: String, ipfsCID: String, originalArtist: Address) {
+transaction(recipient: Address, species: String, ipfsCID: String, originalArtist: Address, name: String, description: String, wardrobeSize:UInt64, maxNameChange: UInt64, points: UInt64, level: UInt64) {
 
     // local variable for storing the minter reference
     let minter: &ArleeNFT.NFTMinter
@@ -27,6 +27,8 @@ transaction(recipient: Address, species: String, ipfsCID: String, originalArtist
             ?? panic("Could not get receiver reference to the NFT Collection")
 
         // Mint the NFT and deposit it to the recipient's collection
-        self.minter.mintNFT(recipient: receiver, species: species, originalArtist: originalArtist)
+        // self.minter.mintNFT(recipient: receiver, species: species, originalArtist: originalArtist)
+        self.minter.mintNFT(recipient: receiver, species: species, originalArtist: originalArtist, ipfsCID: ipfsCID, name: name, description: description, 
+            wardrobeSize: wardrobeSize, maxNameChange: maxNameChange, points: points, level: level)
     }
 }

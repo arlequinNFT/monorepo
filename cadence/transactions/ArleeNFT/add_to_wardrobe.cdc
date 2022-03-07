@@ -3,7 +3,7 @@ import ArleeNFT from "../../contracts/ArleeNFT.cdc"
 
 // This transaction is for adding a new Skin to an Arlee's wardrobe
 
-transaction(id: UInt64, ipfsCID: String, name: String, description: String) {
+transaction(id: UInt64, ipfsCID: String, description: String) {
 
     prepare(acct: AuthAccount) {
 
@@ -12,6 +12,6 @@ transaction(id: UInt64, ipfsCID: String, name: String, description: String) {
             ?? panic("Could not borrow a reference to the owner's collection")
 
         let alreeRef = collectionRef.borrowArlee(id: id)!
-        alreeRef.addToWardrobe(ipfsCID: ipfsCID, name: name, description: description)
+        alreeRef.addToWardrobe(ipfsCID: ipfsCID, description: description)
     }
 }

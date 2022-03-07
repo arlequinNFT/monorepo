@@ -12,7 +12,7 @@ transaction(id: UInt64, name: String) {
         let collectionRef = acct.borrow<&ArleeNFT.Collection>(from: ArleeNFT.CollectionStoragePath)
             ?? panic("Could not borrow a reference to the owner's collection")
 
-        let alreeRef = collectionRef.borrowArlee(id: id) ?? panic("couldn't borrow reference to arlee".concat(id.toString()))
+        let alreeRef = collectionRef.borrowArlee(id: id) ?? panic("couldn't borrow reference to arlee ID:".concat(id.toString()))
         alreeRef.updateName(name: name)
     }
 }

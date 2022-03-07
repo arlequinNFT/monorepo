@@ -7,6 +7,7 @@ import MetadataViews from "./MetadataViews.cdc"
 import ArleeItems from "./ArleeItems.cdc"
 import Nimo from "./Nimo.cdc"
 
+
 pub contract ArleeNFT: NonFungibleToken {
 
     // Total number of Arlee's in existance
@@ -18,6 +19,7 @@ pub contract ArleeNFT: NonFungibleToken {
     // Total times name can be set.
     pub var maxNameChangeCount : UInt64
 
+    // Events
     pub event ContractInitialized()
     pub event Withdraw(id: UInt64, from: Address?)
     pub event Deposit(id: UInt64, to: Address?)
@@ -31,39 +33,11 @@ pub contract ArleeNFT: NonFungibleToken {
     pub let CollectionStoragePath : StoragePath    
     pub let CollectionPublicPath : PublicPath
 
-    /*
-        interface Arlee {
-            order: number; // refering to the minting order
-            species: string; // should we type that better? like 'dog | turtle | deer'...
-            painting: Painting[]; // there might be a better english word instead of "painting"
-            currentPainting: Painting;
-            owner: address;
-            votes: {
-                maximum: number;
-                remaining: number;
-            };
-            accessories: Accessories; // as you said this should be an information added here
-            originalArtist: Artist; // we could also name that "contestArtist" or something
-            name: string; // an Arlee could maybe have a name the first owner choose then the arlee could be rename by spending NIMO
-            level: number; // you level up by spending NIMO. When you level up, you got a new slot and more voting points. One user can level up multiple time if he wants
-        }
-
-        interface Painting {
-            cid: string; // I'll use that to fetch the texture and thumbnail
-            name: string; // why not giving the possibility to name their painting
-            artist: Artist;
-        }
-
-        interface Artist {
-            address: address;
-            username: string;
-        }
-    */
-
+    // Structures
+    //
     pub struct ArleeMeta {
         pub let id: UInt64
         pub let name: String
-        pub let description: String
         pub let species: String
         pub let level: UInt64
         pub let currentSkin: &Skin?
@@ -76,7 +50,6 @@ pub contract ArleeNFT: NonFungibleToken {
         init(ref: &ArleeNFT.NFT) {
             self.id = ref.id
             self.name = ref.name
-            self.description = ref.description
             self.species = ref.species
             self.level = ref.level
             self.currentSkin = ref.getCurrentSkin()
@@ -89,17 +62,16 @@ pub contract ArleeNFT: NonFungibleToken {
         
     }
 
+    // Metadata for a skin / scene
     pub struct Skin {
         pub let ipfsCID: String
         pub let artistAddress: Address
-        pub let name: String
         pub let description: String
         pub let isLocked: Bool
         
-        init(ipfsCID: String, artistAddress: Address, name: String, description: String, isLocked: Bool) {
+        init(ipfsCID: String, artistAddress: Address, description: String, isLocked: Bool) {
             self.ipfsCID = ipfsCID
             self.artistAddress = artistAddress
-            self.name = name
             self.description = description
             self.isLocked = isLocked
         }
@@ -118,8 +90,8 @@ pub contract ArleeNFT: NonFungibleToken {
     pub resource interface ArleeOwner {
         pub fun equip(item: @NonFungibleToken.NFT)
         pub fun updateName(name: String)
-        pub fun addToWardrobe(ipfsCID: String, name: String, description: String)
-        pub fun updateWardrobe(index: UInt64, ipfsCID: String, name: String, description: String)
+        pub fun addToWardrobe(ipfsCID: String, description: String)
+        pub fun updateWardrobe(index: UInt64, ipfsCID: String, description: String)
         pub fun removeFromWardrobe(index: UInt64)
         pub fun setCurrentSkin(index: UInt64)
         pub fun withdrawItem( atIndex: UInt64 ) : @NonFungibleToken.NFT
@@ -128,18 +100,14 @@ pub contract ArleeNFT: NonFungibleToken {
     pub resource NFT: NonFungibleToken.INFT, ArleeOwner, ArleeNFTPublic, MetadataViews.Resolver {
         pub let id: UInt64
         access(contract) var species: String
-        // open question should name and description come from the skin?
-        access(contract) var name : String          
-        access(contract) var description : String
+        access(contract) var name : String
         access(contract) var level: UInt64
         access(contract) var points: UInt64
         access(contract) var originalArtist: Address
         //access(contract) var originalArtistFTReceiverCap: Capability<&{FungibleToken.Receiver}>
+        access(contract) var nameChangeCount : UInt64
         access(contract) var maxNameChangeCount: UInt64
         
-        // can limit number of times name has been set
-        pub var nameChangeCount : UInt64
-
         // wardrobe dictionary of ipfs pins for each 'outfit' the Arlee owns
         access(contract) let wardrobe: [Skin]
         
@@ -163,42 +131,29 @@ pub contract ArleeNFT: NonFungibleToken {
             emit NameChanged(id: self.id, ownersAddress: self.owner?.address!, oldName: oldName, newName: name)
         }
 
-        // updateDescription
-        //
-        // saves a new description if number of name changes has not been exceeded 
-        //
-        pub fun updateDescription(newDescription: String) {
-            pre {
-                self.nameChangeCount < self.maxNameChangeCount
-            }
-            let oldDescription = self.description
-            self.description = newDescription
-            self.nameChangeCount = self.nameChangeCount + 1
-            emit DescriptionChanged(id: self.id, ownersAddress: self.owner?.address!, oldDescription: oldDescription, newDescription: newDescription)
-        }
 
         // addToWardrobe
         //
         // Adds a new skin to the Arlee's wardrobe 
         // In this version of contract any owner can freely update their wardrobe with no cost
         //
-        pub fun addToWardrobe(ipfsCID: String, name: String, description: String) {
+        pub fun addToWardrobe(ipfsCID: String, description: String) {
             pre {
                 UInt64(self.wardrobe.length) < self.maxWardrobeSize : "Wardrobe is full!"
-                self.owner != nil : "NFT Refernce is nil"
+                self.owner != nil : "NFT Reference is nil"
                 self.owner!.address != nil : "No owners found"
             }
             self.wardrobe.append(
-                Skin(ipfsCID: ipfsCID, artistAddress: self.owner?.address!, name: name, description: description, isLocked: false)
+                Skin(ipfsCID: ipfsCID, artistAddress: self.owner?.address!, description: description, isLocked: false)
             )
         }
 
-        pub fun updateWardrobe(index: UInt64, ipfsCID: String, name: String, description: String) {
+        pub fun updateWardrobe(index: UInt64, ipfsCID: String, description: String) {
             pre {
                 self.wardrobe[index] != nil : "Nothing in that slot"
                 self.wardrobe[index].artistAddress == self.owner!.address : "Must be owner to update"
             }
-            self.wardrobe[index] = Skin(ipfsCID: ipfsCID, artistAddress: self.owner?.address!, name: name, description: description, isLocked: false)
+            self.wardrobe[index] = Skin(ipfsCID: ipfsCID, artistAddress: self.owner?.address!, description: description, isLocked: false)
         }
 
         // removeFromWardrobe
@@ -300,9 +255,9 @@ pub contract ArleeNFT: NonFungibleToken {
                 case Type<MetadataViews.Display>():
                     return MetadataViews.Display(
                         name: self.name,
-                        description: self.description,
+                        description: "This is Arlee #".concat(self.id.toString()).concat(" a ").concat(self.species).concat("!").concat(self.getCurrentSkin()?.description!),
                         thumbnail: MetadataViews.IPFSFile(
-                            cid: self.getCurrentSkin()?.ipfsCID ?? self.species.concat(""), // j00lz note: need default implementation for genesis arlee's with no skin
+                            cid: self.getCurrentSkin()?.ipfsCID!,
                             path: nil
                         )
                     )
@@ -318,17 +273,19 @@ pub contract ArleeNFT: NonFungibleToken {
         // Mints with some default values
         //  these could be passed in to add more flexibility
         //
-        init(initID: UInt64, species: String, originalArtist: Address) {
+        init(initID: UInt64, species: String, name: String, originalArtist: Address,
+            wardrobeSize: UInt64, maxNameChange: UInt64, points: UInt64, level: UInt64) {
             self.id = initID
             self.species = species
-            self.name = "Arlee #".concat(initID.toString())
-            self.description = "Freshly minted Arle #".concat(initID.toString())
-            self.maxNameChangeCount = ArleeNFT.maxNameChangeCount
-            self.maxWardrobeSize = ArleeNFT.initalWardrobeSize
+            self.name = name
+            self.maxNameChangeCount = maxNameChange // ArleeNFT.maxNameChangeCount
+            self.maxWardrobeSize = wardrobeSize // ArleeNFT.initalWardrobeSize
+
 
             self.nameChangeCount = 0
-            self.level = 0
-            self.points = 100 
+            self.points = points
+            self.level = level
+
             self.originalArtist = originalArtist
             
             self.wardrobe = []
@@ -456,24 +413,13 @@ pub contract ArleeNFT: NonFungibleToken {
     //
     pub resource NFTMinter {
 
-        // mintNFT mints a new NFT with a new ID
-        // and deposit it in the recipients collection using their collection reference
-        //
-        pub fun mintNFT(recipient: &{ArleeNFT.ArleeCollectionPublic}, species: String, originalArtist: Address) {
-
-            // create a new NFT
-            var newNFT <- create NFT(initID: ArleeNFT.totalSupply, species: species, originalArtist: originalArtist)
-
-            // deposit it in the recipient's account using their reference
-            recipient.deposit(token: <-newNFT)
-
-            ArleeNFT.totalSupply = ArleeNFT.totalSupply + 1
-        }
-
-        pub fun mintNFTWithSkin(recipient: &{ArleeNFT.ArleeCollectionPublic}, species: String, originalArtist: Address, ipfsCID: String, name: String, description: String) {
-            var newNFT <- create NFT(initID: ArleeNFT.totalSupply, species: species, originalArtist: originalArtist)
+        pub fun mintNFT(recipient: &{ArleeNFT.ArleeCollectionPublic}, species: String, originalArtist: Address, ipfsCID: String, name: String, description: String,
+            wardrobeSize: UInt64, maxNameChange: UInt64, points: UInt64, level: UInt64) {
+            var newNFT <- create NFT(initID: ArleeNFT.totalSupply, species: species, name: name, originalArtist: originalArtist,
+                wardrobeSize: wardrobeSize, maxNameChange: maxNameChange, points: points, level: level)
+            
             newNFT.wardrobe.append(
-                Skin(ipfsCID: ipfsCID, artistAddress: self.owner?.address!, name: name, description: description, isLocked: true)
+                Skin(ipfsCID: ipfsCID, artistAddress: self.owner?.address!, description: description, isLocked: true)
             )
             recipient.deposit(token: <-newNFT)
             ArleeNFT.totalSupply = ArleeNFT.totalSupply + 1
@@ -524,7 +470,7 @@ pub contract ArleeNFT: NonFungibleToken {
         self.totalSupply = 0
 
         // Inital globals for newly minted NFTs
-        self.initalWardrobeSize = 3 
+        self.initalWardrobeSize = 1
         self.maxNameChangeCount = 1
 
         // Initalize paths for scripts and transactions usage

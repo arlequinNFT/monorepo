@@ -37,7 +37,8 @@
 		"FUSD": "./contracts/FUSD.cdc",
         "ArleeItems": "./contracts/ArleeItems.cdc",
         "ArleeNFT": "./contracts/ArleeNFT.cdc",
-        "ArleePresale": "./contracts/ArleePresale.cdc",
+        "ArleeMintPass": "./contracts/ArleeMintPass.cdc",
+        "ArleeGenesisDrop": "./contracts/ArleeGenesisDrop.cdc",
         "Nimo": "./contracts/Nimo.cdc"
 	},
 	"networks": {
@@ -76,7 +77,8 @@
 			"admin-account": [
 				"ArleeItems",
 				"ArleeNFT",
-                "ArleePresale",
+				"ArleeMintPass",
+				"ArleeGenesisDrop",
                 "Nimo"
 			]
 

@@ -37,39 +37,59 @@ flow transactions send "./transactions/ArleeItems/setup_account.cdc" 0xf3fcd2c1a
 
 
 # Open Sale
-flow transactions send ./transactions/ArleePresale/sale_open.cdc --signer admin-account
+flow transactions send ./transactions/ArleeGenesisDrop/toggle_sale_is_active.cdc --signer admin-account
+flow transactions send ./transactions/ArleeGenesisDrop/toggle_redemption_is_active.cdc --signer admin-account
 
-flow scripts execute ./scripts/ArleePresale/get_packs.cdc
+flow scripts execute ./scripts/ArleeGenesisDrop/get_sale_status.cdc
 
 # purchase with account1
-flow transactions send "./transactions/ArleePresale/purchase.cdc" --signer "user-account1" "Diamond"
+flow transactions send "./transactions/ArleeGenesisDrop/purchase.cdc" "Shiba" --signer "user-account1"
+flow scripts execute ./scripts/ArleeGenesisDrop/get_sale_status.cdc 
+flow scripts execute ./scripts/ArleeMintPass/read_collection_ids.cdc 0x179b6b1cb6755e31
+flow scripts execute ./scripts/ArleeMintPass/get_collection_metadata.cdc 0x179b6b1cb6755e31
 
-flow scripts execute ./scripts/ArleePresale/get_packs.cdc
+echo "purchase with account1 (SHOULD FAIL) no Rabbit species!"
+flow transactions send "./transactions/ArleeGenesisDrop/purchase.cdc" --signer "user-account1" "Rabbit"
 
-echo "purchase with account1 (SHOULD FAIL)"
-flow transactions send "./transactions/ArleePresale/purchase.cdc" --signer "user-account1" "Diamond"
-
-flow scripts execute ./scripts/ArleePresale/get_packs.cdc
+flow scripts execute "./scripts/ArleeGenesisDrop/get_sale_status.cdc"
+flow scripts execute "./scripts/ArleeGenesisDrop/get_vault_balance.cdc" 0x01cf0e2f2f715450 
 
 echo "purchase with account1 (SHOULD WORK!)"
-flow transactions send "./transactions/ArleePresale/purchase.cdc" --signer "user-account1" "Diamond"
+# Should have have ids 0 + 1
+flow transactions send "./transactions/ArleeGenesisDrop/purchase.cdc" "Bird" --signer  "user-account1" 
+flow scripts execute ./scripts/ArleeMintPass/read_collection_ids.cdc 0x179b6b1cb6755e31
+flow scripts execute ./scripts/ArleeMintPass/get_collection_metadata.cdc 0x179b6b1cb6755e31
 
-# purchase with 
-flow transactions send "./transactions/ArleePresale/purchase.cdc" --signer "user-account2" "Diamond"
+# purchase with account 2
+# should have id 2
+flow transactions send "./transactions/ArleeGenesisDrop/purchase.cdc" "Shiba" --signer "user-account2" 
+flow scripts execute ./scripts/ArleeMintPass/read_collection_ids.cdc 0xf3fcd2c1a78f5eee
+flow scripts execute ./scripts/ArleeMintPass/get_collection_metadata.cdc 0xf3fcd2c1a78f5eee
 
-flow transactions send "./transactions/ArleeNFT/update_name.cdc" --signer "user-account2" 19 "Diggwedy"
+flow transactions send "./transactions/ArleeGenesisDrop/redeem.cdc" 0 "Dawg" "The very first Dawg minted in the Arleeverse" "ipfsCID of skin/scene details" --signer "user-account1"
+flow transactions send "./transactions/ArleeGenesisDrop/redeem.cdc" 1 "Birdy" "The very first Birdy minted in the Arleeverse" "ipfsCID of skin/scene details" --signer "user-account1"
+flow transactions send "./transactions/ArleeGenesisDrop/redeem.cdc" 2 "DoggyDawg" "The second Dawg minted in the Arleeverse" "ipfsCID of skin/scene details" --signer "user-account2"
 
-flow transactions send "./transactions/ArleeNFT/add_to_wardrobe.cdc" --signer "user-account2" 19 ipfs://23d23d "Mr Ah Lee" "Ah Lee from Malaysia"
-flow transactions send "./transactions/ArleeNFT/add_to_wardrobe.cdc" --signer "user-account2" 19 ipfs://23dhi2u3hd "~j00lz~" "j00lz-art!"
-flow transactions send "./transactions/ArleeNFT/set_current_skin.cdc" --signer "user-account2" 19 0
-flow transactions send "./transactions/ArleeNFT/add_to_wardrobe.cdc" --signer "user-account2" 19 ipfs://23d23d "Mr Ah Lee" "Ah Lee from Malaysia"
+flow transactions send "./transactions/ArleeGenesisDrop/gift.cdc" 0xf3fcd2c1a78f5eee "Shiba" --signer "admin-account" 
 
-flow transactions send "./transactions/ArleeNFT/update_wardrobe.cdc" --signer "user-account2" 19 0 ipfs://jfoi3412d "Mr Ah Lee" "Ah Lee from Malaysia"
-flow transactions send "./transactions/ArleeNFT/update_wardrobe.cdc" --signer "user-account2" 19 0 ipfs://jfoi3412d "Mr Ah Lee" "Ah Lee from Kuala Lumpur"
+flow scripts execute ./scripts/ArleeNFT/read_collection_ids.cdc 0x01cf0e2f2f715450 
+flow scripts execute ./scripts/ArleeNFT/read_collection_ids.cdc 0x179b6b1cb6755e31
+flow scripts execute ./scripts/ArleeNFT/read_collection_ids.cdc 0xf3fcd2c1a78f5eee
 
-flow transactions send "./transactions/ArleeNFT/remove_from_wardrobe.cdc" --signer "user-account2" 19 0
+flow transactions send "./transactions/ArleeNFT/update_name.cdc" 0 "Doggy Dawg" --signer "user-account1" 
+flow transactions send "./transactions/ArleeNFT/update_name.cdc" 1 "Birdy Bird" --signer "user-account1" 
 
-flow scripts execute ./scripts/ArleePresale/get_packs.cdc
+flow transactions send "./transactions/ArleeNFT/add_to_wardrobe.cdc" --signer "user-account2" 2 ipfs://23d23d "a new outfit"
+flow transactions send "./transactions/ArleeNFT/add_to_wardrobe.cdc" --signer "user-account2" 2 ipfs://23dhi2u3hd "special outfit"
+flow transactions send "./transactions/ArleeNFT/set_current_skin.cdc" --signer "user-account2" 2 0
+flow transactions send "./transactions/ArleeNFT/add_to_wardrobe.cdc" --signer "user-account2" 2 ipfs://23d23d "party outfit"
+
+flow transactions send "./transactions/ArleeNFT/update_wardrobe.cdc" --signer "user-account2" 2 0 ipfs://jfoi3412d "chillin outfit"
+flow transactions send "./transactions/ArleeNFT/update_wardrobe.cdc" --signer "user-account2" 2 0 ipfs://jfoi3412d "fancy outfit"
+
+flow transactions send "./transactions/ArleeNFT/remove_from_wardrobe.cdc" --signer "user-account2" 2 0
+flow transactions send "./transactions/ArleeNFT/remove_from_wardrobe.cdc" --signer "user-account2" 2 1
+
 
 flow scripts execute ./scripts/ArleeNFT/read_collection_ids.cdc 0x01cf0e2f2f715450 
 flow scripts execute ./scripts/ArleeNFT/read_collection_ids.cdc 0x179b6b1cb6755e31
@@ -83,7 +103,7 @@ flow scripts execute ./scripts/ArleeNFT/get_collection_metadata.cdc 0x01cf0e2f2f
 flow scripts execute ./scripts/ArleeNFT/get_collection_metadata.cdc 0x179b6b1cb6755e31
 flow scripts execute ./scripts/ArleeNFT/get_collection_metadata.cdc 0xf3fcd2c1a78f5eee
 
-flow scripts execute ./scripts/ArleePresale/get_vault_balance.cdc 0x01cf0e2f2f715450
+flow scripts execute ./scripts/ArleeGenesisDrop/get_vault_balance.cdc 0x01cf0e2f2f715450
 
 # Arlee Items
 flow transactions send "./transactions/ArleeItems/setup_account.cdc" --signer "admin-account"
