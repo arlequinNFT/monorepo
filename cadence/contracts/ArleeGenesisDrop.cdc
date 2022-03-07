@@ -10,26 +10,6 @@
 // Admin can adjust sale parameters 
 // Admin can claim a mintpass and can send to a user (comes from total to ensure rarity totals)
 
-// Questions for Kevin:
-//      How many can they mint per transaction? 1 or multiple? same or mixed order of different species?
-//          (currently only 1 voucher per transaction to claim 1 Arlee)
-//      Should we add some guarantee in the contract for users that admin can't add/change packs once the sale starts?
-//      Or should admin have safety mechanism to allow pausing/cancelling the drop?
-
-/*
-
-
-Also for the Genesis Drop contrcat I have these questions:
-
-- How many can they mint per transaction? 1 or multiple? same or mixed order of different species?
-
-Currently I've just coded it so they can buy 1 voucher per transaction to claim 1 Arlee
-
-Should we add some guarantee in the contract for users that admin can't add/change packs once the sale starts?
-
-Or should admin have safety mechanism to allow pausing/cancelling the drop? 
-
- */
 import FUSD from "./FUSD.cdc"
 import FungibleToken from "./FungibleToken.cdc"
 import NonFungibleToken from "./NonFungibleToken.cdc"
