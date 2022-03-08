@@ -1,12 +1,7 @@
-// This transaction withdraws FUSD from users account and sends to presale contract to purchase Arlees
+// This transaction Gifts a mint pass of the species designated to the address passed. 
 
-import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
-import ArleeNFT from "../../contracts/ArleeNFT.cdc"
-import ArleeMintPass from "../../contracts/ArleeMintPass.cdc"
 import ArleeGenesisDrop from "../../contracts/ArleeGenesisDrop.cdc"
-import FUSD from "../../contracts/FUSD.cdc"
-
-// import FungibleToken from "../../contracts/FungibleToken.cdc"
+import ArleeMintPass from "../../contracts/ArleeMintPass.cdc"
 
 transaction(toAddress: Address, species: String ) {
     // The Vault resource that holds the tokens being transferred
