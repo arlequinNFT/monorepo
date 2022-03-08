@@ -10,7 +10,6 @@ import Nimo from "./Nimo.cdc"
 
 
 pub contract ArleeNFT: NonFungibleToken {
-    access(contract) let arleeDataByID: {UInt64: ArleeData}
 
     // Total number of Arlee's in existance
     pub var totalSupply: UInt64 
@@ -31,6 +30,8 @@ pub contract ArleeNFT: NonFungibleToken {
     pub let CollectionStoragePath : StoragePath    
     pub let CollectionPublicPath : PublicPath
 
+    access(contract) let arleeDataByID: {UInt64: ArleeData}
+
     pub struct ArleeData {
         pub var points: UInt64
         pub var level: UInt64
@@ -48,6 +49,12 @@ pub contract ArleeNFT: NonFungibleToken {
         }
     }
 
+    /*
+    access(account) fun increasePointsBy(id: UInt64,_ amount: UInt64) { arleeDataByID[id]?.increasePointsBy(amount)}
+    access(account) fun decreasePointsBy(id: UInt64,_ amount: UInt64) { arleeDataByID[id]?.decreasePointsBy(amount)}
+    access(account) fun increaseLevelBy(id: UInt64,_ amount: UInt64) { arleeDataByID[id]?.increaseLevelBy(amount)}
+    access(account) fun decreaseLevelBy(id: UInt64,_ amount: UInt64) { arleeDataByID[id]?.increaseLevelBy(amount)}
+     */
 
     // Structures
     //
@@ -488,25 +495,19 @@ pub contract ArleeNFT: NonFungibleToken {
     //    - create new admin
     //
     pub resource Admin {
-        pub fun replenishPoints(ref: &ArleeNFT.NFT, amount: UInt64) {
-            ref.increasePointsBy(amount)
+        pub fun replenishPoints(id: UInt64, amount: UInt64) {
+            ArleeNFT.arleeDataByID[id].increasePointsBy(amount)
         }
-        pub fun spendPoints(ref: &ArleeNFT.NFT, amount: UInt64) {
-            ref.decreasePointsBy(amount)
+        pub fun spendPoints(id: UInt64, amount: UInt64) {
+            ArleeNFT.arleeDataByID[id].decreasePointsBy(amount)
         }
-        pub fun increaseLevel(ref: &ArleeNFT.NFT, amount: UInt64) {
-            ref.increaseLevelBy(amount)
+        pub fun increaseLevel(id: UInt64, amount: UInt64) {
+            ArleeNFT.arleeDataByID[id].increaseLevelBy(amount)
         }
-        pub fun decreaseLevelBy(ref: &ArleeNFT.NFT, amount: UInt64) {
-            ref.decreaseLevelBy(amount)
+        pub fun decreaseLevelBy(id: UInt64, amount: UInt64) {
+            ArleeNFT.arleeDataByID[id].decreaseLevelBy(amount)
         }
-        pub fun increaseMaxNameChangeCountBy(ref: &ArleeNFT.NFT, amount: UInt64) {
-            ref.increaseMaxNameChangeCountBy(amount)
-        }
-        pub fun increaseMaxWardrobeSizeBy(ref: &ArleeNFT.NFT, amount: UInt64) {
-            ref.increaseMaxWardrobeSizeBy(amount)
-        }
-
+        
         pub fun createNewAdmin(): @Admin {
             return <- create Admin()
         }
