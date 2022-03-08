@@ -84,10 +84,17 @@ flow transactions send "./transactions/ArleeNFT/add_to_wardrobe.cdc" --signer "u
 flow transactions send "./transactions/ArleeNFT/set_current_skin.cdc" --signer "user-account2" 2 0
 flow transactions send "./transactions/ArleeNFT/add_to_wardrobe.cdc" --signer "user-account2" 2 ipfs://23d23d "party outfit"
 
-flow transactions send "./transactions/ArleeNFT/update_wardrobe.cdc" --signer "user-account2" 2 0 ipfs://jfoi3412d "chillin outfit"
-flow transactions send "./transactions/ArleeNFT/update_wardrobe.cdc" --signer "user-account2" 2 0 ipfs://jfoi3412d "fancy outfit"
+# works
+flow transactions send "./transactions/ArleeNFT/update_wardrobe.cdc" --signer "user-account2" 2 1 ipfs://jfoi3412d "chillin outfit"
+flow transactions send "./transactions/ArleeNFT/update_wardrobe.cdc" --signer "user-account2" 2 1 ipfs://jfoi3412d "fancy outfit"
 
+echo "SHOULD FAIL!!~~ locked"
+flow transactions send "./transactions/ArleeNFT/update_wardrobe.cdc" --signer "user-account2" 2 0 ipfs://jfoi3412d "chillin outfit"
+
+echo "fail cannot remove orignal minters artwork"
 flow transactions send "./transactions/ArleeNFT/remove_from_wardrobe.cdc" --signer "user-account2" 2 0
+
+echo "works"
 flow transactions send "./transactions/ArleeNFT/remove_from_wardrobe.cdc" --signer "user-account2" 2 1
 
 
@@ -96,8 +103,8 @@ flow scripts execute ./scripts/ArleeNFT/read_collection_ids.cdc 0x179b6b1cb6755e
 flow scripts execute ./scripts/ArleeNFT/read_collection_ids.cdc 0xf3fcd2c1a78f5eee
 
 flow scripts execute ./scripts/ArleeNFT/get_metadata.cdc 0xf3fcd2c1a78f5eee 0
-flow scripts execute ./scripts/ArleeNFT/get_metadata.cdc 0x179b6b1cb6755e31 17 
-flow scripts execute ./scripts/ArleeNFT/get_metadata.cdc 0xf3fcd2c1a78f5eee 19
+flow scripts execute ./scripts/ArleeNFT/get_metadata.cdc 0x179b6b1cb6755e31 1 
+flow scripts execute ./scripts/ArleeNFT/get_metadata.cdc 0xf3fcd2c1a78f5eee 2
 
 flow scripts execute ./scripts/ArleeNFT/get_collection_metadata.cdc 0x01cf0e2f2f715450 
 flow scripts execute ./scripts/ArleeNFT/get_collection_metadata.cdc 0x179b6b1cb6755e31
@@ -123,8 +130,25 @@ flow scripts execute ./scripts/ArleeItems/get_collection_metadata.cdc 0x01cf0e2f
 flow scripts execute ./scripts/ArleeItems/get_collection_metadata.cdc 0x179b6b1cb6755e31
 flow scripts execute ./scripts/ArleeItems/get_collection_metadata.cdc 0xf3fcd2c1a78f5eee
 
-flow transactions send "./transactions/ArleeNFT/equip.cdc" 17 1 --signer "user-account1"
-flow transactions send "./transactions/ArleeNFT/equip.cdc" 19 2 --signer "user-account2"
+flow transactions send "./transactions/ArleeNFT/equip.cdc" 0 0 --signer "user-account1"
+flow transactions send "./transactions/ArleeNFT/equip.cdc" 1 1 --signer "user-account1"
+flow transactions send "./transactions/ArleeNFT/equip.cdc" 2 2 --signer "user-account2"
 
-flow scripts execute ./scripts/ArleeNFT/get_metadata.cdc 0x179b6b1cb6755e31 17 
-flow scripts execute ./scripts/ArleeNFT/get_metadata.cdc 0xf3fcd2c1a78f5eee 19
+flow scripts execute ./scripts/ArleeNFT/get_metadata.cdc 0x179b6b1cb6755e31 0
+flow scripts execute ./scripts/ArleeNFT/get_metadata.cdc 0x179b6b1cb6755e31 1
+flow scripts execute ./scripts/ArleeNFT/get_metadata.cdc 0xf3fcd2c1a78f5eee 2
+
+# Arlee Potion
+flow transactions send "./transactions/ArleePotion/setup_account.cdc" --signer "admin-account"
+flow transactions send "./transactions/ArleePotion/setup_account.cdc" --signer "user-account1"
+flow transactions send "./transactions/ArleePotion/setup_account.cdc" --signer "user-account2"
+
+flow transactions send "./transactions/ArleePotion/mint_nft.cdc" 0x179b6b1cb6755e31 "Wardrobe Increase" 1 "ipfsWardrobeIncreasePotionImagePin" --signer "admin-account"
+flow transactions send "./transactions/ArleePotion/mint_nft.cdc" 0x179b6b1cb6755e31 "Name Change" 1 "ipfsNameChangePotionImagePin" --signer "admin-account"
+
+flow transactions send "./transactions/ArleeNFT/use_potion.cdc" 1 0 --signer "user-account1"
+flow transactions send "./transactions/ArleeNFT/use_potion.cdc" 1 1 --signer "user-account1"
+
+flow scripts execute ./scripts/ArleeNFT/get_metadata.cdc 0x179b6b1cb6755e31 0
+flow scripts execute ./scripts/ArleeNFT/get_metadata.cdc 0x179b6b1cb6755e31 1
+
