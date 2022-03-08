@@ -36,6 +36,7 @@
         },
 		"FUSD": "./contracts/FUSD.cdc",
         "ArleeItems": "./contracts/ArleeItems.cdc",
+        "ArleePotion": "./contracts/ArleePotion.cdc",
         "ArleeNFT": "./contracts/ArleeNFT.cdc",
         "ArleeMintPass": "./contracts/ArleeMintPass.cdc",
         "ArleeGenesisDrop": "./contracts/ArleeGenesisDrop.cdc",
@@ -76,6 +77,7 @@
             ],
 			"admin-account": [
 				"ArleeItems",
+				"ArleePotion",
 				"ArleeNFT",
 				"ArleeMintPass",
 				"ArleeGenesisDrop",
