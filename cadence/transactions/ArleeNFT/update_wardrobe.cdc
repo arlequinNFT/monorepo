@@ -3,7 +3,7 @@ import ArleeNFT from "../../contracts/ArleeNFT.cdc"
 
 // This transaction is for adding a new Skin to an Arlee's wardrobe
 
-transaction(id: UInt64, index: UInt64, ipfsCID: String, name: String, description: String) {
+transaction(id: UInt64, index: UInt64, ipfsCID: String, description: String) {
 
     prepare(acct: AuthAccount) {
 
