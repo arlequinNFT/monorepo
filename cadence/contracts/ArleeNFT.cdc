@@ -5,10 +5,12 @@
 import NonFungibleToken from "./NonFungibleToken.cdc"
 import MetadataViews from "./MetadataViews.cdc"
 import ArleeItems from "./ArleeItems.cdc"
+import ArleePotion from "./ArleePotion.cdc"
 import Nimo from "./Nimo.cdc"
 
 
 pub contract ArleeNFT: NonFungibleToken {
+    access(contract) let arleeDataByID: {UInt64: ArleeData}
 
     // Total number of Arlee's in existance
     pub var totalSupply: UInt64 
@@ -16,7 +18,6 @@ pub contract ArleeNFT: NonFungibleToken {
     // Total times name can be set.
     pub var maxNameChangeCount : UInt64
 
-    // Events
     pub event ContractInitialized()
     pub event Withdraw(id: UInt64, from: Address?)
     pub event Deposit(id: UInt64, to: Address?)
@@ -29,6 +30,24 @@ pub contract ArleeNFT: NonFungibleToken {
     pub let AdminStoragePath : StoragePath
     pub let CollectionStoragePath : StoragePath    
     pub let CollectionPublicPath : PublicPath
+
+    pub struct ArleeData {
+        pub var points: UInt64
+        pub var level: UInt64
+        pub var metadata: {String: String}
+
+        pub fun increasePointsBy(_ amount: UInt64) { self.points = self.points + amount }
+        pub fun decreasePointsBy(_ amount: UInt64) { self.points = self.points - amount }
+        pub fun increaseLevelBy(_ amount: UInt64) { self.level = self.level + amount }
+        pub fun decreaseLevelBy(_ amount: UInt64) { self.level = self.level - amount }
+        
+        init(points: UInt64, level: UInt64, metadata: {String: String}) {
+            self.points = points
+            self.level = level
+            self.metadata = metadata
+        }
+    }
+
 
     // Structures
     //
@@ -43,20 +62,22 @@ pub contract ArleeNFT: NonFungibleToken {
         pub let points: UInt64
         pub let items: [ArleeItems.ArleeItemMeta]
         pub let originalArtist: Address
+        pub let royalties: [Royalty]
 
         init(ref: &ArleeNFT.NFT) {
             self.id = ref.id
             self.name = ref.name
             self.species = ref.species
-            self.level = ref.level
+            self.level = ArleeNFT.arleeDataByID[ref.id]?.level
             self.currentSkin = ref.getCurrentSkin()
             self.wardrobe = ref.wardrobe
             self.maxWardrobeSize = ref.maxWardrobeSize
-            self.points= ref.points
+            self.points= ArleeNFT.arleeDataByID[ref.id]?.points
             self.items = ref.getItemsMeta()
             self.originalArtist = ref.originalArtist
+            self.royalties = ref.getRoyalties()
         }
-        
+
     }
 
     // Metadata for a skin / scene
@@ -74,6 +95,16 @@ pub contract ArleeNFT: NonFungibleToken {
         }
     }
 
+    pub struct Royalty {
+        pub let address: Address
+        pub let cut: UFix64
+
+        init(address: Address, cut: UFix64) {
+            self.address = address
+            self.cut = cut
+        }
+    }
+
     // ArleeOwner Interface 
     //
     // capability to access these functions can be given to other users by linking and sharing a private capability
@@ -82,6 +113,7 @@ pub contract ArleeNFT: NonFungibleToken {
         pub fun getCurrentSkin(): &Skin?
         pub fun getItemsMeta(): [ArleeItems.ArleeItemMeta]
         pub fun getMetadata(): ArleeMeta
+        pub fun getRoyalties(): [Royalty]
     }
 
     pub resource interface ArleeOwner {
@@ -103,10 +135,7 @@ pub contract ArleeNFT: NonFungibleToken {
         pub let id: UInt64
         access(contract) var species: String
         access(contract) var name : String
-        access(contract) var level: UInt64
-        access(contract) var points: UInt64
         access(contract) var originalArtist: Address
-        //access(contract) var originalArtistFTReceiverCap: Capability<&{FungibleToken.Receiver}>
         access(contract) var nameChangeCount : UInt64
         access(contract) var maxNameChangeCount: UInt64
         
@@ -207,6 +236,31 @@ pub contract ArleeNFT: NonFungibleToken {
             return ArleeMeta(ref: &self as &NFT)
         }
 
+        pub fun getRoyalties(): [Royalty] {
+            let royalties:[Royalty] = []
+            var amount = 0.02
+            royalties.append(Royalty( address: self.originalArtist, cut: amount))
+            for skin in self.wardrobe {
+                amount = amount / 2.0
+                royalties.append(Royalty(address: skin.artistAddress, cut: amount))
+            }
+            return royalties
+        }
+
+
+        // Use Potion
+        //
+        // Potions are an NFT that are awarded to players by using their points. 
+        //
+        pub fun usePotion(nft: @ArleePotion.NFT) {
+            switch nft.name {
+                case "Wardrobe Increase" : self.increaseMaxWardrobeSizeBy(nft.amount)
+                case "Name Change" : self.increaseMaxNameChangeCountBy(nft.amount)
+                default : panic("Invalid Potion")
+            }
+            destroy nft
+        }
+
         // Private Functions
         //
         // account level access function can be called by another contract held in the same account 
@@ -215,32 +269,28 @@ pub contract ArleeNFT: NonFungibleToken {
         //
         // j00lz 2do add events
         //
-        access(account) fun increaseMaxWardrobeSizeBy(amount: UInt64) {
+        access(account) fun increaseMaxWardrobeSizeBy(_ amount: UInt64) {
             self.maxWardrobeSize = self.maxWardrobeSize + amount
         }
 
-        access(account) fun increaseMaxNameChangeCountBy(amount: UInt64) {
+        access(account) fun increaseMaxNameChangeCountBy(_ amount: UInt64) {
             self.maxNameChangeCount = self.maxNameChangeCount + amount
         }
 
-        access(account) fun increasePointsBy(amount: UInt64) {
-            self.points = self.points + amount
+        access(account) fun increasePointsBy(_ amount: UInt64) {
+            ArleeNFT.arleeDataByID[self.id]?.increasePointsBy(amount)
         }
 
-        access(account) fun decreasePointsBy(amount:UInt64) {
-            self.points = self.points - amount
+        access(account) fun decreasePointsBy(_ amount:UInt64) {
+            ArleeNFT.arleeDataByID[self.id]?.decreasePointsBy(amount)
         }
 
-        access(account) fun increaseLevelBy(amount: UInt64) {
-            self.level = self.level + amount
+        access(account) fun increaseLevelBy(_ amount: UInt64) {
+            ArleeNFT.arleeDataByID[self.id]?.increaseLevelBy(amount)
         }
         
-        access(account) fun decreaseLevelBy(amount: UInt64) {
-            self.level = self.level - amount
-        }
-
-        access(account) fun changeSpecies(newSpecies: String) {
-            self.species = newSpecies
+        access(account) fun decreaseLevelBy(_ amount: UInt64) {
+            ArleeNFT.arleeDataByID[self.id]?.decreaseLevelBy(amount)
         }
         
         // MetadataViews
@@ -281,11 +331,12 @@ pub contract ArleeNFT: NonFungibleToken {
             self.maxNameChangeCount = maxNameChange
             self.maxWardrobeSize = wardrobeSize 
 
-
+            ArleeNFT.arleeDataByID[self.id] = ArleeData(
+                points: points,
+                level: level,
+                metadata: {}
+            )
             self.nameChangeCount = 0
-            self.points = points
-            self.level = level
-
             self.originalArtist = originalArtist
             
             self.wardrobe = []
@@ -438,27 +489,23 @@ pub contract ArleeNFT: NonFungibleToken {
     //
     pub resource Admin {
         pub fun replenishPoints(ref: &ArleeNFT.NFT, amount: UInt64) {
-            ref.increasePointsBy(amount: amount)
+            ref.increasePointsBy(amount)
         }
         pub fun spendPoints(ref: &ArleeNFT.NFT, amount: UInt64) {
-            ref.decreasePointsBy(amount: amount)
+            ref.decreasePointsBy(amount)
         }
         pub fun increaseLevel(ref: &ArleeNFT.NFT, amount: UInt64) {
-            ref.increaseLevelBy(amount: amount)
+            ref.increaseLevelBy(amount)
         }
         pub fun decreaseLevelBy(ref: &ArleeNFT.NFT, amount: UInt64) {
-            ref.decreaseLevelBy(amount: amount)
+            ref.decreaseLevelBy(amount)
         }
         pub fun increaseMaxNameChangeCountBy(ref: &ArleeNFT.NFT, amount: UInt64) {
-            ref.increaseMaxNameChangeCountBy(amount: amount)
+            ref.increaseMaxNameChangeCountBy(amount)
         }
         pub fun increaseMaxWardrobeSizeBy(ref: &ArleeNFT.NFT, amount: UInt64) {
-            ref.increaseMaxWardrobeSizeBy(amount: amount)
+            ref.increaseMaxWardrobeSizeBy(amount)
         }
-        pub fun changeSpecies(ref: &ArleeNFT.NFT, newSpecies: String) {
-            ref.changeSpecies(newSpecies: newSpecies)
-        }
-
 
         pub fun createNewAdmin(): @Admin {
             return <- create Admin()
@@ -470,8 +517,9 @@ pub contract ArleeNFT: NonFungibleToken {
         self.totalSupply = 0
 
         // Inital globals for newly minted NFTs
-        self.initalWardrobeSize = 1
         self.maxNameChangeCount = 1
+
+        self.arleeDataByID = {}
 
         // Initalize paths for scripts and transactions usage
         self.MinterStoragePath = /storage/ArleeNFTMinter
