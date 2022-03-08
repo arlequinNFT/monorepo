@@ -19,6 +19,10 @@ pub contract ArleePotion: NonFungibleToken {
     pub event Withdraw(id: UInt64, from: Address?)
     pub event Deposit(id: UInt64, to: Address?)
 
+    // Arlee Potion Events
+    pub event Minted(id: UInt64)
+    pub event Burnt(id: UInt64)
+
     // Paths
     pub let MinterStoragePath : StoragePath
     pub let CollectionStoragePath : StoragePath
@@ -86,6 +90,11 @@ pub contract ArleePotion: NonFungibleToken {
             self.name = name
             self.amount = amount
             self.ipfsCID = ipfsCID
+            emit Minted(id: self.id)
+        }
+
+        destroy() {
+            emit Burnt(id: self.id)
         }
     }
 
@@ -108,6 +117,11 @@ pub contract ArleePotion: NonFungibleToken {
 
         init () {
             self.ownedNFTs <- {}
+        }
+
+        pub fun withdrawPotion(withdrawID: UInt64): @NFT {
+            let token <- self.withdraw(withdrawID: withdrawID) as! @NFT
+            return <- token
         }
 
         // withdraw removes an NFT from the collection and moves it to the caller
