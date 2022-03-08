@@ -75,11 +75,11 @@ pub contract ArleeNFT: NonFungibleToken {
             self.id = ref.id
             self.name = ref.name
             self.species = ref.species
-            self.level = ArleeNFT.arleeDataByID[ref.id]?.level
+            self.level = ArleeNFT.arleeDataByID[ref.id]?.level!
             self.currentSkin = ref.getCurrentSkin()
             self.wardrobe = ref.wardrobe
             self.maxWardrobeSize = ref.maxWardrobeSize
-            self.points= ArleeNFT.arleeDataByID[ref.id]?.points
+            self.points= ArleeNFT.arleeDataByID[ref.id]?.points!
             self.items = ref.getItemsMeta()
             self.originalArtist = ref.originalArtist
             self.royalties = ref.getRoyalties()
@@ -496,16 +496,16 @@ pub contract ArleeNFT: NonFungibleToken {
     //
     pub resource Admin {
         pub fun replenishPoints(id: UInt64, amount: UInt64) {
-            ArleeNFT.arleeDataByID[id].increasePointsBy(amount)
+            ArleeNFT.arleeDataByID[id]?.increasePointsBy(amount)
         }
         pub fun spendPoints(id: UInt64, amount: UInt64) {
-            ArleeNFT.arleeDataByID[id].decreasePointsBy(amount)
+            ArleeNFT.arleeDataByID[id]?.decreasePointsBy(amount)
         }
         pub fun increaseLevel(id: UInt64, amount: UInt64) {
-            ArleeNFT.arleeDataByID[id].increaseLevelBy(amount)
+            ArleeNFT.arleeDataByID[id]?.increaseLevelBy(amount)
         }
         pub fun decreaseLevelBy(id: UInt64, amount: UInt64) {
-            ArleeNFT.arleeDataByID[id].decreaseLevelBy(amount)
+            ArleeNFT.arleeDataByID[id]?.decreaseLevelBy(amount)
         }
         
         pub fun createNewAdmin(): @Admin {
