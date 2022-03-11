@@ -1,7 +1,12 @@
 import { HexColorInput, HexColorPicker } from 'react-colorful';
 import { useDebouncedCallback } from 'use-debounce';
 
-import { Popover, PopoverBody, PopoverContent, PopoverTrigger } from '@chakra-ui/popover';
+import {
+  Popover,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+} from '@chakra-ui/popover';
 
 import { useAppDispatch, useAppSelector } from '../../store/hook';
 import { setCurrentBackgroundColor } from '../../store/reducers/painter.reducer';
@@ -24,7 +29,9 @@ const BackgroundColor = () => {
 
   return (
     <>
-      <p className="text-black-200 font-bold text-[0.875rem] mt-3 mb-1">Color</p>
+      <p className="text-black-200 font-bold text-[0.875rem] mt-3 mb-1">
+        Color
+      </p>
 
       <div className="grid grid-flow-col gap-x-2 items-center py-1 ">
         <Popover>

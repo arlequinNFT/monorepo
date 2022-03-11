@@ -1,24 +1,14 @@
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import { HexColorInput, HexColorPicker } from 'react-colorful';
-import { useHotkeys } from 'react-hotkeys-hook';
 import ReactTooltip from 'react-tooltip';
 import Unity, { UnityContext } from 'react-unity-webgl';
-import { useDebouncedCallback } from 'use-debounce';
 
 import { ComponentsButton } from '@arlequin/components/button';
-import { ComponentsInput } from '@arlequin/components/input';
-import {
-    Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel
-} from '@chakra-ui/accordion';
-import { Popover, PopoverBody, PopoverContent, PopoverTrigger } from '@chakra-ui/popover';
-
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/tabs';
 import ArleesMode from '../components/arlees-mode/arlees-mode.component';
 import BackgroundColor from '../components/background-color/background-color.component';
 import BackgroundMode from '../components/background-mode/background-mode.component';
 import BrushColor from '../components/brush-color/brush-color.component';
-import BrushHardness from '../components/brush-hardness/brush-hardness.component';
-import BrushOpacity from '../components/brush-opacity/brush-opacity.component';
 import BrushSize from '../components/brush-size/brush-size.component';
 import LightColor from '../components/light-color/light-color.component';
 import LightIntensity from '../components/light-intensity/light-intensity.component';
@@ -31,12 +21,15 @@ import Swatches from '../components/swatches/swatches.component';
 import UndoRedo from '../components/undo-redo/undo-redo.component';
 import { useAppDispatch, useAppSelector } from '../store/hook';
 import {
-    hideLoadingScreen, setSceneLoaded, setUnityContext
+  hideLoadingScreen,
+  setSceneLoaded,
+  setUnityContext,
 } from '../store/reducers/painter.reducer';
 import { useScrollDirection } from '../utils/use-scroll-direction';
 import styles from './index.module.scss';
 
 import type { NextPage } from 'next';
+import SettingsTabs from '../components/settings-tabs/settings-tabs.component';
 const Index: NextPage = () => {
   const { keyPress } = useScrollDirection();
 
@@ -228,62 +221,46 @@ const Index: NextPage = () => {
         </div>
 
         <div className="flex flex-col bg-black-700 overflow-hidden  relative">
-          <section className="top-6 p-4 overflow-y-auto w-full pb-16">
-            <UndoRedo></UndoRedo>
+          <Tabs>
+            <TabList className="px-2">
+              <SettingsTabs></SettingsTabs>
+            </TabList>
 
-            <Accordion defaultIndex={[0]} allowMultiple>
-              <AccordionItem className="py-4 ">
-                <AccordionButton className="flex justify-between">
-                  <p className="uppercase text-white text-xs font-bold">
-                    Brush
-                  </p>
-                  <AccordionIcon className="!text-white" />
-                </AccordionButton>
-                <AccordionPanel className="py-2">
-                  <PaintingMode></PaintingMode>
-                  <BrushColor></BrushColor>
+            <TabPanels className="p-4">
+              <TabPanel>
+                <div className="flex items-center justify-between mb-4">
+                  <p className="uppercase text-white">Painting</p>
+                  <UndoRedo></UndoRedo>
+                </div>
+                <PaintingMode></PaintingMode>
+                <div className="py-6">
                   <BrushSize></BrushSize>
-                </AccordionPanel>
-              </AccordionItem>
-
-              <AccordionItem className="py-4 border-t border-black-400">
-                <AccordionButton className="flex justify-between">
-                  <p className="uppercase text-white text-xs font-bold">
-                    Background
-                  </p>
-                  <AccordionIcon className="!text-white" />
-                </AccordionButton>
-                <AccordionPanel className="py-2">
-                  <BackgroundMode></BackgroundMode>
-                  <BackgroundColor></BackgroundColor>
-                </AccordionPanel>
-              </AccordionItem>
-
-              <AccordionItem className="py-4 border-t border-black-400">
-                <AccordionButton className="flex justify-between">
-                  <p className="uppercase text-white text-xs font-bold">
-                    Light
-                  </p>
-                  <AccordionIcon className="!text-white" />
-                </AccordionButton>
-                <AccordionPanel className="py-2">
-                  <LightColor></LightColor>
-                  <LightIntensity></LightIntensity>
-                  <LightXAxis></LightXAxis>
-                  <LightYAxis></LightYAxis>
-                </AccordionPanel>
-              </AccordionItem>
-            </Accordion>
-          </section>
+                </div>
+                <BrushColor></BrushColor>
+              </TabPanel>
+              <TabPanel>
+                <p className="uppercase text-white mb-2">Background</p>
+                <BackgroundMode></BackgroundMode>
+                <BackgroundColor></BackgroundColor>
+              </TabPanel>
+              <TabPanel>
+                <p className="uppercase text-white mb-2">Light</p>
+                <LightColor></LightColor>
+                <LightIntensity></LightIntensity>
+                <LightXAxis></LightXAxis>
+                <LightYAxis></LightYAxis>
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
 
           <section className="flex justify-center absolute bottom-0 w-full py-3 bg-black-600">
-              <ComponentsButton
-                color="secondary"
-                rounded
-                onClick={generateAvatar}
-              >
-                GENERATE AVATAR
-              </ComponentsButton>
+            <ComponentsButton
+              color="secondary"
+              rounded
+              onClick={generateAvatar}
+            >
+              GENERATE AVATAR
+            </ComponentsButton>
           </section>
         </div>
       </div>

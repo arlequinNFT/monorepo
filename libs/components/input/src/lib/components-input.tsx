@@ -1,11 +1,15 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import {
-    FieldError, FieldValues, RegisterOptions, useFormContext, UseFormRegister
+  FieldError,
+  RegisterOptions,
+  useFormContext,
+  UseFormRegister,
 } from 'react-hook-form';
 
 import styles from './components-input.module.scss';
 
 interface ComponentsInputProps {
+  changed?: (value: string) => any;
   className?: string;
   controls?: RegisterOptions;
   disabled?: boolean;
@@ -18,14 +22,16 @@ interface ComponentsInputProps {
   max?: number;
   min?: number;
   mode?: 'primary' | 'secondary';
-  changed?: (value: string) => any;
   placeholder?: string;
+  rightElement?: string;
   size?: 'md' | 'lg' | 'xl';
   type: 'email' | 'text' | 'tel' | 'number' | 'password' | 'range';
   value?: string | number | readonly string[] | undefined;
 }
 
 export const ComponentsInput = ({
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  changed = () => {},
   className,
   controls,
   disabled = false,
@@ -35,10 +41,9 @@ export const ComponentsInput = ({
   loading = false,
   max,
   min,
-  mode = 'primary',
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  changed = () => {},
+  mode = 'secondary',
   placeholder,
+  rightElement,
   size = 'md',
   type,
   value = undefined,
@@ -69,7 +74,7 @@ export const ComponentsInput = ({
     case 'secondary':
       labelStyle = 'text-white';
       inputStyle =
-        'text-white bg-primary-1000 hover:bg-primary-900  placeholder-primary-800 ';
+        'text-white bg-black-500 hover:bg-black-400  placeholder-black-600 ';
       break;
   }
 
@@ -93,7 +98,7 @@ export const ComponentsInput = ({
             ${sizeStyle}
             ${type !== 'range' ? 'rounded-lg' : styles.range}
             ${disabled ? 'cursor-not-allowed' : ''}
-            ${leftElement ? 'px-7' : ''}
+            ${leftElement ? 'px-7' : 'px-2'}
           `}
           disabled={disabled || loading}
           id={id}
@@ -105,6 +110,11 @@ export const ComponentsInput = ({
           placeholder={placeholder}
           type={type}
         />
+        {rightElement && (
+          <span className={`absolute px-2 right-0 text-white`}>
+            {rightElement}
+          </span>
+        )}
       </div>
       {formMethods?.formState.errors[id] && (
         <small className="text-pink">
