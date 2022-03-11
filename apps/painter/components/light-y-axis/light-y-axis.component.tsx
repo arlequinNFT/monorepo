@@ -27,7 +27,7 @@ const LightYAxis = () => {
   return (
     <>
       <p className="text-black-200 font-bold text-[0.875rem] mt-4 mb-2">
-        Horizontal Direction
+        Horizontal Rotation
       </p>
       <div className="flex items-center justify-evenly">
         <Image

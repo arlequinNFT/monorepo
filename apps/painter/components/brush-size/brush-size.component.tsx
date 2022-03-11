@@ -1,11 +1,12 @@
-import Image from 'next/image';
 import { useEffect } from 'react';
 
 import { ComponentsInput } from '@arlequin/components/input';
 
 import { useAppDispatch, useAppSelector } from '../../store/hook';
 import {
-    decreaseBrushSize, increaseBrushSize, setCurrentBrushSize
+  decreaseBrushSize,
+  increaseBrushSize,
+  setCurrentBrushSize,
 } from '../../store/reducers/painter.reducer';
 import { useScrollDirection } from '../../utils/use-scroll-direction';
 
@@ -41,33 +42,29 @@ const BrushSize = () => {
 
   return (
     <>
-      <p className="text-black-200 font-bold text-[0.875rem] my-2">Size</p>
-      <div
-        data-tip="CTRL + Mousewheel"
-        className="flex items-center justify-evenly"
-      >
-        <Image
-          className="bg-black-500 rounded-full"
-          src={`/icons/small.svg`}
-          alt="Small icon"
-          width="36px"
-          height="36px"
-        />
+      <div className="flex justify-between">
+        <p className="text-black-200 font-bold text-[0.875rem]">Thickness</p>
+
         <ComponentsInput
-          className="w-4/5 mx-1"
+          className="w-1/3"
+          type="text"
+          id="other"
+          min={minBrushSize}
+          max={maxBrushSize}
+          value={currentBrushSize}
+          rightElement={'px'}
+          changed={(value) => updateBrushSizeUsingInput(Number(value))}
+        />
+      </div>
+      <div data-tip="CTRL + Mousewheel" data-place="bottom">
+        <ComponentsInput
+          className="w-5/5 mt-4"
           type="range"
           id="size"
           min={minBrushSize}
           max={maxBrushSize}
           value={currentBrushSize}
           changed={(value) => updateBrushSizeUsingInput(Number(value))}
-        />
-        <Image
-          className="bg-black-500 rounded-full"
-          src={`/icons/big.svg`}
-          alt="Big icon"
-          width="36px"
-          height="36px"
         />
       </div>
     </>

@@ -27,7 +27,7 @@ const LightXAxis = () => {
   return (
     <>
       <p className="text-black-200 font-bold text-[0.875rem] mt-4 mb-2">
-        Vertical Direction
+        Vertical Rotation
       </p>
       <div className="flex items-center justify-evenly">
         <Image
