@@ -3,10 +3,18 @@ import { HexColorInput, HexColorPicker } from 'react-colorful';
 import { FaEyeDropper } from 'react-icons/fa';
 import { useDebouncedCallback } from 'use-debounce';
 
-import { Popover, PopoverBody, PopoverContent, PopoverTrigger } from '@chakra-ui/popover';
+import {
+  Popover,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+} from '@chakra-ui/popover';
 
 import { useAppDispatch, useAppSelector } from '../../store/hook';
-import { setCurrentBrushColor, setCurrentPaintingMode } from '../../store/reducers/painter.reducer';
+import {
+  setCurrentBrushColor,
+  setCurrentPaintingMode,
+} from '../../store/reducers/painter.reducer';
 
 const BrushColor = () => {
   const dispatch = useAppDispatch();
@@ -14,6 +22,13 @@ const BrushColor = () => {
   const unityContext = useAppSelector((state) => state.painter.unityContext);
   const currentBrushColor = useAppSelector(
     (state) => state.painter.currentBrushColor
+  );
+  const currentBrushType = useAppSelector(
+    (state) => state.painter.currentBrushType
+  );
+
+  const currentPaintingMode = useAppSelector(
+    (state) => state.painter.currentPaintingMode
   );
   const setBrushColorUsingColorPicker = useDebouncedCallback(
     (color: string) => {
@@ -23,24 +38,29 @@ const BrushColor = () => {
     50
   );
 
-  // useEffect(() => {
-  //   if (unityContext) {
-  //     unityContext?.on('SendPickedColor', async (color: string) => {
-  //       dispatch(setCurrentBrushColor(color));
-  //       dispatch(setCurrentPaintingMode('brush'));
-  //       unityContext?.send('HudManager', 'SetBrushType', 'Round');
-  //     });
-  //   }
-  // }, [unityContext, currentBrushColor, dispatch]);
+  const setPaintingModeToPicker = () => {
+    unityContext?.send('HudManager', 'TogglePickerMode');
+    dispatch(setCurrentPaintingMode('picker'));
+  };
+
+  useEffect(() => {
+    if (unityContext) {
+      unityContext?.on('SendPickedColor', async (color: string) => {
+        dispatch(setCurrentBrushColor(color));
+        dispatch(setCurrentPaintingMode('brush'));
+        unityContext?.send('HudManager', 'SetBrushType', currentBrushType);
+      });
+    }
+  }, [unityContext, currentBrushColor, currentBrushType, dispatch]);
 
   return (
-    <div className="my-3">
+    <>
       <p className="text-black-200 font-bold text-[0.875rem] mb-2">Color</p>
       <div className="grid grid-flow-col gap-x-2 items-center z-50">
         <Popover>
           <PopoverTrigger>
             <div
-              className="w-8 h-8 border-primary-1200 hover:outline-primary-400 outline-primary-900  transition-all  border-2  cursor-pointer rounded-md"
+              className="w-8 h-8 transition-all border-2 cursor-pointer rounded-md"
               style={{ backgroundColor: currentBrushColor }}
             ></div>
           </PopoverTrigger>
@@ -60,16 +80,23 @@ const BrushColor = () => {
           <span className="absolute px-2 text-white">#</span>
           <HexColorInput
             placeholder={'FFAEC9'}
-            className="w-full bg-black-500 text-white hover:bg-[#424242] placeholder-primary-800  px-7 py-1 rounded-lg transition-all"
+            className="w-full bg-black-500 text-white hover:bg-black-400 placeholder-primary-800  px-7 py-1 rounded-lg transition-all"
             color={currentBrushColor}
             onChange={setBrushColorUsingColorPicker}
           />
         </div>
-        {/* <div className="bg-black-500 text-white p-2 hover:bg-[#424242] rounded-lg transition-all cursor-pointer">
+        <div
+          onClick={(e) => setPaintingModeToPicker()}
+          className={`${
+            currentPaintingMode === 'picker'
+              ? 'bg-black-500 hover:bg-black-400 text-white'
+              : 'bg-black-600 hover:bg-black-500  text-black-200'
+          } p-2 rounded-lg transition-all cursor-pointer`}
+        >
           <FaEyeDropper></FaEyeDropper>
-        </div> */}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

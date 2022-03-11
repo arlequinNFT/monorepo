@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from '../../store/hook';
 import {
-    setBackgroundModeTo3D, setBackgroundModeToFlat
+  setBackgroundModeTo3D,
+  setBackgroundModeToFlat,
 } from '../../store/reducers/painter.reducer';
 
 const BackgroundMode = () => {
