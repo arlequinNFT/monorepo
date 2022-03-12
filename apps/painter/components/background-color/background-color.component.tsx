@@ -9,14 +9,15 @@ import {
 } from '@chakra-ui/popover';
 
 import { useAppDispatch, useAppSelector } from '../../store/hook';
-import { setCurrentBackgroundColor } from '../../store/reducers/painter.reducer';
+import {} from '../../store/reducers/painter.reducer';
+import { setCurrentBackgroundColor } from './background-color.reducer';
 
 const BackgroundColor = () => {
   const unityContext = useAppSelector((state) => state.painter.unityContext);
 
   const dispatch = useAppDispatch();
   const currentBackgroundColor = useAppSelector(
-    (state) => state.painter.currentBackgroundColor
+    (state) => state.backgroundColor.currentBackgroundColor
   );
 
   const setBackgroundColorUsingColorPicker = useDebouncedCallback(

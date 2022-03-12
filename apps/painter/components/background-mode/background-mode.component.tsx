@@ -2,14 +2,14 @@ import { useAppDispatch, useAppSelector } from '../../store/hook';
 import {
   setBackgroundModeTo3D,
   setBackgroundModeToFlat,
-} from '../../store/reducers/painter.reducer';
+} from './background-mode.reducer';
 
 const BackgroundMode = () => {
   const dispatch = useAppDispatch();
   const unityContext = useAppSelector((state) => state.painter.unityContext);
 
   const currentBackgroundMode = useAppSelector(
-    (state) => state.painter.currentBackgroundMode
+    (state) => state.backgroundMode.currentBackgroundMode
   );
 
   const enableBackground = () => {

@@ -5,7 +5,7 @@ import { MdOutlineLightMode } from 'react-icons/md';
 import { Tab } from '@chakra-ui/tabs';
 
 import { useAppDispatch, useAppSelector } from '../../store/hook';
-import { setActiveSettingsTab } from '../../store/reducers/settings-tabs.reducer';
+import { setActiveSettingsTab } from './settings-tabs.reducer';
 
 const SettingsTabs = () => {
   const dispatch = useAppDispatch();

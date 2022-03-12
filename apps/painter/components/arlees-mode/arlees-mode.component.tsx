@@ -1,11 +1,11 @@
 import { useAppDispatch, useAppSelector } from '../../store/hook';
-import { setCurrentArleesMode } from '../../store/reducers/painter.reducer';
+import { setCurrentArleesMode } from './arlees-mode.reducer';
 
 const ArleesMode = () => {
   const dispatch = useAppDispatch();
 
   const currentArleesMode = useAppSelector(
-    (state) => state.painter.currentArleesMode
+    (state) => state.arleesMode.currentArleesMode
   );
   return (
     <ul className="grid grid-cols-2 w-full mb-2 bg-black-600 rounded-xl">

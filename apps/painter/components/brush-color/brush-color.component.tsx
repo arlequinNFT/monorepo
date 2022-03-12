@@ -11,24 +11,22 @@ import {
 } from '@chakra-ui/popover';
 
 import { useAppDispatch, useAppSelector } from '../../store/hook';
-import {
-  setCurrentBrushColor,
-  setCurrentPaintingMode,
-} from '../../store/reducers/painter.reducer';
+import { setCurrentBrushColor } from './brush-color.reducer';
+import { setCurrentPaintingMode } from '../painting-mode/painting-mode.reducer';
 
 const BrushColor = () => {
   const dispatch = useAppDispatch();
 
   const unityContext = useAppSelector((state) => state.painter.unityContext);
   const currentBrushColor = useAppSelector(
-    (state) => state.painter.currentBrushColor
+    (state) => state.brushColor.currentBrushColor
   );
   const currentBrushType = useAppSelector(
     (state) => state.painter.currentBrushType
   );
 
   const currentPaintingMode = useAppSelector(
-    (state) => state.painter.currentPaintingMode
+    (state) => state.paintingMode.currentPaintingMode
   );
   const setBrushColorUsingColorPicker = useDebouncedCallback(
     (color: string) => {

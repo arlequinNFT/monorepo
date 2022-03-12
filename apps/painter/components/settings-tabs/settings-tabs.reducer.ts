@@ -10,7 +10,7 @@ const initialState: State = {
   activeSettingsTab: 'painting',
 };
 
-export const settingsTabsSlice = createSlice({
+export const slice = createSlice({
   name: 'settings-tabs',
   initialState,
   reducers: {
@@ -19,6 +19,6 @@ export const settingsTabsSlice = createSlice({
     },
   },
 });
-export const { setActiveSettingsTab } = settingsTabsSlice.actions;
+export const { setActiveSettingsTab } = slice.actions;
 
-export default settingsTabsSlice.reducer;
+export default slice.reducer;
