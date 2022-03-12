@@ -2,14 +2,14 @@ import Image from 'next/image';
 import { useHotkeys } from 'react-hotkeys-hook';
 
 import { useAppDispatch, useAppSelector } from '../../store/hook';
-import { setCurrentPaintingMode } from '../../store/reducers/painter.reducer';
+import { setCurrentPaintingMode } from './painting-mode.reducer';
 
 const PaintingMode = () => {
   const dispatch = useAppDispatch();
   const unityContext = useAppSelector((state) => state.painter.unityContext);
 
   const currentPaintingMode = useAppSelector(
-    (state) => state.painter.currentPaintingMode
+    (state) => state.paintingMode.currentPaintingMode
   );
   const currentBrushType = useAppSelector(
     (state) => state.painter.currentBrushType
@@ -23,7 +23,6 @@ const PaintingMode = () => {
     dispatch(setCurrentPaintingMode('bucket'));
     unityContext?.send('HudManager', 'ToggleBucketMode');
   };
-
 
   useHotkeys(
     'ctrl+b, command+b',
