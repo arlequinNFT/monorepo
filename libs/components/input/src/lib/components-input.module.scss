@@ -3,6 +3,8 @@
   height: 1px;
   background: theme('colors.black-400');
   border-radius: 5px;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .range::-webkit-slider-thumb {
@@ -13,9 +15,9 @@
   background: #ffffff;
   cursor: pointer;
   box-shadow: 0 0 2px 0 #555;
-  transition: background .3s ease-in-out;
+  transition: background 0.3s ease-in-out;
 }
-.range::-webkit-slider-runnable-track  {
+.range::-webkit-slider-runnable-track {
   -webkit-appearance: none;
   box-shadow: none;
   border: none;

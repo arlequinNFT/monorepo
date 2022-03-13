@@ -9,7 +9,7 @@ import ArleesMode from '../components/arlees-mode/arlees-mode.component';
 import BackgroundColor from '../components/background-color/background-color.component';
 import BackgroundMode from '../components/background-mode/background-mode.component';
 import BrushColor from '../components/brush-color/brush-color.component';
-import BrushSize from '../components/brush-size/brush-size.component';
+import BrushSize from '../components/brush-thickness/brush-thickness.component';
 import LightColor from '../components/light-color/light-color.component';
 import LightIntensity from '../components/light-intensity/light-intensity.component';
 import LightXAxis from '../components/light-x-axis/light-x-axis.component';
@@ -37,29 +37,27 @@ const Index: NextPage = () => {
   const dispatch = useAppDispatch();
   const unityContext = useAppSelector((state) => state.painter.unityContext);
   const currentBrushColor = useAppSelector(
-    (state) => state.painter.currentBrushColor
-  );
-  const currentBrushHardness = useAppSelector(
-    (state) => state.painter.currentBrushHardness
+    (state) => state.brushColor.currentBrushColor
   );
   const currentBrushOpacity = useAppSelector(
-    (state) => state.painter.currentBrushOpacity
+    (state) => state.brushOpacity.currentBrushOpacity
   );
   const currentBackgroundColor = useAppSelector(
-    (state) => state.painter.currentBackgroundColor
+    (state) => state.backgroundColor.currentBackgroundColor
   );
-  const currentArlee = useAppSelector((state) => state.painter.currentArlee);
+  const currentArlee = useAppSelector(
+    (state) => state.speciesList.currentArlee
+  );
   const showLoadingScreen = useAppSelector(
     (state) => state.painter.showLoadingScreen
   );
   const currentArleesMode = useAppSelector(
-    (state) => state.painter.currentArleesMode
+    (state) => state.arleesMode.currentArleesMode
   );
   const sceneLoaded = useAppSelector((state) => state.painter.sceneLoaded);
   //#endregion
 
-  const generateAvatar = () =>
-    unityContext?.send('HudManager', 'RequestAvatar');
+  const generateImage = () => unityContext?.send('HudManager', 'RequestAvatar');
 
   //#region Use Effects
   useEffect(() => {
@@ -88,11 +86,6 @@ const Index: NextPage = () => {
         // initialization
         unityContext?.send('HudManager', 'LoadMetaPet', currentArlee);
         unityContext?.send('HudManager', 'SetBrushColor', currentBrushColor);
-        unityContext?.send(
-          'HudManager',
-          'UpdateHardness',
-          currentBrushHardness
-        );
         unityContext?.send('HudManager', 'UpdateOpacity', currentBrushOpacity);
         unityContext?.send(
           'HudManager',
@@ -109,7 +102,6 @@ const Index: NextPage = () => {
     sceneLoaded,
     currentBackgroundColor,
     currentBrushColor,
-    currentBrushHardness,
     currentBrushOpacity,
     dispatch,
   ]);
@@ -254,12 +246,8 @@ const Index: NextPage = () => {
           </Tabs>
 
           <section className="flex justify-center absolute bottom-0 w-full py-3 bg-black-600">
-            <ComponentsButton
-              color="secondary"
-              rounded
-              onClick={generateAvatar}
-            >
-              GENERATE AVATAR
+            <ComponentsButton color="secondary" rounded onClick={generateImage}>
+              GENERATE IMAGE
             </ComponentsButton>
           </section>
         </div>

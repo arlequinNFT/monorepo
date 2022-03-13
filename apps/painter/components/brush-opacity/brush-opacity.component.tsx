@@ -5,8 +5,10 @@ import { ComponentsInput } from '@arlequin/components/input';
 
 import { useAppDispatch, useAppSelector } from '../../store/hook';
 import {
-    decreaseBrushOpacity, increaseBrushOpacity, setCurrentBrushOpacity
-} from '../../store/reducers/painter.reducer';
+  decreaseBrushOpacity,
+  increaseBrushOpacity,
+  setCurrentBrushOpacity,
+} from './brush-opacity.reducer';
 import { useScrollDirection } from '../../utils/use-scroll-direction';
 
 const BrushOpacity = () => {
@@ -14,15 +16,18 @@ const BrushOpacity = () => {
   const unityContext = useAppSelector((state) => state.painter.unityContext);
   const dispatch = useAppDispatch();
   const currentBrushOpacity = useAppSelector(
-    (state) => state.painter.currentBrushOpacity
+    (state) => state.brushOpacity.currentBrushOpacity
   );
-  const maxBrushOpacity = useAppSelector((state) => state.painter.maxBrushOpacity);
-  const minBrushOpacity = useAppSelector((state) => state.painter.minBrushOpacity);
+  const maxBrushOpacity = useAppSelector(
+    (state) => state.brushOpacity.maxBrushOpacity
+  );
+  const minBrushOpacity = useAppSelector(
+    (state) => state.brushOpacity.minBrushOpacity
+  );
 
   const updateBrushOpacityUsingInput = (value: number) => {
     dispatch(setCurrentBrushOpacity(value));
   };
-
 
   useEffect(() => {
     unityContext?.send('HudManager', 'UpdateOpacity', currentBrushOpacity);

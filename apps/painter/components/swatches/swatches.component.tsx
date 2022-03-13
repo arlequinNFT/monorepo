@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../store/hook';
-import {
-    addColorToSwatches, setCurrentBrushColor, setCurrentPaintingMode
-} from '../../store/reducers/painter.reducer';
+import { setCurrentBrushColor } from '../brush-color/brush-color.reducer';
+import { setCurrentPaintingMode } from '../painting-mode/painting-mode.reducer';
+import { addColorToSwatches } from './swatches.reducer';
 
 const Swatches = () => {
   const dispatch = useAppDispatch();
@@ -12,23 +12,21 @@ const Swatches = () => {
   const currentBrushType = useAppSelector(
     (state) => state.painter.currentBrushType
   );
-  const swatches = useAppSelector((state) => state.painter.swatches);
+  const swatches = useAppSelector((state) => state.swatches.swatches);
   //#endregion
 
-    useEffect(() => {
-      if (unityContext) {
-        unityContext?.on('SendBrushColor', async (event) => {
-          console.log(event);
+  useEffect(() => {
+    if (unityContext) {
+      unityContext?.on('SendBrushColor', async (event) => {
+        dispatch(addColorToSwatches(event));
+      });
+    }
+  }, [unityContext, dispatch]);
 
-          dispatch(addColorToSwatches(event))
-        });
-      }
-    }, [unityContext, dispatch]);
-
-   const toggleBrushMode = () => {
-     unityContext?.send('HudManager', 'SetBrushType', currentBrushType);
-     dispatch(setCurrentPaintingMode('brush'));
-   };
+  const toggleBrushMode = () => {
+    unityContext?.send('HudManager', 'SetBrushType', currentBrushType);
+    dispatch(setCurrentPaintingMode('brush'));
+  };
 
   const updateColorUsingSwatches = (color: string) => {
     unityContext?.send('HudManager', 'SetBrushColor', color);

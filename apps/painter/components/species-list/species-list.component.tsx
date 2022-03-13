@@ -1,25 +1,25 @@
 import React, { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../store/hook';
-import { setCurrentArlee } from '../../store/reducers/painter.reducer';
+import { setCurrentArlee } from './species-list.reducer';
 
 const SpeciesList = () => {
   const dispatch = useAppDispatch();
   //#region Selectors
   const unityContext = useAppSelector((state) => state.painter.unityContext);
 
-  const arlees = useAppSelector((state) => state.painter.arlees);
-  const currentArlee = useAppSelector((state) => state.painter.currentArlee);
-  const currentPose = useAppSelector((state) => state.painter.currentPose);
+  const arlees = useAppSelector((state) => state.speciesList.arlees);
+  const currentArlee = useAppSelector(
+    (state) => state.speciesList.currentArlee
+  );
+  const currentPose = useAppSelector((state) => state.posesList.currentPose);
   //#endregion
 
   const loadArlee = (species: string) =>
     unityContext?.send('HudManager', 'LoadMetaPet', species);
 
   return (
-    <div
-      className="grid space-y-4 absolute -inset-0 overflow-y-scroll pr-2"
-    >
+    <div className="grid space-y-4 absolute -inset-0 overflow-y-scroll pr-2">
       {arlees.map((arlee, key) => {
         return (
           <img
