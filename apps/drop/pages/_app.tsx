@@ -1,4 +1,4 @@
-import './styles.css';
+import '../styles/main.scss';
 
 import { AppProps } from 'next/app';
 import Head from 'next/head';
