@@ -22,6 +22,8 @@ pub contract ArleeGenesisDrop {
     access(contract) var saleIsOpen : Bool
     access(contract) var redemptionIsOpen : Bool
     access(contract) var dropDetails: {String: VoucherMeta}
+    access(contract) var whitelistIsActive : Bool
+    access(contract) var whitelist: [Address]
 
     // Paths
     pub let ArleeGenesisDropVaultStoragePath: StoragePath
@@ -69,12 +71,17 @@ pub contract ArleeGenesisDrop {
     //
     pub fun purchaseMintPass( species: String, funds: @FlowToken.Vault, mpReceiverCap: Capability<&{ArleeMintPass.ArleeMintPassCollectionPublic}>) {
         pre {
-            self.saleIsOpen : "Sale is currently closed"
+            self.saleIsOpen || self.whitelistIsActive : "Sale is currently closed"
             mpReceiverCap.check() : "Invalid MintPass NFT Receiver"
             self.dropDetails.containsKey(species) : "Species requested not available"  
             self.dropDetails[species]?.quantityRemaining! >= 1 : "Species requested, already sold out!"
             self.dropDetails[species]?.price == funds.balance : "Incorrect amount of funds provided."
         }
+        // when the whitelist is active and the sale isn't open yet we check the address in the whitelist 
+        if self.whitelistIsActive && !self.saleIsOpen {
+            assert(self.whitelist.contains(mpReceiverCap.address) , message: "Address not found in whitelist!")
+        }
+
         let presaleVaultRef = self.account.borrow<&FlowToken.Vault>(from: ArleeGenesisDrop.ArleeGenesisDropVaultStoragePath)!
         presaleVaultRef.deposit(from: <- funds )
 
@@ -152,6 +159,15 @@ pub contract ArleeGenesisDrop {
         } 
         pub fun toggleSaleIsActive() {
             ArleeGenesisDrop.saleIsOpen = !ArleeGenesisDrop.saleIsOpen
+        }        
+        pub fun toggleWhitelistIsActive() {
+            ArleeGenesisDrop.whitelistIsActive = !ArleeGenesisDrop.whitelistIsActive
+        }
+        pub fun replaceWhitelist(addresses: [Address]) {
+            ArleeGenesisDrop.whitelist = addresses
+        }
+        pub fun appendToWhitelist(addresses: [Address]) {
+            ArleeGenesisDrop.whitelist.appendAll(addresses)
         }
         pub fun toggleRedemptionIsActive() {
             ArleeGenesisDrop.redemptionIsOpen = !ArleeGenesisDrop.redemptionIsOpen
@@ -168,6 +184,8 @@ pub contract ArleeGenesisDrop {
         self.ArleeGenesisDropVaultStoragePath = /storage/ArleeGenesisDropFlowVault
         self.PresaleVaultBalancePublicPath = /public/ArleeGenesisDropVaultBalance
         self.dropDetails = {}
+        self.whitelist = []
+        self.whitelistIsActive = false
         self.saleIsOpen = false
         self.redemptionIsOpen = false
        
