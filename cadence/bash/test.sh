@@ -20,15 +20,6 @@ echo "Deploy project to emulator (as per flow.json config)"
 flow project deploy --network=emulator
 
 
-# Test Purchase Animo Transaction
-
-flow transactions send "./transactions/FUSD/setup.cdc" --signer "user-account1"
-flow transactions send "./transactions/FUSD/setup.cdc" --signer "user-account2"
-
-# Mint FUSD for testing
-flow transactions send "./transactions/demo/mintFUSD.cdc"
-
-
 # Arlee Items
 flow transactions send "./transactions/ArleeItems/setup_account.cdc" 0x01cf0e2f2f715450
 flow transactions send "./transactions/ArleeItems/setup_account.cdc" 0x179b6b1cb6755e31

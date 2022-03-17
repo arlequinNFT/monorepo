@@ -1,30 +1,28 @@
-// This transaction withdraws FUSD from users account and sends to presale contract to purchase Arlees
-
 import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
 import ArleeNFT from "../../contracts/ArleeNFT.cdc"
 import ArleeMintPass from "../../contracts/ArleeMintPass.cdc"
 import ArleeGenesisDrop from "../../contracts/ArleeGenesisDrop.cdc"
-import FUSD from "../../contracts/FUSD.cdc"
+import FlowToken from "../../contracts/FlowToken.cdc"
 
 // import FungibleToken from "../../contracts/FungibleToken.cdc"
 
 transaction( species: String ) {
     // The Vault resource that holds the tokens being transferred
-    let funds: @FUSD.Vault
+    let funds: @FlowToken.Vault
     let mpReceiverCap: Capability<&{ArleeMintPass.ArleeMintPassCollectionPublic}>
     let arleeReceiverCap: Capability<&{ArleeNFT.ArleeCollectionPublic}>
 
     prepare(signer: AuthAccount) {
         // Get a reference to the signer's stored vault
         let vaultRef = signer
-        .borrow<&FUSD.Vault>(from: /storage/fusdVault)
+        .borrow<&FlowToken.Vault>(from: /storage/flowTokenVault)
         ?? panic("Could not borrow reference to the owner's Vault!")
 
         // Get total required funds for pack type
         let amount = ArleeGenesisDrop.getVoucherPrice(species: species )
         
         // Withdraw tokens from the signer's stored vault
-        self.funds <- vaultRef.withdraw(amount: amount) as! @FUSD.Vault
+        self.funds <- vaultRef.withdraw(amount: amount) as! @FlowToken.Vault
 
         if signer.borrow<&ArleeMintPass.Collection>(from: ArleeMintPass.CollectionStoragePath) == nil {
             // Create a new empty collection

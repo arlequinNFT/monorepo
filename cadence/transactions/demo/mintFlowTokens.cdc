@@ -10,11 +10,11 @@ transaction() {
     let flowTokenAdmin = signer.borrow<&FlowToken.Administrator>(from: /storage/flowTokenAdmin) ?? panic("no flow token administrator found in storage")
 
     // create a new minter
-    let minter <- flowTokenAdmin.createNewMinter(allowedAmount: 300.0)
+    let minter <- flowTokenAdmin.createNewMinter(allowedAmount: 3000.0)
 
-    let tokens <- minter.mintTokens(amount: 100.0)
-    let tokens1 <- minter.mintTokens(amount: 100.0)
-    let tokens2 <- minter.mintTokens(amount: 100.0)
+    let tokens <- minter.mintTokens(amount: 1000.0)
+    let tokens1 <- minter.mintTokens(amount: 1000.0)
+    let tokens2 <- minter.mintTokens(amount: 1000.0)
    
     destroy minter
     // save minter to storage

@@ -10,7 +10,7 @@
 // Admin can adjust sale parameters 
 // Admin can claim a mintpass and can send to a user (comes from total to ensure rarity totals)
 
-import FUSD from "./FUSD.cdc"
+import FlowToken from "./FlowToken.cdc"
 import FungibleToken from "./FungibleToken.cdc"
 import NonFungibleToken from "./NonFungibleToken.cdc"
 import ArleeMintPass from "./ArleeMintPass.cdc"
@@ -67,7 +67,7 @@ pub contract ArleeGenesisDrop {
     // if they have pass correct funds and their are passes left
     // they will receive a mint pass nft to their supplied mpReceiverCap
     //
-    pub fun purchaseMintPass( species: String, funds: @FUSD.Vault, mpReceiverCap: Capability<&{ArleeMintPass.ArleeMintPassCollectionPublic}>) {
+    pub fun purchaseMintPass( species: String, funds: @FlowToken.Vault, mpReceiverCap: Capability<&{ArleeMintPass.ArleeMintPassCollectionPublic}>) {
         pre {
             self.saleIsOpen : "Sale is currently closed"
             mpReceiverCap.check() : "Invalid MintPass NFT Receiver"
@@ -75,7 +75,7 @@ pub contract ArleeGenesisDrop {
             self.dropDetails[species]?.quantityRemaining! >= 1 : "Species requested, already sold out!"
             self.dropDetails[species]?.price == funds.balance : "Incorrect amount of funds provided."
         }
-        let presaleVaultRef = self.account.borrow<&FUSD.Vault>(from: ArleeGenesisDrop.ArleeGenesisDropVaultStoragePath)!
+        let presaleVaultRef = self.account.borrow<&FlowToken.Vault>(from: ArleeGenesisDrop.ArleeGenesisDropVaultStoragePath)!
         presaleVaultRef.deposit(from: <- funds )
 
         self.mintAndDeliverMP(species: species, mpReceiverCap: mpReceiverCap)
@@ -165,7 +165,7 @@ pub contract ArleeGenesisDrop {
     //
     init() {
         self.ArleeGenesisDropAdminStoragePath = /storage/ArleeGenesisDropAdmin
-        self.ArleeGenesisDropVaultStoragePath = /storage/ArleeGenesisDropFUSDVault
+        self.ArleeGenesisDropVaultStoragePath = /storage/ArleeGenesisDropFlowVault
         self.PresaleVaultBalancePublicPath = /public/ArleeGenesisDropVaultBalance
         self.dropDetails = {}
         self.saleIsOpen = false
@@ -197,8 +197,8 @@ pub contract ArleeGenesisDrop {
         
         self.account.save(<- adminResource, to: self.ArleeGenesisDropAdminStoragePath)
 
-        self.account.save(<- FUSD.createEmptyVault(), to: self.ArleeGenesisDropVaultStoragePath)
-         self.account.link<&FUSD.Vault{FungibleToken.Balance}>(
+        self.account.save(<- FlowToken.createEmptyVault(), to: self.ArleeGenesisDropVaultStoragePath)
+         self.account.link<&FlowToken.Vault{FungibleToken.Balance}>(
             self.PresaleVaultBalancePublicPath,
             target: self.ArleeGenesisDropVaultStoragePath
         )
