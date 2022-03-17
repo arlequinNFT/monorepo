@@ -1,26 +1,19 @@
 import Authentication from '../components/authentication/authentication.component';
 import * as fcl from '@onflow/fcl';
 import { useEffect, useState } from 'react';
+import { GET_MINT_PASS_LIST } from '../cadence/scripts';
 
 export function Index() {
   const [packs, setPacks] = useState(null);
   useEffect(() => {
-    const fn = async () => {
-      const result = await fcl.query({
-        cadence: `
-        import ArleeGenesisDrop from 0xArlequin
-
-        pub fun main() : {String:ArleeGenesisDrop.VoucherMeta} {
-            let status = ArleeGenesisDrop.getSaleStatus()
-            log(status)
-            return status
-        }
-        `,
+    const getMintPassList = async () => {
+      const mintPassList = await fcl.query({
+        cadence: GET_MINT_PASS_LIST,
       });
-      console.log(result);
+      console.log(mintPassList);
     };
 
-    fn();
+    getMintPassList();
   }, []);
 
   return (
