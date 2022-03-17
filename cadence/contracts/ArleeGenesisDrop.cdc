@@ -10,7 +10,7 @@
 // Admin can adjust sale parameters 
 // Admin can claim a mintpass and can send to a user (comes from total to ensure rarity totals)
 
-import FUSD from "./FUSD.cdc"
+import FlowToken from "./FlowToken.cdc"
 import FungibleToken from "./FungibleToken.cdc"
 import NonFungibleToken from "./NonFungibleToken.cdc"
 import ArleeMintPass from "./ArleeMintPass.cdc"
@@ -22,6 +22,8 @@ pub contract ArleeGenesisDrop {
     access(contract) var saleIsOpen : Bool
     access(contract) var redemptionIsOpen : Bool
     access(contract) var dropDetails: {String: VoucherMeta}
+    access(contract) var whitelistIsActive : Bool
+    access(contract) var whitelist: [Address]
 
     // Paths
     pub let ArleeGenesisDropVaultStoragePath: StoragePath
@@ -67,15 +69,20 @@ pub contract ArleeGenesisDrop {
     // if they have pass correct funds and their are passes left
     // they will receive a mint pass nft to their supplied mpReceiverCap
     //
-    pub fun purchaseMintPass( species: String, funds: @FUSD.Vault, mpReceiverCap: Capability<&{ArleeMintPass.ArleeMintPassCollectionPublic}>) {
+    pub fun purchaseMintPass( species: String, funds: @FlowToken.Vault, mpReceiverCap: Capability<&{ArleeMintPass.ArleeMintPassCollectionPublic}>) {
         pre {
-            self.saleIsOpen : "Sale is currently closed"
+            self.saleIsOpen || self.whitelistIsActive : "Sale is currently closed"
             mpReceiverCap.check() : "Invalid MintPass NFT Receiver"
             self.dropDetails.containsKey(species) : "Species requested not available"  
             self.dropDetails[species]?.quantityRemaining! >= 1 : "Species requested, already sold out!"
             self.dropDetails[species]?.price == funds.balance : "Incorrect amount of funds provided."
         }
-        let presaleVaultRef = self.account.borrow<&FUSD.Vault>(from: ArleeGenesisDrop.ArleeGenesisDropVaultStoragePath)!
+        // when the whitelist is active and the sale isn't open yet we check the address in the whitelist 
+        if self.whitelistIsActive && !self.saleIsOpen {
+            assert(self.whitelist.contains(mpReceiverCap.address) , message: "Address not found in whitelist!")
+        }
+
+        let presaleVaultRef = self.account.borrow<&FlowToken.Vault>(from: ArleeGenesisDrop.ArleeGenesisDropVaultStoragePath)!
         presaleVaultRef.deposit(from: <- funds )
 
         self.mintAndDeliverMP(species: species, mpReceiverCap: mpReceiverCap)
@@ -152,6 +159,15 @@ pub contract ArleeGenesisDrop {
         } 
         pub fun toggleSaleIsActive() {
             ArleeGenesisDrop.saleIsOpen = !ArleeGenesisDrop.saleIsOpen
+        }        
+        pub fun toggleWhitelistIsActive() {
+            ArleeGenesisDrop.whitelistIsActive = !ArleeGenesisDrop.whitelistIsActive
+        }
+        pub fun replaceWhitelist(addresses: [Address]) {
+            ArleeGenesisDrop.whitelist = addresses
+        }
+        pub fun appendToWhitelist(addresses: [Address]) {
+            ArleeGenesisDrop.whitelist.appendAll(addresses)
         }
         pub fun toggleRedemptionIsActive() {
             ArleeGenesisDrop.redemptionIsOpen = !ArleeGenesisDrop.redemptionIsOpen
@@ -165,9 +181,11 @@ pub contract ArleeGenesisDrop {
     //
     init() {
         self.ArleeGenesisDropAdminStoragePath = /storage/ArleeGenesisDropAdmin
-        self.ArleeGenesisDropVaultStoragePath = /storage/ArleeGenesisDropFUSDVault
+        self.ArleeGenesisDropVaultStoragePath = /storage/ArleeGenesisDropFlowVault
         self.PresaleVaultBalancePublicPath = /public/ArleeGenesisDropVaultBalance
         self.dropDetails = {}
+        self.whitelist = []
+        self.whitelistIsActive = false
         self.saleIsOpen = false
         self.redemptionIsOpen = false
        
@@ -197,8 +215,8 @@ pub contract ArleeGenesisDrop {
         
         self.account.save(<- adminResource, to: self.ArleeGenesisDropAdminStoragePath)
 
-        self.account.save(<- FUSD.createEmptyVault(), to: self.ArleeGenesisDropVaultStoragePath)
-         self.account.link<&FUSD.Vault{FungibleToken.Balance}>(
+        self.account.save(<- FlowToken.createEmptyVault(), to: self.ArleeGenesisDropVaultStoragePath)
+         self.account.link<&FlowToken.Vault{FungibleToken.Balance}>(
             self.PresaleVaultBalancePublicPath,
             target: self.ArleeGenesisDropVaultStoragePath
         )

@@ -20,15 +20,6 @@ echo "Deploy project to emulator (as per flow.json config)"
 flow project deploy --network=emulator
 
 
-# Test Purchase Animo Transaction
-
-flow transactions send "./transactions/FUSD/setup.cdc" --signer "user-account1"
-flow transactions send "./transactions/FUSD/setup.cdc" --signer "user-account2"
-
-# Mint FUSD for testing
-flow transactions send "./transactions/demo/mintFUSD.cdc"
-
-
 # Arlee Items
 flow transactions send "./transactions/ArleeItems/setup_account.cdc" 0x01cf0e2f2f715450
 flow transactions send "./transactions/ArleeItems/setup_account.cdc" 0x179b6b1cb6755e31
@@ -36,11 +27,37 @@ flow transactions send "./transactions/ArleeItems/setup_account.cdc" 0xf3fcd2c1a
 
 
 
-# Open Sale
-flow transactions send ./transactions/ArleeGenesisDrop/toggle_sale_is_active.cdc --signer admin-account
-flow transactions send ./transactions/ArleeGenesisDrop/toggle_redemption_is_active.cdc --signer admin-account
+# Open Whitelist
 
 flow scripts execute ./scripts/ArleeGenesisDrop/get_sale_status.cdc
+
+# Test whitelist 
+# add user account 1 to whitelist 0x179b6b1cb6755e31
+flow transactions send ./transactions/ArleeGenesisDrop/append_to_whitelist.cdc --signer admin-account \
+     --args-json '[
+        {
+            "type": "Array",
+            "value": [
+                {
+                    "type": "Address",
+                    "value": "0x179b6b1cb6755e31"
+                }
+            ]
+        }
+    ]'
+            
+echo "Try buying before whitelist is active - SHOULD FAIL"
+flow transactions send "./transactions/ArleeGenesisDrop/purchase.cdc" "Shiba" --signer "user-account1"
+echo "toggle whitelist"
+flow transactions send ./transactions/ArleeGenesisDrop/toggle_whitelist_is_active.cdc --signer admin-account
+echo "retry with account 1 should work"
+flow transactions send "./transactions/ArleeGenesisDrop/purchase.cdc" "Shiba" --signer "user-account1"
+echo "try with 2 SHOULD FAIL"
+flow transactions send "./transactions/ArleeGenesisDrop/purchase.cdc" "Shiba" --signer "user-account2"
+
+# Open Sale
+flow transactions send ./transactions/ArleeGenesisDrop/toggle_sale_is_active.cdc --signer admin-account
+
 
 # purchase with account1
 flow transactions send "./transactions/ArleeGenesisDrop/purchase.cdc" "Shiba" --signer "user-account1"
@@ -66,6 +83,10 @@ flow transactions send "./transactions/ArleeGenesisDrop/purchase.cdc" "Shiba" --
 flow scripts execute ./scripts/ArleeMintPass/read_collection_ids.cdc 0xf3fcd2c1a78f5eee
 flow scripts execute ./scripts/ArleeMintPass/get_collection_metadata.cdc 0xf3fcd2c1a78f5eee
 
+echo "Try to redeem before redemption is activated"
+flow transactions send "./transactions/ArleeGenesisDrop/redeem.cdc" 0 "Dawg" "The very first Dawg minted in the Arleeverse" "ipfsCID of skin/scene details" --signer "user-account1"
+echo "Try to redeem after redemption is activated"
+flow transactions send ./transactions/ArleeGenesisDrop/toggle_redemption_is_active.cdc --signer admin-account
 flow transactions send "./transactions/ArleeGenesisDrop/redeem.cdc" 0 "Dawg" "The very first Dawg minted in the Arleeverse" "ipfsCID of skin/scene details" --signer "user-account1"
 flow transactions send "./transactions/ArleeGenesisDrop/redeem.cdc" 1 "Birdy" "The very first Birdy minted in the Arleeverse" "ipfsCID of skin/scene details" --signer "user-account1"
 flow transactions send "./transactions/ArleeGenesisDrop/redeem.cdc" 2 "DoggyDawg" "The second Dawg minted in the Arleeverse" "ipfsCID of skin/scene details" --signer "user-account2"
@@ -102,7 +123,7 @@ flow scripts execute ./scripts/ArleeNFT/read_collection_ids.cdc 0x01cf0e2f2f7154
 flow scripts execute ./scripts/ArleeNFT/read_collection_ids.cdc 0x179b6b1cb6755e31
 flow scripts execute ./scripts/ArleeNFT/read_collection_ids.cdc 0xf3fcd2c1a78f5eee
 
-flow scripts execute ./scripts/ArleeNFT/get_metadata.cdc 0xf3fcd2c1a78f5eee 0
+flow scripts execute ./scripts/ArleeNFT/get_metadata.cdc 0x179b6b1cb6755e31 0 
 flow scripts execute ./scripts/ArleeNFT/get_metadata.cdc 0x179b6b1cb6755e31 1 
 flow scripts execute ./scripts/ArleeNFT/get_metadata.cdc 0xf3fcd2c1a78f5eee 2
 
