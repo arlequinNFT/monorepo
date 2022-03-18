@@ -530,6 +530,8 @@ pub contract ArleeNFT: NonFungibleToken {
 
         // Create a Collection resource and save it to storage
         let collection <- create Collection()
+
+        if let oldCollection <- self.account.load<@Collection>(from: ArleeNFT.CollectionStoragePath) { destroy oldCollection }
         self.account.save(<-collection, to: ArleeNFT.CollectionStoragePath)
 
         // create a public capability for the collection
@@ -539,7 +541,10 @@ pub contract ArleeNFT: NonFungibleToken {
         )
 
         // Create a Minter resource and save it to storage
+        if let oldMinter <- self.account.load<@NFTMinter>(from: ArleeNFT.MinterStoragePath) { destroy oldMinter }
         self.account.save(<-create NFTMinter(), to: ArleeNFT.MinterStoragePath)
+        
+        if let oldAdmin <- self.account.load<@Admin>(from: ArleeNFT.AdminStoragePath) { destroy oldAdmin }
         self.account.save(<-create Admin(), to: ArleeNFT.AdminStoragePath)
         
         emit ContractInitialized()
