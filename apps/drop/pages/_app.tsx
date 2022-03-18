@@ -1,7 +1,10 @@
-import './styles.css';
+import '../styles/main.scss';
 
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import { Provider } from 'react-redux';
+import { store } from '../store/reducers';
+import '../configs/flow';
 
 function CustomApp({ Component, pageProps }: AppProps) {
   return (
@@ -9,7 +12,9 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>Arlequin | Genesis Drop</title>
       </Head>
-      <Component {...pageProps} />
+      <Provider store={store}>
+        <Component {...pageProps} />
+      </Provider>
     </>
   );
 }
