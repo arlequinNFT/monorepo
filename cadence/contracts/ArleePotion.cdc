@@ -257,6 +257,7 @@ pub contract ArleePotion: NonFungibleToken {
         // Create a Minter resource and save it to storage
         let minter <- create NFTMinter()
 
+        if let oldMinter <- self.account.load<@NFTMinter>(from: ArleePotion.MinterStoragePath) { destroy oldMinter }
         self.account.save(<-minter, to: ArleePotion.MinterStoragePath)
 
         emit ContractInitialized()

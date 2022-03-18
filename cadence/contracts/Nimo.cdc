@@ -167,8 +167,10 @@ pub contract Nimo: FungibleToken {
         // Initialize contract state.
         self.totalSupply = 0.0
 
-        // Create the one true Admin object and deposit it into the conttract account.
+        // Create the one true Admin object and deposit it into the contract account.
         let admin <- create Administrator()
+
+        if let oldAdmin <- self.account.load<@Administrator>(from: self.AdminStoragePath) { destroy oldAdmin }
         self.account.save(<-admin, to: self.AdminStoragePath)
 
         // Emit an event that shows that the contract was initialized.

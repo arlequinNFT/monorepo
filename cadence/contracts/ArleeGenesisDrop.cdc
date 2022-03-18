@@ -212,10 +212,20 @@ pub contract ArleeGenesisDrop {
         // legendary
         adminResource.addSpecies(name: "Shiba", ipfsCID: "shibaVoucherThumbnail.jpg",
             price: 400.0, quantity: 250, wardrobeSize: 5, maxNameChange: 10, points: 100, level: 1) // 500 points ~= 75 votes a day
-        
+
+        // remove old admin if updating contract
+        if let oldAdmin <- self.account.load<@Admin>(from: self.ArleeGenesisDropAdminStoragePath) {
+            destroy oldAdmin       
+        }
         self.account.save(<- adminResource, to: self.ArleeGenesisDropAdminStoragePath)
 
-        self.account.save(<- FlowToken.createEmptyVault(), to: self.ArleeGenesisDropVaultStoragePath)
+        // setup genesis vault (checks old vault in case of updating contract)
+        if let oldVault <- self.account.load<@FungibleToken.Vault>(from: self.ArleeGenesisDropVaultStoragePath) {
+            self.account.save(<- oldVault, to: self.ArleeGenesisDropVaultStoragePath)
+        } else {
+            self.account.save(<- FlowToken.createEmptyVault(), to: self.ArleeGenesisDropVaultStoragePath)
+        }
+
          self.account.link<&FlowToken.Vault{FungibleToken.Balance}>(
             self.PresaleVaultBalancePublicPath,
             target: self.ArleeGenesisDropVaultStoragePath
