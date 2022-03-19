@@ -35,7 +35,7 @@ const Intro = () => {
             />
           </div>
           <h2 className="font-extrabold text-3xl lg:text-6xl text-rainbow text-center tracking-wide">
-            Paint • Vote • Earn
+            The Artists Metaverse
           </h2>
           <div className="flex justify-center mb-6">
             <img
@@ -64,14 +64,14 @@ const Intro = () => {
               alt="shiba"
             />
           </div>
-
+          {/*
           <ComponentsButton
             rounded
             color="secondary"
             link="https://painter.arlequin.gg/"
           >
             TRY THE PAINTER
-          </ComponentsButton>
+          </ComponentsButton> */}
         </div>
       </section>
       <div className="relative h-[40vh] lg:h-[65vh] 3xl:h-[55vh] w-full">

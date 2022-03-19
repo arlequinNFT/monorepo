@@ -1,8 +1,12 @@
 import React from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import { Accordion, AccordionButton, AccordionItem, AccordionPanel } from '@chakra-ui/accordion';
-import { Table, TableCaption, Tbody, Td, Tfoot, Th, Thead, Tr } from '@chakra-ui/table';
+import {
+  Accordion,
+  AccordionButton,
+  AccordionItem,
+  AccordionPanel,
+} from '@chakra-ui/accordion';
 
 const Faq = () => {
   const { ref, inView } = useInView({});
@@ -28,47 +32,9 @@ const Faq = () => {
           </h2>
           <AccordionPanel className="max-w-5xl text-center text-2xl mb-4">
             <p>
-              Top 5 are rewarded with USDC and Top 3 get their entries minted as
-              NFTs and send to their collection.
+              Top 5 are rewarded with $FLOW and Top 3 get their entries minted
+              as NFTs and send to their collection.
             </p>
-            {/* <Table className="w-full border bg-white">
-              <Thead>
-                <Tr className="border-b">
-                  <Th>Ranking</Th>
-                  <Th>USDC</Th>
-                  <Th>
-                    Submission minted and <br /> send to collection
-                  </Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                <Tr className="border-b">
-                  <Td>Winner</Td>
-                  <Td>$$$$$</Td>
-                  <Td>Yes</Td>
-                </Tr>
-                <Tr className="border-b">
-                  <Td>2nd</Td>
-                  <Td>$$$$</Td>
-                  <Td>Yes</Td>
-                </Tr>
-                <Tr className="border-b">
-                  <Td>3rd</Td>
-                  <Td>$$$</Td>
-                  <Td>Yes</Td>
-                </Tr>
-                <Tr className="border-b">
-                  <Td>4th</Td>
-                  <Td>$$</Td>
-                  <Td>No</Td>
-                </Tr>
-                <Tr className="border-b">
-                  <Td>5th</Td>
-                  <Td>$</Td>
-                  <Td>No</Td>
-                </Tr>
-              </Tbody>
-            </Table> */}
           </AccordionPanel>
         </AccordionItem>
 
@@ -102,14 +68,14 @@ const Faq = () => {
           </h2>
           <AccordionPanel className="max-w-5xl text-center text-2xl mb-4">
             <p>
-              When a painting contest finishes, the top 30% submissions (except
-              the top 3) are send to the pool. <br />
-              Anyone can buy (at a fixed price in USDC) an Arlee from that pool
+              When a painting contest finishes, the top 30% submissions are send
+              to the pool. <br />
+              Anyone can buy (at a fixed price in $FLOW) an Arlee from that pool
               in a random way: the buyer does not know what look, species or
               ranking the Arlee will be. <br />
               80% of the revenue are send to the Original Artist. It means that
               even if you did not reach the top 5, you will eventually earn
-              money!
+              $FLOW!
             </p>
           </AccordionPanel>
         </AccordionItem>
@@ -122,10 +88,9 @@ const Faq = () => {
           </h2>
           <AccordionPanel className="max-w-5xl text-center text-2xl mb-4">
             <p>
-              You can buy in-game items such as Arlees accessories, emoji,
+              You can buy in-game items such as Arlees accessories, poses,
               backgrounds... <br />
-              You can also level up your Arlees so they can hold more Voting
-              Points and have a new Painting Slot!
+              You can also level up your Arlees!
             </p>
           </AccordionPanel>
         </AccordionItem>
@@ -140,8 +105,9 @@ const Faq = () => {
           </h2>
           <AccordionPanel className="max-w-5xl text-center text-2xl mb-4">
             <p>
-              We will be selling packs containing Arlees and accessories. <br />
-              These Arlee species won't be accessible ever again in Arlequin except by trading with users in the marketplace
+              We will be selling packs containing Arlees. <br />
+              These Arlee species won't be accessible ever again in Arlequin
+              except by trading with users in the marketplace
             </p>
           </AccordionPanel>
         </AccordionItem>

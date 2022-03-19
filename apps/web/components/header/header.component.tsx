@@ -32,11 +32,29 @@ const Header = () => {
           {/* <li className="text-white text-2xl hover:underline cursor-pointer font-bold">
             Whitepaper
           </li> */}
+          <li className="text-primary text-2xl hover:underline cursor-pointer font-extrabold uppercase">
+            <a
+              href="https://painter.arlequin.gg/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Painter
+            </a>
+          </li>
+          <li className="text-primary text-2xl hover:underline cursor-pointer font-extrabold uppercase">
+            <a
+              href="https://medium.com/@arlequinnft"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Blog
+            </a>
+          </li>
         </ul>
         <ul className="order-1 md:order-3 flex items-center gap-x-2 md:ml-auto">
           <li>
             <a
-              href="https://discord.gg/rBPP7uxnwd"
+              href="https://discord.gg/arlequin"
               target="_blank"
               rel="noreferrer"
             >
