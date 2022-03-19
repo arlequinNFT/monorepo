@@ -6,37 +6,37 @@ const WhatIsArlequin = () => {
     ref: refWhatIsArlequinFirstBlock,
     inView: inViewWhatIsArlequinFirstBlock,
   } = useInView({
-    threshold: 0.5,
+    threshold: 0,
   });
   const {
     ref: refWhatIsArlequinSecondBlock,
     inView: inViewWhatIsArlequinSecondBlock,
   } = useInView({
-    threshold: 0.5,
+    threshold: 0.3,
   });
   const {
     ref: refWhatIsArlequinThirdBlock,
     inView: inViewWhatIsArlequinThirdBlock,
   } = useInView({
-    threshold: 0.5,
+    threshold: 0.3,
   });
   const {
     ref: refWhatIsArlequinFourthBlock,
     inView: inViewWhatIsArlequinFourthBlock,
   } = useInView({
-    threshold: 0.5,
+    threshold: 0.3,
   });
   const {
     ref: refWhatIsArlequinFifthBlock,
     inView: inViewWhatIsArlequinFifthBlock,
   } = useInView({
-    threshold: 0.5,
+    threshold: 0.3,
   });
   const {
     ref: refWhatIsArlequinSixthBlock,
     inView: inViewWhatIsArlequinSixthBlock,
   } = useInView({
-    threshold: 0.5,
+    threshold: 0.3,
   });
 
   return (
@@ -73,7 +73,7 @@ const WhatIsArlequin = () => {
             Cute 3D animals living in Arlequin Metaverse
           </p>
           <p className="text-2xl">
-            Dozens species exist, and we are introducing one each week!
+            Dozens of species exist, and we are introducing one each week!
           </p>
         </div>
       </div>
@@ -96,7 +96,7 @@ const WhatIsArlequin = () => {
             Arlequin is the Artists Metaverse
           </p>
           <p className="text-2xl">
-            Add your personnal artistic touch by painting on the Arlees using
+            Add your personal artistic touch by painting on the Arlees using
             Arlequin's Painter.
           </p>
         </div>
@@ -149,8 +149,8 @@ const WhatIsArlequin = () => {
             A unique way to earn with your art
           </p>
           <p className="text-2xl">
-            Participate to our painting contests, climb the leaderboard, win
-            NFTs and USDC! <br />
+            Participate in our painting contests, climb the leaderboard, win
+            NFTs and $FLOW! <br />
           </p>
         </div>
       </div>
@@ -176,7 +176,7 @@ const WhatIsArlequin = () => {
           <p className="text-2xl">
             If you are an Arlee adopter, you can vote for your preferred Arlees
             entries! <br />
-            Each vote makes you earn Nimo!
+            Voting makes you earn $NIMO!
           </p>
         </div>
 
@@ -216,14 +216,16 @@ const WhatIsArlequin = () => {
               : 'lg:translate-x-10 lg:opacity-0 lg:duration-500 lg:transition-all'
           } col-span-1 flex flex-col justify-center`}
         >
-          <p className="font-extrabold text-6xl text-primary uppercase">Nimo</p>
+          <p className="font-extrabold text-6xl text-primary uppercase">
+            $NIMO
+          </p>
 
           <p className="font-bold text-3xl my-4 text-red uppercase">
             the official Arlequin in-game currency
           </p>
           <p className="text-2xl">
-            Buy cosmetics items, poses for your Arlees, backgrounds, level up
-            your Arlees and more with Nimo!
+            Level up your Arlees and more with $NIMO! Buy cosmetics items, poses
+            and backgrounds for your Arlees.
           </p>
         </div>
       </div>
@@ -240,15 +242,15 @@ const WhatIsArlequin = () => {
           } col-span-1 flex flex-col justify-center`}
         >
           <p className="font-extrabold text-6xl text-primary uppercase">
-            Play for purpose
+            Paint for purpose
           </p>
 
           <p className="font-bold text-3xl my-4 text-red uppercase">
             Arlequin is involved in Animal welfare
           </p>
           <p className="text-2xl">
-            Each time an Arlee is bought from the Pool, 5% of the revenue goes
-            to an animal charity according to the Arlee species
+            Each time an Arlee is bought from the Pool, we share a part of the
+            revenue to an animal charity according to the Arlee species
           </p>
         </div>
 

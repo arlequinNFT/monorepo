@@ -78,7 +78,7 @@ const Roadmap = () => {
                 <li>Arlequin.gg is out</li>
                 <li>Artists can use the alpha version Painter</li>
                 <li>Whitelisting for the presale begins</li>
-                <li>Partenering with Filecoin</li>
+                <li>Partnering with Filecoin</li>
               </ul>
               <p className="text-white text-right">Shipped in January 2022 </p>
             </div>
@@ -92,22 +92,20 @@ const Roadmap = () => {
               } bg-red relative max-w-3xl p-6 lg:p-12 lg:px-16 mb-8 rounded-3xl`}
             >
               <p className={` font-bold text-4xl text-white mb-4`}>
-                <span className="text-secondary-300 mr-2">2.</span> First
-                genesis drop & Marketplace
+                <span className="text-secondary-300 mr-2">2.</span> Genesis Drop
+                & Marketplace
               </p>
 
               <ul className="list-[circle] text-white text-2xl px-8">
                 <li>First ever NFTs drop from Arlequin</li>
-                <li>3 bundles containing Arlees, cosmetic items and Nimo</li>
+                <li>Packs containing Arlees</li>
                 <li>
                   Artists can use the Painter to give their Arlees a unique look
                 </li>
                 <li>Trade your Arlees using our native Marketplace</li>
               </ul>
 
-              <p className="text-white text-right">
-                Est. Date: march/april 2022
-              </p>
+              <p className="text-white text-right">Est. Date: april 2022</p>
             </div>
 
             <div
@@ -126,11 +124,11 @@ const Roadmap = () => {
               <ul className="list-[circle] text-white text-2xl px-8">
                 <li>First ever Paint To Earn system in the world</li>
                 <li>Participate for free in our weekly painting contests</li>
-                <li>Climb the leaderboard, win NFTs and USDC</li>
-                <li>Vote for your preferred entries and earn Nimo</li>
+                <li>Climb the leaderboard, win NFTs and $FLOW</li>
+                <li>Vote for your preferred entries and earn $NIMO</li>
               </ul>
 
-              <p className="text-white text-right">Est. Date: june/july 2022</p>
+              <p className="text-white text-right">Est. Date: july 2022</p>
             </div>
 
             <div
@@ -148,7 +146,7 @@ const Roadmap = () => {
               <ul className="list-[circle] text-white text-2xl px-8">
                 <li>A pool full of Arlees from previous painting contests</li>
                 <li>
-                  Buy a random Arlee from the pool at a fixed price in USDC
+                  Buy a random Arlee from the pool at a fixed price in $FLOW
                 </li>
                 <li>Original Artist gets 80% of the revenue</li>
                 <li>
@@ -157,9 +155,7 @@ const Roadmap = () => {
                 </li>
               </ul>
 
-              <p className="text-white text-right">
-                Est. Date: july/august 2022
-              </p>
+              <p className="text-white text-right">Est. Date: august 2022</p>
             </div>
 
             <div
@@ -177,7 +173,7 @@ const Roadmap = () => {
               <ul className="list-[circle] text-white text-2xl px-8">
                 <li>
                   Introduction of The Shop, allowing you to buy NFTs and more
-                  with Nimo
+                  with $NIMO
                 </li>
                 <li>
                   Buy cosmetic items for your Arlees, backgrounds, 3D poses and
@@ -213,7 +209,7 @@ const Roadmap = () => {
                 </li>
               </ul>
 
-              <p className="text-white text-right">Est. Date: Mid 2023</p>
+              <p className="text-white text-right">Est. Date: 2023</p>
             </div>
           </div>
 
