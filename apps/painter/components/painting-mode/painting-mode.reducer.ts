@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export type PaintingMode = 'brush' | 'bucket' | 'picker';
+export type PaintingMode = 'brush' | 'bucket' | 'picker' | 'sticker';
 
 interface State {
   currentPaintingMode: PaintingMode;

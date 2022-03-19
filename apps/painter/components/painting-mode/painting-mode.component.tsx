@@ -15,19 +15,19 @@ const PaintingMode = () => {
     (state) => state.painter.currentBrushType
   );
 
-  const toggleBrushMode = () => {
-    unityContext?.send('HudManager', 'SetBrushType', currentBrushType);
+  const setBrushType = () => {
+    unityContext?.send('HudManager', 'SetPaintingMode', 'Brush');
     dispatch(setCurrentPaintingMode('brush'));
   };
   const toggleBucketMode = () => {
+    unityContext?.send('HudManager', 'SetPaintingMode', 'Bucket');
     dispatch(setCurrentPaintingMode('bucket'));
-    unityContext?.send('HudManager', 'ToggleBucketMode');
   };
 
   useHotkeys(
     'ctrl+b, command+b',
     () => {
-      toggleBrushMode();
+      setBrushType();
     },
     [unityContext]
   );
@@ -49,7 +49,7 @@ const PaintingMode = () => {
           className={`${
             currentPaintingMode === 'brush' ? 'bg-black-500 shadow-md' : "'"
           } flex-1 flex flex-col items-center py-1 rounded-lg  cursor-pointer`}
-          onClick={(e) => toggleBrushMode()}
+          onClick={(e) => setBrushType()}
         >
           <Image
             src={`/icons/brush_${

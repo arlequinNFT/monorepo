@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export type SettingsTabs = 'painting' | 'background' | 'light';
+export type SettingsTabs = 'painting' | 'stickers' | 'background' | 'light';
 
 interface State {
   activeSettingsTab: SettingsTabs;

@@ -30,6 +30,7 @@ import styles from './index.module.scss';
 
 import type { NextPage } from 'next';
 import SettingsTabs from '../components/settings-tabs/settings-tabs.component';
+import Stickers from '../components/stickers/stickers.component';
 const Index: NextPage = () => {
   const { keyPress } = useScrollDirection();
 
@@ -229,6 +230,16 @@ const Index: NextPage = () => {
                   <BrushSize></BrushSize>
                 </div>
                 <BrushColor></BrushColor>
+              </TabPanel>
+              <TabPanel>
+                <p className="uppercase text-white mb-2">Stickers</p>
+                <p className="text-black-200 font-bold text-[0.875rem]">
+                  Scale: CTRL + Mouse Wheel
+                </p>
+                <p className="text-black-200 font-bold text-[0.875rem] mb-2">
+                  Rotate: SHIFT + Mouse Wheel
+                </p>
+                <Stickers></Stickers>
               </TabPanel>
               <TabPanel>
                 <p className="uppercase text-white mb-2">Background</p>
