@@ -12,12 +12,12 @@ const BackgroundMode = () => {
     (state) => state.backgroundMode.currentBackgroundMode
   );
 
-  const enableBackground = () => {
-    unityContext?.send('HudManager', 'EnableBackground');
+  const setBackgroundModeTo3DFn = () => {
+    unityContext?.send('HudManager', 'SetBackgroundModeTo3D');
     dispatch(setBackgroundModeTo3D());
   };
-  const disableBackground = () => {
-    unityContext?.send('HudManager', 'DisableBackground');
+  const setBackgroundModeToFlatFn = () => {
+    unityContext?.send('HudManager', 'SetBackgroundModeToFlat');
     dispatch(setBackgroundModeToFlat());
   };
 
@@ -30,7 +30,7 @@ const BackgroundMode = () => {
           className={`${
             currentBackgroundMode === 'flat' ? 'bg-black-500 shadow-md' : ''
           } flex-1 flex flex-col items-center rounded-lg p-2 cursor-pointer`}
-          onClick={(e) => disableBackground()}
+          onClick={(e) => setBackgroundModeToFlatFn()}
         >
           <p
             className={`${
@@ -45,7 +45,7 @@ const BackgroundMode = () => {
           className={`${
             currentBackgroundMode === '3d' ? 'bg-black-500 shadow-md' : ''
           } flex-1 flex flex-col items-center rounded-lg p-2 cursor-pointer`}
-          onClick={(e) => enableBackground()}
+          onClick={(e) => setBackgroundModeTo3DFn()}
         >
           <p
             className={`${

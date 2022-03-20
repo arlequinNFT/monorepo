@@ -4,7 +4,6 @@ import ReactTooltip from 'react-tooltip';
 import Unity, { UnityContext } from 'react-unity-webgl';
 
 import { ComponentsButton } from '@arlequin/components/button';
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/tabs';
 import ArleesMode from '../components/arlees-mode/arlees-mode.component';
 import BackgroundColor from '../components/background-color/background-color.component';
 import BackgroundMode from '../components/background-mode/background-mode.component';
@@ -30,6 +29,7 @@ import styles from './index.module.scss';
 
 import type { NextPage } from 'next';
 import SettingsTabs from '../components/settings-tabs/settings-tabs.component';
+import Stickers from '../components/stickers/stickers.component';
 const Index: NextPage = () => {
   const { keyPress } = useScrollDirection();
 
@@ -55,6 +55,10 @@ const Index: NextPage = () => {
     (state) => state.arleesMode.currentArleesMode
   );
   const sceneLoaded = useAppSelector((state) => state.painter.sceneLoaded);
+  const activeSettingsTab = useAppSelector(
+    (state) => state.settingsTabs.activeSettingsTab
+  );
+
   //#endregion
 
   const generateImage = () => unityContext?.send('HudManager', 'RequestAvatar');
@@ -129,7 +133,7 @@ const Index: NextPage = () => {
   return (
     <>
       {showLoadingScreen && (
-        <div className="absolute bg-purple h-screen w-screen z-10">
+        <div className="absolute bg-purple h-screen w-screen z-[999]">
           <div className="grid place-content-center h-full w-full">
             <div className="flex items-baseline">
               <p className="font-extrabold text-4xl text-white animate-pulse">
@@ -211,15 +215,13 @@ const Index: NextPage = () => {
             <Swatches></Swatches>
           </div>
         </div>
-
-        <div className="flex flex-col bg-black-700 overflow-hidden  relative">
-          <Tabs>
-            <TabList className="px-2">
-              <SettingsTabs></SettingsTabs>
-            </TabList>
-
-            <TabPanels className="p-4">
-              <TabPanel>
+        <div className=" bg-black">
+          <SettingsTabs></SettingsTabs>
+        </div>
+        <div className="flex flex-col bg-black-700">
+          <div className="p-4 pb-0 flex h-full flex-col">
+            {activeSettingsTab === 'painting' && (
+              <>
                 <div className="flex items-center justify-between mb-4">
                   <p className="uppercase text-white">Painting</p>
                   <UndoRedo></UndoRedo>
@@ -229,27 +231,46 @@ const Index: NextPage = () => {
                   <BrushSize></BrushSize>
                 </div>
                 <BrushColor></BrushColor>
-              </TabPanel>
-              <TabPanel>
+              </>
+            )}
+
+            {activeSettingsTab === 'stickers' && (
+              <>
+                <p className="uppercase text-white mb-2">Stickers</p>
+                <p className="text-black-200 font-bold text-[0.875rem]">
+                  Scale: CTRL + Mouse Wheel
+                </p>
+                <p className="text-black-200 font-bold text-[0.875rem] mb-2">
+                  Rotate: SHIFT + Mouse Wheel
+                </p>
+                <Stickers></Stickers>
+              </>
+            )}
+
+            {activeSettingsTab === 'background' && (
+              <>
                 <p className="uppercase text-white mb-2">Background</p>
                 <BackgroundMode></BackgroundMode>
                 <BackgroundColor></BackgroundColor>
-              </TabPanel>
-              <TabPanel>
+              </>
+            )}
+
+            {activeSettingsTab === 'light' && (
+              <>
                 <p className="uppercase text-white mb-2">Light</p>
                 <LightColor></LightColor>
                 <LightIntensity></LightIntensity>
                 <LightXAxis></LightXAxis>
                 <LightYAxis></LightYAxis>
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
+              </>
+            )}
+          </div>
 
-          <section className="flex justify-center absolute bottom-0 w-full py-3 bg-black-600">
+          <div className="flex justify-center  w-full py-3 bg-black-600">
             <ComponentsButton color="secondary" rounded onClick={generateImage}>
               GENERATE IMAGE
             </ComponentsButton>
-          </section>
+          </div>
         </div>
       </div>
       <ReactTooltip type="light" effect="solid" />

@@ -9,9 +9,6 @@ const Swatches = () => {
   const dispatch = useAppDispatch();
   //#region Selectors
   const unityContext = useAppSelector((state) => state.painter.unityContext);
-  const currentBrushType = useAppSelector(
-    (state) => state.painter.currentBrushType
-  );
   const swatches = useAppSelector((state) => state.swatches.swatches);
   //#endregion
 
@@ -24,7 +21,7 @@ const Swatches = () => {
   }, [unityContext, dispatch]);
 
   const toggleBrushMode = () => {
-    unityContext?.send('HudManager', 'SetBrushType', currentBrushType);
+    unityContext?.send('HudManager', 'SetPaintingMode', 'Brush');
     dispatch(setCurrentPaintingMode('brush'));
   };
 

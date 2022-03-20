@@ -1,8 +1,6 @@
-import { BiLandscape } from 'react-icons/bi';
+import { BiLandscape, BiSticker } from 'react-icons/bi';
 import { FaPaintBrush } from 'react-icons/fa';
 import { MdOutlineLightMode } from 'react-icons/md';
-
-import { Tab } from '@chakra-ui/tabs';
 
 import { useAppDispatch, useAppSelector } from '../../store/hook';
 import { setActiveSettingsTab } from './settings-tabs.reducer';
@@ -16,30 +14,38 @@ const SettingsTabs = () => {
 
   return (
     <>
-      <Tab
-        className={`${
-          activeSettingsTab === 'painting' ? 'border-b border-white' : ''
-        } flex flex-col text-white p-4`}
+      <div
+        className={`flex justify-center items-center p-4 cursor-pointer text-white   ${
+          activeSettingsTab === 'painting' ? 'bg-black-700' : 'bg-black-600'
+        }`}
         onClick={(e) => dispatch(setActiveSettingsTab('painting'))}
       >
-        <FaPaintBrush></FaPaintBrush>
-      </Tab>
-      <Tab
-        className={`${
-          activeSettingsTab === 'background' ? 'border-b border-white' : ''
-        } flex flex-col text-white p-4`}
+        <FaPaintBrush size="1.5rem"></FaPaintBrush>
+      </div>
+      <div
+        className={`flex justify-center items-center p-4 cursor-pointer text-white ${
+          activeSettingsTab === 'stickers' ? 'bg-black-700' : 'bg-black-600'
+        }`}
+        onClick={(e) => dispatch(setActiveSettingsTab('stickers'))}
+      >
+        <BiSticker size="1.5rem"></BiSticker>
+      </div>
+      <div
+        className={` flex justify-center items-center p-4 cursor-pointer text-white  ${
+          activeSettingsTab === 'background' ? 'bg-black-700' : 'bg-black-600'
+        }`}
         onClick={(e) => dispatch(setActiveSettingsTab('background'))}
       >
-        <BiLandscape></BiLandscape>
-      </Tab>
-      <Tab
-        className={`${
-          activeSettingsTab === 'light' ? 'border-b border-white' : ''
-        } flex flex-col text-white p-4`}
+        <BiLandscape size="1.5rem"></BiLandscape>
+      </div>
+      <div
+        className={` flex justify-center items-center p-4 cursor-pointer text-white rounded-bl-xl  ${
+          activeSettingsTab === 'light' ? 'bg-black-700' : 'bg-black-600'
+        }`}
         onClick={(e) => dispatch(setActiveSettingsTab('light'))}
       >
-        <MdOutlineLightMode></MdOutlineLightMode>
-      </Tab>
+        <MdOutlineLightMode size="1.5rem"></MdOutlineLightMode>
+      </div>
     </>
   );
 };

@@ -12,6 +12,7 @@ import posesListReducer from '../components/poses-list/poses-list.reducer';
 import settingsTabsReducer from '../components/settings-tabs/settings-tabs.reducer';
 import speciesListReducer from '../components/species-list/species-list.reducer';
 import swatchesReducer from '../components/swatches/swatches.reducer';
+import stickersReducer from '../components/stickers/stickers.reducer';
 
 export const store = configureStore({
   reducer: {
@@ -26,6 +27,7 @@ export const store = configureStore({
     posesList: posesListReducer,
     settingsTabs: settingsTabsReducer,
     speciesList: speciesListReducer,
+    stickers: stickersReducer,
     swatches: swatchesReducer,
   },
   middleware: (getDefaultMiddleware) =>
