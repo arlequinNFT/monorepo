@@ -29,7 +29,6 @@ const initialState: State = {
         'emotion_1',
         'emotion_2',
         'emotion_3a',
-        'emotion_3b',
         'emotion_4',
         'emotion_5',
         'emotion_6',
