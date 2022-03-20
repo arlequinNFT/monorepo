@@ -236,7 +236,10 @@ const Index: NextPage = () => {
 
             {activeSettingsTab === 'stickers' && (
               <>
-                <p className="uppercase text-white mb-2">Stickers</p>
+                <div className="flex items-center justify-between mb-4">
+                  <p className="uppercase text-white">Stickers</p>
+                  <UndoRedo></UndoRedo>
+                </div>
                 <p className="text-black-200 font-bold text-[0.875rem]">
                   Scale: CTRL + Mouse Wheel
                 </p>
