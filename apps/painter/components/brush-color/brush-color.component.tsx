@@ -34,7 +34,7 @@ const BrushColor = () => {
   );
 
   const setPaintingModeToPicker = () => {
-    unityContext?.send('HudManager', 'SetPaintingMode', 'picker');
+    unityContext?.send('HudManager', 'SetPaintingMode', 'Picker');
     dispatch(setCurrentPaintingMode('picker'));
   };
 
