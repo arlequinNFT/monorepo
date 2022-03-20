@@ -41,6 +41,7 @@ const BrushColor = () => {
   useEffect(() => {
     if (unityContext) {
       unityContext?.on('SendPickedColor', async (color: string) => {
+        unityContext?.send('HudManager', 'SetPaintingMode', 'Brush');
         dispatch(setCurrentBrushColor(color));
         dispatch(setCurrentPaintingMode('brush'));
       });
