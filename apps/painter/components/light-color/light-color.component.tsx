@@ -1,7 +1,12 @@
 import { HexColorInput, HexColorPicker } from 'react-colorful';
 import { useDebouncedCallback } from 'use-debounce';
 
-import { Popover, PopoverBody, PopoverContent, PopoverTrigger } from '@chakra-ui/popover';
+import {
+  Popover,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+} from '@chakra-ui/popover';
 
 import { useAppDispatch, useAppSelector } from '../../store/hook';
 import { setCurrentLightColor } from '../../store/reducers/painter.reducer';

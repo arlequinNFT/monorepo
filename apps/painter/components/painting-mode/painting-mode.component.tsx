@@ -11,9 +11,6 @@ const PaintingMode = () => {
   const currentPaintingMode = useAppSelector(
     (state) => state.paintingMode.currentPaintingMode
   );
-  const currentBrushType = useAppSelector(
-    (state) => state.painter.currentBrushType
-  );
 
   const setBrushType = () => {
     unityContext?.send('HudManager', 'SetPaintingMode', 'Brush');

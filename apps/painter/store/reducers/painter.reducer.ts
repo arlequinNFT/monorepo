@@ -2,13 +2,7 @@ import { UnityContext } from 'react-unity-webgl';
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export enum BrushType {
-  Round = 'Round',
-  Square = 'Square',
-}
-
 interface State {
-  currentBrushType: BrushType;
   currentLightColor: string;
   currentLightIntensity: number;
   currentLightXAxis: number;
@@ -25,7 +19,6 @@ interface State {
 }
 
 const initialState: State = {
-  currentBrushType: BrushType.Round,
   currentLightColor: '#ffffff',
   currentLightIntensity: 31,
   currentLightXAxis: 50,
@@ -60,9 +53,6 @@ export const painterSlice = createSlice({
     setCurrentLightYAxis: (state, action: PayloadAction<number>) => {
       state.currentLightYAxis = action.payload;
     },
-    setCurrentBrushType: (state, action: PayloadAction<BrushType>) => {
-      state.currentBrushType = action.payload;
-    },
     setSceneLoaded: (state) => {
       state.sceneLoaded = true;
     },
@@ -73,7 +63,6 @@ export const painterSlice = createSlice({
 });
 export const {
   hideLoadingScreen,
-  setCurrentBrushType,
   setCurrentLightColor,
   setCurrentLightIntensity,
   setCurrentLightXAxis,

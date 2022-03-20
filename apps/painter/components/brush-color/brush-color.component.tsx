@@ -21,9 +21,6 @@ const BrushColor = () => {
   const currentBrushColor = useAppSelector(
     (state) => state.brushColor.currentBrushColor
   );
-  const currentBrushType = useAppSelector(
-    (state) => state.painter.currentBrushType
-  );
 
   const currentPaintingMode = useAppSelector(
     (state) => state.paintingMode.currentPaintingMode
@@ -37,7 +34,7 @@ const BrushColor = () => {
   );
 
   const setPaintingModeToPicker = () => {
-    unityContext?.send('HudManager', 'TogglePickerMode');
+    unityContext?.send('HudManager', 'SetPaintingMode', 'picker');
     dispatch(setCurrentPaintingMode('picker'));
   };
 
@@ -46,15 +43,14 @@ const BrushColor = () => {
       unityContext?.on('SendPickedColor', async (color: string) => {
         dispatch(setCurrentBrushColor(color));
         dispatch(setCurrentPaintingMode('brush'));
-        unityContext?.send('HudManager', 'SetBrushType', currentBrushType);
       });
     }
-  }, [unityContext, currentBrushColor, currentBrushType, dispatch]);
+  }, [unityContext, currentBrushColor, dispatch]);
 
   return (
     <>
       <p className="text-black-200 font-bold text-[0.875rem] mb-2">Color</p>
-      <div className="grid grid-flow-col gap-x-2 items-center z-50">
+      <div className="grid grid-flow-col gap-x-2 items-center">
         <Popover>
           <PopoverTrigger>
             <div
