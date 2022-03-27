@@ -31,7 +31,7 @@ const Swatches = () => {
     toggleBrushMode();
   };
   return (
-    <ul className="absolute flex gap-x-2 p-1">
+    <ul className="flex gap-x-2 p-1">
       {swatches?.map((color) => (
         <li
           key={color}

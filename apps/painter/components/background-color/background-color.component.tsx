@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/popover';
 
 import { useAppDispatch, useAppSelector } from '../../store/hook';
-import {} from '../../store/reducers/painter.reducer';
+import {} from '../../store/reducers/ui.reducer';
 import { setCurrentBackgroundColor } from './background-color.reducer';
 
 const BackgroundColor = () => {
@@ -22,7 +22,7 @@ const BackgroundColor = () => {
 
   const setBackgroundColorUsingColorPicker = useDebouncedCallback(
     (color: string) => {
-      unityContext?.send('HudManager', 'SetBackgroundColor', color);
+      unityContext?.send('HudManager', 'SetSkyboxColor', color);
       dispatch(setCurrentBackgroundColor(color));
     },
     50
@@ -31,7 +31,7 @@ const BackgroundColor = () => {
   return (
     <>
       <p className="text-black-200 font-bold text-[0.875rem] mt-3 mb-1">
-        Color
+        Background Color
       </p>
 
       <div className="grid grid-flow-col gap-x-2 items-center py-1 ">
