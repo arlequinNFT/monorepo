@@ -35,33 +35,24 @@ const initialState: State = {
       ],
     },
     {
-      title: 'Nature',
-      path: 'nature',
-      list: [
-        'nature_1',
-        'nature_2',
-        'nature_3',
-        'nature_4',
-        'nature_5',
-        'nature_6',
-        'nature_7',
-        'nature_8',
-      ],
-    },
-    {
       title: 'Hearts',
       path: 'hearts',
-      list: ['heart_1', 'heart_2', 'heart_3', 'heart_4', 'heart_5'],
+      list: ['heart_2', 'heart_3', 'heart_4'],
     },
     {
       title: 'Stars',
       path: 'stars',
-      list: ['star_1', 'star_2', 'star_3', 'star_4', 'star_5', 'star_6'],
+      list: ['star_4', 'star_6'],
     },
     {
       title: 'Bandaids',
       path: 'bandaids',
-      list: ['bandaid_1', 'bandaid_2', 'bandaid_3', 'bandaid_4'],
+      list: ['bandaid_1', 'bandaid_4'],
+    },
+    {
+      title: 'Brands',
+      path: 'brands',
+      list: ['flow'],
     },
   ],
 };

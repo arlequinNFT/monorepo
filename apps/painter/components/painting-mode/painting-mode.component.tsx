@@ -1,8 +1,11 @@
 import Image from 'next/image';
-import { useHotkeys } from 'react-hotkeys-hook';
 
 import { useAppDispatch, useAppSelector } from '../../store/hook';
-import { setCurrentPaintingMode } from './painting-mode.reducer';
+import {
+  BrushDecal,
+  setCurrentBrushDecal,
+  setCurrentPaintingMode,
+} from './painting-mode.reducer';
 
 const PaintingMode = () => {
   const dispatch = useAppDispatch();
@@ -11,31 +14,19 @@ const PaintingMode = () => {
   const currentPaintingMode = useAppSelector(
     (state) => state.paintingMode.currentPaintingMode
   );
-
-  const setBrushType = () => {
+  const currentBrushDecal = useAppSelector(
+    (state) => state.paintingMode.currentBrushDecal
+  );
+  const setBrushType = (brushDecal: BrushDecal) => {
     unityContext?.send('HudManager', 'SetPaintingMode', 'Brush');
+    unityContext?.send('HudManager', 'SetBrushDecal', brushDecal);
     dispatch(setCurrentPaintingMode('brush'));
+    dispatch(setCurrentBrushDecal(brushDecal));
   };
   const toggleBucketMode = () => {
     unityContext?.send('HudManager', 'SetPaintingMode', 'Bucket');
     dispatch(setCurrentPaintingMode('bucket'));
   };
-
-  useHotkeys(
-    'ctrl+b, command+b',
-    () => {
-      setBrushType();
-    },
-    [unityContext]
-  );
-  useHotkeys(
-    'ctrl+g, command+g',
-    (event) => {
-      event.preventDefault();
-      toggleBucketMode();
-    },
-    [unityContext]
-  );
 
   return (
     <>
@@ -44,13 +35,13 @@ const PaintingMode = () => {
         <li
           data-tip="CTRL + B"
           className={`${
-            currentPaintingMode === 'brush' ? 'bg-black-500 shadow-md' : "'"
+            currentBrushDecal === 'hard' ? 'bg-black-500 shadow-md' : "'"
           } flex-1 flex flex-col items-center py-1 rounded-lg  cursor-pointer`}
-          onClick={(e) => setBrushType()}
+          onClick={(e) => setBrushType('hard')}
         >
           <Image
             src={`/icons/brush_${
-              currentPaintingMode === 'brush' ? 'active' : 'inactive'
+              currentBrushDecal === 'hard' ? 'active' : 'inactive'
             }.svg`}
             alt="Brush icon"
             width="36px"
@@ -58,10 +49,33 @@ const PaintingMode = () => {
           />
           <p
             className={`${
-              currentPaintingMode === 'brush' ? 'text-white' : 'text-black-200'
+              currentBrushDecal === 'hard' ? 'text-white' : 'text-black-200'
             }`}
           >
-            Round Pen
+            Hard Pen
+          </p>
+        </li>
+        <li
+          data-tip="CTRL + B"
+          className={`${
+            currentBrushDecal === 'soft' ? 'bg-black-500 shadow-md' : "'"
+          } flex-1 flex flex-col items-center py-1 rounded-lg  cursor-pointer`}
+          onClick={(e) => setBrushType('soft')}
+        >
+          <Image
+            src={`/icons/brush_${
+              currentBrushDecal === 'soft' ? 'active' : 'inactive'
+            }.svg`}
+            alt="Brush icon"
+            width="36px"
+            height="36px"
+          />
+          <p
+            className={`${
+              currentBrushDecal === 'soft' ? 'text-white' : 'text-black-200'
+            }`}
+          >
+            Soft Pen
           </p>
         </li>
 

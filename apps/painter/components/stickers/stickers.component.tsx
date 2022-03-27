@@ -14,7 +14,6 @@ import {
   increaseStickerSize,
   setActiveSticker,
 } from './stickers.reducer';
-import Image from 'next/image';
 import { setCurrentPaintingMode } from '../painting-mode/painting-mode.reducer';
 import { useScrollDirection } from '../../utils/use-scroll-direction';
 import { useEffect } from 'react';
@@ -24,7 +23,6 @@ const Stickers = () => {
   const unityContext = useAppSelector((state) => state.painter.unityContext);
 
   const dispatch = useAppDispatch();
-  const activeSticker = useAppSelector((state) => state.stickers.activeSticker);
   const stickersGroupList = useAppSelector(
     (state) => state.stickers.stickersGroupList
   );
@@ -80,7 +78,7 @@ const Stickers = () => {
               <AccordionIcon className="!text-white text-xl" />
             </AccordionButton>
             <AccordionPanel>
-              <div className="grid grid-cols-auto-sm gap-2">
+              <div className="grid grid-cols-[repeat(5,minmax(2rem,3rem))] gap-2">
                 {group.list.map((sticker, index) => (
                   <div
                     key={index}
