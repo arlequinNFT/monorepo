@@ -18,20 +18,6 @@ const Swatches = () => {
   );
   //#endregion
 
-  useEffect(() => {
-    if (unityContext) {
-      unityContext?.on('SendBrushColor', async (color) => {
-        dispatch(
-          addColorToSwatches({
-            color,
-            currentBrushThickness,
-            currentBrushOpacity,
-          })
-        );
-      });
-    }
-  }, [unityContext, currentBrushOpacity, currentBrushThickness, dispatch]);
-
   const toggleBrushMode = () => {
     unityContext?.send('HudManager', 'SetPaintingMode', 'Brush');
     dispatch(setCurrentPaintingMode('brush'));

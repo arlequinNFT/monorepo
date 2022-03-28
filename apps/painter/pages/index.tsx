@@ -39,6 +39,7 @@ import {
 } from '@chakra-ui/accordion';
 import GroundLightColor from '../components/ground-light-color/ground-light-color.component';
 import ArleeLightsRotation from '../components/arlee-lights-rotation/arlee-lights-rotation.component';
+import { addColorToSwatches } from '../components/swatches/swatches.reducer';
 const Index: NextPage = () => {
   const { keyPress } = useScrollDirection();
 
@@ -50,6 +51,9 @@ const Index: NextPage = () => {
   );
   const currentBrushOpacity = useAppSelector(
     (state) => state.brushOpacity.currentBrushOpacity
+  );
+  const currentBrushThickness = useAppSelector(
+    (state) => state.brushThickness.currentBrushThickness
   );
   const currentBackgroundColor = useAppSelector(
     (state) => state.backgroundColor.currentBackgroundColor
@@ -131,6 +135,20 @@ const Index: NextPage = () => {
       });
     }
   }, [unityContext]);
+
+  useEffect(() => {
+    if (unityContext) {
+      unityContext?.on('SendBrushColor', async (color) => {
+        dispatch(
+          addColorToSwatches({
+            color,
+            currentBrushThickness,
+            currentBrushOpacity,
+          })
+        );
+      });
+    }
+  }, [unityContext, currentBrushOpacity, currentBrushThickness, dispatch]);
   //#endregion
 
   return (
