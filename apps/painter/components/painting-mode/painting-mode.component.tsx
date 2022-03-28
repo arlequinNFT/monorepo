@@ -35,13 +35,17 @@ const PaintingMode = () => {
         <li
           data-tip="CTRL + B"
           className={`${
-            currentBrushDecal === 'hard' ? 'bg-black-500 shadow-md' : "'"
+            currentBrushDecal === 'hard' && currentPaintingMode === 'brush'
+              ? 'bg-black-500 shadow-md'
+              : "'"
           } flex-1 flex flex-col items-center py-1 rounded-lg  cursor-pointer`}
           onClick={(e) => setBrushType('hard')}
         >
           <Image
             src={`/icons/brush_${
-              currentBrushDecal === 'hard' ? 'active' : 'inactive'
+              currentBrushDecal === 'hard' && currentPaintingMode === 'brush'
+                ? 'active'
+                : 'inactive'
             }.svg`}
             alt="Brush icon"
             width="36px"
@@ -49,7 +53,9 @@ const PaintingMode = () => {
           />
           <p
             className={`${
-              currentBrushDecal === 'hard' ? 'text-white' : 'text-black-200'
+              currentBrushDecal === 'hard' && currentPaintingMode === 'brush'
+                ? 'text-white'
+                : 'text-black-200'
             }`}
           >
             Hard Pen
@@ -58,13 +64,17 @@ const PaintingMode = () => {
         <li
           data-tip="CTRL + B"
           className={`${
-            currentBrushDecal === 'soft' ? 'bg-black-500 shadow-md' : "'"
+            currentBrushDecal === 'soft' && currentPaintingMode === 'brush'
+              ? 'bg-black-500 shadow-md'
+              : "'"
           } flex-1 flex flex-col items-center py-1 rounded-lg  cursor-pointer`}
           onClick={(e) => setBrushType('soft')}
         >
           <Image
             src={`/icons/brush_${
-              currentBrushDecal === 'soft' ? 'active' : 'inactive'
+              currentBrushDecal === 'soft' && currentPaintingMode === 'brush'
+                ? 'active'
+                : 'inactive'
             }.svg`}
             alt="Brush icon"
             width="36px"
@@ -72,7 +82,9 @@ const PaintingMode = () => {
           />
           <p
             className={`${
-              currentBrushDecal === 'soft' ? 'text-white' : 'text-black-200'
+              currentBrushDecal === 'soft' && currentPaintingMode === 'brush'
+                ? 'text-white'
+                : 'text-black-200'
             }`}
           >
             Soft Pen

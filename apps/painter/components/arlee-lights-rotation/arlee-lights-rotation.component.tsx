@@ -38,7 +38,7 @@ const ArleeLightsRotation = () => {
 
   return (
     <>
-      <p className="text-black-200 font-bold text-[0.875rem] mb-2">Vertical</p>
+      {/* <p className="text-black-200 font-bold text-[0.875rem] mb-2">Vertical</p>
       <ComponentsInput
         type="range"
         id="size"
@@ -46,7 +46,7 @@ const ArleeLightsRotation = () => {
         max={xMax}
         value={xRotation}
         changed={(value) => updateXRotation(Number(value))}
-      />
+      /> */}
 
       <p className="text-black-200 font-bold text-[0.875rem] my-2">
         Horizontal
