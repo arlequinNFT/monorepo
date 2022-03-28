@@ -3,6 +3,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import { useAppDispatch, useAppSelector } from '../../store/hook';
 import { setIntensity } from './ground-light-intensity.reducer';
 import { ComponentsInput } from '@arlequin/components/input';
+import { useEffect } from 'react';
 
 const GroundLightIntensity = () => {
   const unityContext = useAppSelector((state) => state.painter.unityContext);
@@ -14,11 +15,12 @@ const GroundLightIntensity = () => {
   const min = useAppSelector((state) => state.groundLightIntensity.min);
   const max = useAppSelector((state) => state.groundLightIntensity.max);
 
-  const updateIntensity = useDebouncedCallback((value: number) => {
-    unityContext?.send('HudManager', 'SetGroundLightIntensity', value);
+  const updateIntensity = (value: number) => {
     dispatch(setIntensity(value));
-  }, 50);
-
+  };
+  useEffect(() => {
+    unityContext?.send('HudManager', 'SetGroundLightIntensity', intensity);
+  }, [unityContext, intensity]);
   return (
     <>
       <p className="text-black-200 font-bold text-[0.875rem] mt-3 mb-1">
