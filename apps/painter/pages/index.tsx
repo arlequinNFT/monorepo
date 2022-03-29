@@ -30,7 +30,6 @@ import GroundLightIntensity from '../components/ground-light-intensity/ground-li
 import ArleeLight1 from '../components/arlee-light-1/arlee-light-1.component';
 import ArleeLight2 from '../components/arlee-light-2/arlee-light-2.component';
 import ArleeLight3 from '../components/arlee-light-3/arlee-light-3.component';
-import ArleeLightsRotation from '../components/arlee-lights-rotation/arlee-lights-rotation.component';
 import {
   Accordion,
   AccordionItem,
@@ -38,8 +37,9 @@ import {
   AccordionIcon,
   AccordionPanel,
 } from '@chakra-ui/accordion';
-import { group } from 'console';
 import GroundLightColor from '../components/ground-light-color/ground-light-color.component';
+import ArleeLightsRotation from '../components/arlee-lights-rotation/arlee-lights-rotation.component';
+import { addColorToSwatches } from '../components/swatches/swatches.reducer';
 const Index: NextPage = () => {
   const { keyPress } = useScrollDirection();
 
@@ -51,6 +51,9 @@ const Index: NextPage = () => {
   );
   const currentBrushOpacity = useAppSelector(
     (state) => state.brushOpacity.currentBrushOpacity
+  );
+  const currentBrushThickness = useAppSelector(
+    (state) => state.brushThickness.currentBrushThickness
   );
   const currentBackgroundColor = useAppSelector(
     (state) => state.backgroundColor.currentBackgroundColor
@@ -100,12 +103,6 @@ const Index: NextPage = () => {
         // initialization
         unityContext?.send('HudManager', 'LoadMetaPet', currentArlee);
         unityContext?.send('HudManager', 'SetBrushColor', currentBrushColor);
-        unityContext?.send('HudManager', 'UpdateOpacity', currentBrushOpacity);
-        unityContext?.send(
-          'HudManager',
-          'SetBackgroundColor',
-          currentBackgroundColor
-        );
         dispatch(hideLoadingScreen());
         dispatch(setSceneLoaded());
       });
@@ -138,6 +135,20 @@ const Index: NextPage = () => {
       });
     }
   }, [unityContext]);
+
+  useEffect(() => {
+    if (unityContext) {
+      unityContext?.on('SendBrushColor', async (color) => {
+        dispatch(
+          addColorToSwatches({
+            color,
+            currentBrushThickness,
+            currentBrushOpacity,
+          })
+        );
+      });
+    }
+  }, [unityContext, currentBrushOpacity, currentBrushThickness, dispatch]);
   //#endregion
 
   return (
@@ -221,10 +232,6 @@ const Index: NextPage = () => {
               </>
             )}
 
-            <div className="absolute bottom-0 left-2">
-              <Swatches></Swatches>
-            </div>
-
             <div className="absolute right-0 top-0">
               <SettingsTabs></SettingsTabs>
             </div>
@@ -232,6 +239,18 @@ const Index: NextPage = () => {
         </div>
         <div className="flex flex-col bg-black-700">
           <div className="p-4 pb-0 flex h-full flex-col">
+            {activeSettingsTab === 'arlees' && (
+              <>
+                <p className="uppercase text-white mb-2">Arlees</p>
+                <ArleesMode></ArleesMode>
+
+                <div className="w-full relative overflow-hidden flex-1">
+                  {currentArleesMode === 'species' && <ArleesList></ArleesList>}
+                  {currentArleesMode === 'poses' && <PosesList></PosesList>}
+                </div>
+              </>
+            )}
+
             {activeSettingsTab === 'painting' && (
               <>
                 <div className="flex items-center justify-between mb-4">
@@ -242,22 +261,12 @@ const Index: NextPage = () => {
                 <div className="py-6">
                   <BrushSize></BrushSize>
                 </div>
-                <div className="pb-6">
-                  <BrushOpacity></BrushOpacity>
-                </div>
-                <BrushColor></BrushColor>
-              </>
-            )}
+                <BrushOpacity></BrushOpacity>
 
-            {activeSettingsTab === 'arlees' && (
-              <>
-                <p className="uppercase text-white mb-2">Arlees</p>
-                <ArleesMode></ArleesMode>
-
-                <div className="w-full relative overflow-hidden flex-1">
-                  {currentArleesMode === 'species' && <ArleesList></ArleesList>}
-                  {currentArleesMode === 'poses' && <PosesList></PosesList>}
+                <div className="py-6">
+                  <BrushColor></BrushColor>
                 </div>
+                <Swatches></Swatches>
               </>
             )}
 

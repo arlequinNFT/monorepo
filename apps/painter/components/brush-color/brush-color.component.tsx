@@ -80,7 +80,7 @@ const BrushColor = () => {
             onChange={setBrushColorUsingColorPicker}
           />
         </div>
-        <div
+        {/* <div
           onClick={(e) => setPaintingModeToPicker()}
           className={`${
             currentPaintingMode === 'picker'
@@ -89,7 +89,7 @@ const BrushColor = () => {
           } p-2 rounded-lg transition-all cursor-pointer`}
         >
           <FaEyeDropper></FaEyeDropper>
-        </div>
+        </div> */}
       </div>
     </>
   );

@@ -12,7 +12,7 @@ interface State {
 }
 
 const initialState: State = {
-  activeSettingsTab: 'painting',
+  activeSettingsTab: 'arlees',
 };
 
 export const slice = createSlice({

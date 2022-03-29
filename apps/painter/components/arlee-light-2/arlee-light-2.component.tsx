@@ -11,6 +11,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../store/hook';
 import { setIntensity, setColor } from './arlee-light-2.reducer';
 import { ComponentsInput } from '@arlequin/components/input';
+import { useEffect } from 'react';
 
 const ArleeLight2 = () => {
   const unityContext = useAppSelector((state) => state.painter.unityContext);
@@ -21,10 +22,12 @@ const ArleeLight2 = () => {
   const max = useAppSelector((state) => state.arleeLight2.max);
   const color = useAppSelector((state) => state.arleeLight2.color);
 
-  const updateIntensity = useDebouncedCallback((value: number) => {
-    unityContext?.send('HudManager', 'UpdateLight2Intensity', value);
+  const updateIntensity = (value: number) => {
     dispatch(setIntensity(value));
-  }, 50);
+  };
+  useEffect(() => {
+    unityContext?.send('HudManager', 'UpdateLight2Intensity', intensity);
+  }, [unityContext, intensity]);
   const updateColor = useDebouncedCallback((value: string) => {
     unityContext?.send('HudManager', 'SetLight2Color', value);
     dispatch(setColor(value));

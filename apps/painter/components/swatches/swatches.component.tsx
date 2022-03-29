@@ -10,15 +10,13 @@ const Swatches = () => {
   //#region Selectors
   const unityContext = useAppSelector((state) => state.painter.unityContext);
   const swatches = useAppSelector((state) => state.swatches.swatches);
+  const currentBrushThickness = useAppSelector(
+    (state) => state.brushThickness.currentBrushThickness
+  );
+  const currentBrushOpacity = useAppSelector(
+    (state) => state.brushOpacity.currentBrushOpacity
+  );
   //#endregion
-
-  useEffect(() => {
-    if (unityContext) {
-      unityContext?.on('SendBrushColor', async (event) => {
-        dispatch(addColorToSwatches(event));
-      });
-    }
-  }, [unityContext, dispatch]);
 
   const toggleBrushMode = () => {
     unityContext?.send('HudManager', 'SetPaintingMode', 'Brush');
@@ -31,16 +29,19 @@ const Swatches = () => {
     toggleBrushMode();
   };
   return (
-    <ul className="flex gap-x-2 p-1">
-      {swatches?.map((color) => (
-        <li
-          key={color}
-          style={{ backgroundColor: color }}
-          className="h-8 w-8 rounded-md cursor-pointer"
-          onClick={(e) => updateColorUsingSwatches(color)}
-        ></li>
-      ))}
-    </ul>
+    <>
+      <p className="text-black-200 font-bold text-[0.875rem] mb-2">Palette</p>
+      <ul className="grid grid-cols-[repeat(6,3rem)] max-h-44 w-full overflow-y-auto overflow-x-hidden pr-2">
+        {swatches?.map((item) => (
+          <li
+            key={item.color}
+            style={{ backgroundColor: item.color }}
+            className="h-12 cursor-pointer relative"
+            onClick={(e) => updateColorUsingSwatches(item.color)}
+          ></li>
+        ))}
+      </ul>
+    </>
   );
 };
 export default Swatches;

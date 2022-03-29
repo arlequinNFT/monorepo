@@ -16,20 +16,19 @@ const SettingsTabs = () => {
     <>
       <div
         className={`flex justify-center items-center p-4 cursor-pointer text-white ${
-          activeSettingsTab === 'painting' ? 'bg-black-700' : 'bg-black-600'
-        }`}
-        onClick={(e) => dispatch(setActiveSettingsTab('painting'))}
-      >
-        <FaPaintBrush size="1.5rem"></FaPaintBrush>
-      </div>
-
-      <div
-        className={`flex justify-center items-center p-4 cursor-pointer text-white ${
           activeSettingsTab === 'arlees' ? 'bg-black-700' : 'bg-black-600'
         }`}
         onClick={(e) => dispatch(setActiveSettingsTab('arlees'))}
       >
         <MdPets size="1.5rem"></MdPets>
+      </div>
+      <div
+        className={`flex justify-center items-center p-4 cursor-pointer text-white ${
+          activeSettingsTab === 'painting' ? 'bg-black-700' : 'bg-black-600'
+        }`}
+        onClick={(e) => dispatch(setActiveSettingsTab('painting'))}
+      >
+        <FaPaintBrush size="1.5rem"></FaPaintBrush>
       </div>
 
       <div
