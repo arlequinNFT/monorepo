@@ -7,7 +7,7 @@
 
 .layout {
   display: grid;
-  grid-template-columns: 14rem minmax(0, 1fr) 20rem;
+  grid-template-columns: minmax(0, 1fr) 20rem;
 
   height: 100%;
   overflow: hidden;

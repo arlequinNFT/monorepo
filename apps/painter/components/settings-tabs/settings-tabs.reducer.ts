@@ -1,13 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export type SettingsTabs = 'painting' | 'background' | 'light';
+export type SettingsTabs =
+  | 'painting'
+  | 'arlees'
+  | 'stickers'
+  | 'environment'
+  | 'light';
 
 interface State {
   activeSettingsTab: SettingsTabs;
 }
 
 const initialState: State = {
-  activeSettingsTab: 'painting',
+  activeSettingsTab: 'arlees',
 };
 
 export const slice = createSlice({

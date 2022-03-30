@@ -17,8 +17,14 @@ module.exports = {
         'black-200': '#6B6B6B',
         primary: '#282446',
       },
+      gridTemplateColumns: {
+        'auto-xs': ' repeat(auto-fit, minmax(2rem, 1fr))',
+        'auto-sm': ' repeat(auto-fit, minmax(4rem, 1fr))',
+        'auto-md': ' repeat(auto-fit, minmax(6rem, 1fr))',
+        'auto-lg': ' repeat(auto-fit, minmax(8rem, 1fr))',
+        'auto-xl': ' repeat(auto-fit, minmax(10rem, 1fr))',
+      },
     },
-
     screens: {
       xs: '475px',
       sm: '640px',

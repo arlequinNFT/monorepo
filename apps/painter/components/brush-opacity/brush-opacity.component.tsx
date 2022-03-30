@@ -46,33 +46,29 @@ const BrushOpacity = () => {
 
   return (
     <>
-      <p className="text-black-200 font-bold text-[0.875rem]">Opacity</p>
-      <div
-        data-tip="Shortcut: Shift + Mousewheel"
-        className="flex items-center justify-evenly p-1 mb-2"
-      >
-        <Image
-          className="bg-black-500 rounded-full"
-          src={`/icons/small.svg`}
-          alt="Small icon"
-          width="36px"
-          height="36px"
-        />
+      <div className="flex justify-between items-center">
+        <p className="text-black-200 font-bold text-[0.875rem]">Opacity</p>
+
         <ComponentsInput
-          className="w-4/5 mx-1"
+          className="w-1/3"
+          type="text"
+          id="px"
+          min={minBrushOpacity}
+          max={maxBrushOpacity}
+          value={currentBrushOpacity}
+          rightElement={'px'}
+          changed={(value) => updateBrushOpacityUsingInput(Number(value))}
+        />
+      </div>
+      <div data-tip="CTRL + Mousewheel" data-place="bottom">
+        <ComponentsInput
+          className="mt-2"
           type="range"
-          id="opacity"
+          id="size"
           min={minBrushOpacity}
           max={maxBrushOpacity}
           value={currentBrushOpacity}
           changed={(value) => updateBrushOpacityUsingInput(Number(value))}
-        />
-        <Image
-          className="bg-black-500 rounded-full"
-          src={`/icons/big.svg`}
-          alt="Big icon"
-          width="36px"
-          height="36px"
         />
       </div>
     </>

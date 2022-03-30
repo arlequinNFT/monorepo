@@ -1,8 +1,6 @@
-import { BiLandscape } from 'react-icons/bi';
+import { BiLandscape, BiSticker } from 'react-icons/bi';
 import { FaPaintBrush } from 'react-icons/fa';
-import { MdOutlineLightMode } from 'react-icons/md';
-
-import { Tab } from '@chakra-ui/tabs';
+import { MdOutlineLightMode, MdPets } from 'react-icons/md';
 
 import { useAppDispatch, useAppSelector } from '../../store/hook';
 import { setActiveSettingsTab } from './settings-tabs.reducer';
@@ -16,30 +14,47 @@ const SettingsTabs = () => {
 
   return (
     <>
-      <Tab
-        className={`${
-          activeSettingsTab === 'painting' ? 'border-b border-white' : ''
-        } flex flex-col text-white p-4`}
+      <div
+        className={`flex justify-center items-center p-4 cursor-pointer text-white ${
+          activeSettingsTab === 'arlees' ? 'bg-black-700' : 'bg-black-600'
+        }`}
+        onClick={(e) => dispatch(setActiveSettingsTab('arlees'))}
+      >
+        <MdPets size="1.5rem"></MdPets>
+      </div>
+      <div
+        className={`flex justify-center items-center p-4 cursor-pointer text-white ${
+          activeSettingsTab === 'painting' ? 'bg-black-700' : 'bg-black-600'
+        }`}
         onClick={(e) => dispatch(setActiveSettingsTab('painting'))}
       >
-        <FaPaintBrush></FaPaintBrush>
-      </Tab>
-      <Tab
-        className={`${
-          activeSettingsTab === 'background' ? 'border-b border-white' : ''
-        } flex flex-col text-white p-4`}
-        onClick={(e) => dispatch(setActiveSettingsTab('background'))}
+        <FaPaintBrush size="1.5rem"></FaPaintBrush>
+      </div>
+
+      <div
+        className={`flex justify-center items-center p-4 cursor-pointer text-white ${
+          activeSettingsTab === 'stickers' ? 'bg-black-700' : 'bg-black-600'
+        }`}
+        onClick={(e) => dispatch(setActiveSettingsTab('stickers'))}
       >
-        <BiLandscape></BiLandscape>
-      </Tab>
-      <Tab
-        className={`${
-          activeSettingsTab === 'light' ? 'border-b border-white' : ''
-        } flex flex-col text-white p-4`}
+        <BiSticker size="1.5rem"></BiSticker>
+      </div>
+      <div
+        className={` flex justify-center items-center p-4 cursor-pointer text-white  ${
+          activeSettingsTab === 'environment' ? 'bg-black-700' : 'bg-black-600'
+        }`}
+        onClick={(e) => dispatch(setActiveSettingsTab('environment'))}
+      >
+        <BiLandscape size="1.5rem"></BiLandscape>
+      </div>
+      <div
+        className={` flex justify-center items-center p-4 cursor-pointer text-white rounded-bl-xl  ${
+          activeSettingsTab === 'light' ? 'bg-black-700' : 'bg-black-600'
+        }`}
         onClick={(e) => dispatch(setActiveSettingsTab('light'))}
       >
-        <MdOutlineLightMode></MdOutlineLightMode>
-      </Tab>
+        <MdOutlineLightMode size="1.5rem"></MdOutlineLightMode>
+      </div>
     </>
   );
 };

@@ -1,19 +1,12 @@
-import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
 import Unity, { UnityContext } from 'react-unity-webgl';
 
 import { ComponentsButton } from '@arlequin/components/button';
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/tabs';
 import ArleesMode from '../components/arlees-mode/arlees-mode.component';
 import BackgroundColor from '../components/background-color/background-color.component';
-import BackgroundMode from '../components/background-mode/background-mode.component';
 import BrushColor from '../components/brush-color/brush-color.component';
 import BrushSize from '../components/brush-thickness/brush-thickness.component';
-import LightColor from '../components/light-color/light-color.component';
-import LightIntensity from '../components/light-intensity/light-intensity.component';
-import LightXAxis from '../components/light-x-axis/light-x-axis.component';
-import LightYAxis from '../components/light-y-axis/light-y-axis.component';
 import PaintingMode from '../components/painting-mode/painting-mode.component';
 import PosesList from '../components/poses-list/poses-list.component';
 import ArleesList from '../components/species-list/species-list.component';
@@ -24,12 +17,29 @@ import {
   hideLoadingScreen,
   setSceneLoaded,
   setUnityContext,
-} from '../store/reducers/painter.reducer';
+} from '../store/reducers/ui.reducer';
 import { useScrollDirection } from '../utils/use-scroll-direction';
 import styles from './index.module.scss';
 
 import type { NextPage } from 'next';
 import SettingsTabs from '../components/settings-tabs/settings-tabs.component';
+import Stickers from '../components/stickers/stickers.component';
+import BrushOpacity from '../components/brush-opacity/brush-opacity.component';
+import GroundColor from '../components/ground-color/ground-color.component';
+import GroundLightIntensity from '../components/ground-light-intensity/ground-light-intensity.component';
+import ArleeLight1 from '../components/arlee-light-1/arlee-light-1.component';
+import ArleeLight2 from '../components/arlee-light-2/arlee-light-2.component';
+import ArleeLight3 from '../components/arlee-light-3/arlee-light-3.component';
+import {
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionIcon,
+  AccordionPanel,
+} from '@chakra-ui/accordion';
+import GroundLightColor from '../components/ground-light-color/ground-light-color.component';
+import ArleeLightsRotation from '../components/arlee-lights-rotation/arlee-lights-rotation.component';
+import { addColorToSwatches } from '../components/swatches/swatches.reducer';
 const Index: NextPage = () => {
   const { keyPress } = useScrollDirection();
 
@@ -41,6 +51,9 @@ const Index: NextPage = () => {
   );
   const currentBrushOpacity = useAppSelector(
     (state) => state.brushOpacity.currentBrushOpacity
+  );
+  const currentBrushThickness = useAppSelector(
+    (state) => state.brushThickness.currentBrushThickness
   );
   const currentBackgroundColor = useAppSelector(
     (state) => state.backgroundColor.currentBackgroundColor
@@ -55,6 +68,10 @@ const Index: NextPage = () => {
     (state) => state.arleesMode.currentArleesMode
   );
   const sceneLoaded = useAppSelector((state) => state.painter.sceneLoaded);
+  const activeSettingsTab = useAppSelector(
+    (state) => state.settingsTabs.activeSettingsTab
+  );
+
   //#endregion
 
   const generateImage = () => unityContext?.send('HudManager', 'RequestAvatar');
@@ -62,10 +79,10 @@ const Index: NextPage = () => {
   //#region Use Effects
   useEffect(() => {
     const unityContext = new UnityContext({
-      loaderUrl: 'builds/painter/painter.loader.js',
-      dataUrl: 'builds/painter/painter.data',
-      frameworkUrl: 'builds/painter/painter.framework.js',
-      codeUrl: 'builds/painter/painter.wasm',
+      loaderUrl: 'builds/Build/painter.loader.js',
+      dataUrl: 'builds/Build/painter.data',
+      frameworkUrl: 'builds/Build/painter.framework.js',
+      codeUrl: 'builds/Build/painter.wasm',
     });
     if (unityContext) {
       dispatch(setUnityContext(unityContext));
@@ -86,12 +103,6 @@ const Index: NextPage = () => {
         // initialization
         unityContext?.send('HudManager', 'LoadMetaPet', currentArlee);
         unityContext?.send('HudManager', 'SetBrushColor', currentBrushColor);
-        unityContext?.send('HudManager', 'UpdateOpacity', currentBrushOpacity);
-        unityContext?.send(
-          'HudManager',
-          'SetBackgroundColor',
-          currentBackgroundColor
-        );
         dispatch(hideLoadingScreen());
         dispatch(setSceneLoaded());
       });
@@ -124,12 +135,26 @@ const Index: NextPage = () => {
       });
     }
   }, [unityContext]);
+
+  useEffect(() => {
+    if (unityContext) {
+      unityContext?.on('SendBrushColor', async (color) => {
+        dispatch(
+          addColorToSwatches({
+            color,
+            currentBrushThickness,
+            currentBrushOpacity,
+          })
+        );
+      });
+    }
+  }, [unityContext, currentBrushOpacity, currentBrushThickness, dispatch]);
   //#endregion
 
   return (
     <>
       {showLoadingScreen && (
-        <div className="absolute bg-purple h-screen w-screen z-10">
+        <div className="absolute bg-purple h-screen w-screen z-[999]">
           <div className="grid place-content-center h-full w-full">
             <div className="flex items-baseline">
               <p className="font-extrabold text-4xl text-white animate-pulse">
@@ -141,7 +166,7 @@ const Index: NextPage = () => {
       )}
 
       <div className={styles['layout']}>
-        <div className="flex flex-col bg-black-700">
+        {/* <div className="flex flex-col bg-black-700">
           <div className="w-full p-4 text-center">
             <a
               href="http://arlequin.gg/"
@@ -192,8 +217,8 @@ const Index: NextPage = () => {
               />
             </a>
           </div>
-        </div>
-        <div className="px-36 py-12 3xl:px-72 3xl:py-24 bg-black">
+        </div> */}
+        <div className="bg-black">
           <div className="h-full w-full relative">
             {unityContext && (
               <>
@@ -202,24 +227,32 @@ const Index: NextPage = () => {
                   style={{
                     width: '100%',
                     height: '100%',
-                    borderRadius: '2rem',
                   }}
                 />
               </>
             )}
 
-            <Swatches></Swatches>
+            <div className="absolute right-0 top-0">
+              <SettingsTabs></SettingsTabs>
+            </div>
           </div>
         </div>
+        <div className="flex flex-col bg-black-700">
+          <div className="p-4 pb-0 flex h-full flex-col">
+            {activeSettingsTab === 'arlees' && (
+              <>
+                <p className="uppercase text-white mb-2">Arlees</p>
+                <ArleesMode></ArleesMode>
 
-        <div className="flex flex-col bg-black-700 overflow-hidden  relative">
-          <Tabs>
-            <TabList className="px-2">
-              <SettingsTabs></SettingsTabs>
-            </TabList>
+                <div className="w-full relative overflow-hidden flex-1">
+                  {currentArleesMode === 'species' && <ArleesList></ArleesList>}
+                  {currentArleesMode === 'poses' && <PosesList></PosesList>}
+                </div>
+              </>
+            )}
 
-            <TabPanels className="p-4">
-              <TabPanel>
+            {activeSettingsTab === 'painting' && (
+              <>
                 <div className="flex items-center justify-between mb-4">
                   <p className="uppercase text-white">Painting</p>
                   <UndoRedo></UndoRedo>
@@ -228,28 +261,98 @@ const Index: NextPage = () => {
                 <div className="py-6">
                   <BrushSize></BrushSize>
                 </div>
-                <BrushColor></BrushColor>
-              </TabPanel>
-              <TabPanel>
-                <p className="uppercase text-white mb-2">Background</p>
-                <BackgroundMode></BackgroundMode>
-                <BackgroundColor></BackgroundColor>
-              </TabPanel>
-              <TabPanel>
-                <p className="uppercase text-white mb-2">Light</p>
-                <LightColor></LightColor>
-                <LightIntensity></LightIntensity>
-                <LightXAxis></LightXAxis>
-                <LightYAxis></LightYAxis>
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
+                <BrushOpacity></BrushOpacity>
 
-          <section className="flex justify-center absolute bottom-0 w-full py-3 bg-black-600">
+                <div className="py-6">
+                  <BrushColor></BrushColor>
+                </div>
+                <Swatches></Swatches>
+              </>
+            )}
+
+            {activeSettingsTab === 'stickers' && (
+              <>
+                <div className="flex items-center justify-between mb-4">
+                  <p className="uppercase text-white">Stickers</p>
+                  <UndoRedo></UndoRedo>
+                </div>
+                <p className="text-black-200 font-bold text-[0.875rem]">
+                  Scale: CTRL + Mouse Wheel
+                </p>
+                <p className="text-black-200 font-bold text-[0.875rem] mb-2">
+                  Rotate: SHIFT + Mouse Wheel
+                </p>
+                <Stickers></Stickers>
+              </>
+            )}
+
+            {activeSettingsTab === 'environment' && (
+              <>
+                <p className="uppercase text-white mb-2">Environment</p>
+                <BackgroundColor></BackgroundColor>
+                <GroundColor></GroundColor>
+                <GroundLightColor></GroundLightColor>
+                <GroundLightIntensity></GroundLightIntensity>
+              </>
+            )}
+
+            {activeSettingsTab === 'light' && (
+              <>
+                <Accordion className="w-full" allowMultiple defaultIndex={[0]}>
+                  <AccordionItem>
+                    <AccordionButton className="flex justify-between">
+                      <p className="text-white font-bold text-[0.875rem] mt-3 mb-1">
+                        Light 1
+                      </p>
+                      <AccordionIcon className="!text-white text-xl" />
+                    </AccordionButton>
+                    <AccordionPanel>
+                      <ArleeLight1></ArleeLight1>
+                    </AccordionPanel>
+                  </AccordionItem>
+                  <AccordionItem>
+                    <AccordionButton className="flex justify-between">
+                      <p className="text-white font-bold text-[0.875rem] mt-3 mb-1">
+                        Light 2
+                      </p>
+                      <AccordionIcon className="!text-white text-xl" />
+                    </AccordionButton>
+                    <AccordionPanel>
+                      <ArleeLight2></ArleeLight2>
+                    </AccordionPanel>
+                  </AccordionItem>
+                  <AccordionItem>
+                    <AccordionButton className="flex justify-between">
+                      <p className="text-white font-bold text-[0.875rem] mt-3 mb-1">
+                        Light 3
+                      </p>
+                      <AccordionIcon className="!text-white text-xl" />
+                    </AccordionButton>
+                    <AccordionPanel>
+                      <ArleeLight3></ArleeLight3>
+                    </AccordionPanel>
+                  </AccordionItem>
+                  <AccordionItem>
+                    <AccordionButton className="flex justify-between">
+                      <p className="text-white font-bold text-[0.875rem] mt-3 mb-1">
+                        Lights Rotation
+                      </p>
+                      <AccordionIcon className="!text-white text-xl" />
+                    </AccordionButton>
+                    <AccordionPanel>
+                      <ArleeLightsRotation></ArleeLightsRotation>
+                    </AccordionPanel>
+                  </AccordionItem>
+                </Accordion>
+              </>
+            )}
+          </div>
+
+          <div className="flex justify-center  w-full py-3 bg-black-600">
             <ComponentsButton color="secondary" rounded onClick={generateImage}>
               GENERATE IMAGE
             </ComponentsButton>
-          </section>
+          </div>
         </div>
       </div>
       <ReactTooltip type="light" effect="solid" />
