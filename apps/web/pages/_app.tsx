@@ -7,7 +7,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Arlequin | Paint • Vote • Earn</title>
+        <title>Arlequin | The Artists Metaverse</title>
       </Head>
       <Component {...pageProps} />
     </>

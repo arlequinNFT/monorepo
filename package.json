@@ -39,6 +39,7 @@
     "react-icons": "^4.3.1",
     "react-intersection-observer": "^8.33.1",
     "react-redux": "^7.2.6",
+    "react-scratch-me": "^1.0.5",
     "react-tooltip": "^4.2.21",
     "react-unity-webgl": "^8.7.3",
     "react-use-scroll-direction": "^0.1.0",

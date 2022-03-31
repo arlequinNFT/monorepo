@@ -1,6 +1,7 @@
 import Faq from '../components/faq/faq.component';
 import Footer from '../components/footer/footer.component';
 import Header from '../components/header/header.component';
+import ScratchMe from 'react-scratch-me';
 import Intro from '../components/intro/intro.component';
 import Roadmap from '../components/roadmap/roadmap.component';
 import Team from '../components/team/team.component';
@@ -10,12 +11,22 @@ import WhatIsArlequin from '../components/what-is-arlequin/what-is-arlequin.comp
 export function Index() {
   return (
     <>
-      <div className="bg-clouds bg-fixed bg-cover">
+      <div className="bg-clouds bg-fixed bg-cover h-screen">
         <Header></Header>
-        <Intro></Intro>
+        {/* <Intro></Intro> */}
+        <ScratchMe
+          width={800}
+          height={600}
+          foregroundImageSrc={'/images/white.png'}
+          backgroundImageSrc={'/images/colored.png'}
+          strokeWidth={20}
+          onProgress={(percent) => console.log(`${percent}% cleared`)}
+          onCompleted={() => console.log(`Scratch Card Completed!`)}
+          completedAt={30}
+        />
       </div>
 
-      <div className="bg-bubbles bg-cover">
+      {/* <div className="bg-bubbles bg-cover">
         <div className="hidden lg:block">
           <WhatIsArlequin></WhatIsArlequin>
         </div>
@@ -34,7 +45,7 @@ export function Index() {
 
       <div className="bg-clouds bg-fixed bg-cover">
         <Footer></Footer>
-      </div>
+      </div> */}
     </>
   );
 }
