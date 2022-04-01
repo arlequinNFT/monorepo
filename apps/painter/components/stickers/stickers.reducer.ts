@@ -1,70 +1,74 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface StickerGroup {
+  name?: string;
   title: string;
   path: string;
   list: string[];
+  enabled?: boolean;
 }
 
 interface State {
-  activeSticker: string;
-  stickerSize: number;
-  minStickerSize: number;
-  maxStickerSize: number;
+  arlequinStickersGroupList: StickerGroup[];
+  partnersStickersGroupList: StickerGroup[];
+
   stickerAngle: number;
-  stickersGroupList: StickerGroup[];
+  stickerSize: number;
+  maxStickerSize: number;
+  minStickerSize: number;
 }
 
 const initialState: State = {
-  activeSticker: '',
-  stickerSize: 34,
-  minStickerSize: 10,
-  maxStickerSize: 100,
-  stickerAngle: 0,
-  stickersGroupList: [
+  arlequinStickersGroupList: [
     {
       title: 'Emotions',
       path: 'emotions',
       list: [
         'emotion_1',
         'emotion_2',
-        'emotion_3a',
+        'emotion_3',
         'emotion_4',
         'emotion_5',
         'emotion_6',
       ],
     },
     {
-      title: 'Hearts',
-      path: 'hearts',
-      list: ['heart_2', 'heart_3', 'heart_4'],
-    },
-    {
-      title: 'Stars',
+      title: 'Symbols',
       path: 'stars',
-      list: ['star_4', 'star_6'],
+      list: ['heart_1', 'heart_2', 'star_1', 'star_2'],
     },
     {
-      title: 'Bandaids',
-      path: 'bandaids',
-      list: ['bandaid_1', 'bandaid_4'],
-    },
-    {
-      title: 'Brands',
-      path: 'brands',
-      list: ['flow'],
+      title: 'Misc',
+      path: 'misc',
+      list: ['bandaid_1', 'bandaid_2'],
     },
   ],
+  partnersStickersGroupList: [
+    {
+      name: 'byc',
+      title: 'Barter Yard Club',
+      path: 'partners/byc',
+      list: ['werewolf'],
+      enabled: false,
+    },
+    {
+      name: 'piggos',
+      title: 'CryptoPiggos',
+      path: 'partners/piggos',
+      list: ['piggos-1', 'piggos-2'],
+      enabled: false,
+    },
+  ],
+  stickerAngle: 0,
+  stickerSize: 34,
+  minStickerSize: 10,
+  maxStickerSize: 100,
 };
 
 export const slice = createSlice({
   name: 'stickers',
   initialState,
   reducers: {
-    setActiveSticker: (state, action: PayloadAction<string>) => {
-      state.activeSticker = action.payload;
-    },
-
     decreaseStickerSize: (state) => {
       if (state.stickerSize > state.minStickerSize) {
         state.stickerSize -= 5;
@@ -82,14 +86,20 @@ export const slice = createSlice({
     increaseStickerAngle: (state) => {
       state.stickerAngle += 5;
     },
+
+    enablePartner: (state, action: PayloadAction<{ partnerName: string }>) => {
+      state.partnersStickersGroupList.find(
+        (p) => p.name === action.payload.partnerName
+      ).enabled = true;
+    },
   },
 });
 export const {
-  setActiveSticker,
   decreaseStickerAngle,
   decreaseStickerSize,
   increaseStickerAngle,
   increaseStickerSize,
+  enablePartner,
 } = slice.actions;
 
 export default slice.reducer;

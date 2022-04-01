@@ -5,7 +5,8 @@ export type SettingsTabs =
   | 'arlees'
   | 'stickers'
   | 'environment'
-  | 'light';
+  | 'light'
+  | 'partners';
 
 interface State {
   activeSettingsTab: SettingsTabs;

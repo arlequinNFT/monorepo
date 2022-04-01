@@ -40,6 +40,7 @@ import {
 import GroundLightColor from '../components/ground-light-color/ground-light-color.component';
 import ArleeLightsRotation from '../components/arlee-lights-rotation/arlee-lights-rotation.component';
 import { addColorToSwatches } from '../components/swatches/swatches.reducer';
+import Partners from '../components/partners/partners.component';
 const Index: NextPage = () => {
   const { keyPress } = useScrollDirection();
 
@@ -344,6 +345,13 @@ const Index: NextPage = () => {
                     </AccordionPanel>
                   </AccordionItem>
                 </Accordion>
+              </>
+            )}
+
+            {activeSettingsTab === 'partners' && (
+              <>
+                <p className="uppercase text-white mb-2">Partners</p>
+                <Partners></Partners>
               </>
             )}
           </div>

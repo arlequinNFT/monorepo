@@ -48,12 +48,25 @@ const SettingsTabs = () => {
         <BiLandscape size="1.5rem"></BiLandscape>
       </div>
       <div
-        className={` flex justify-center items-center p-4 cursor-pointer text-white rounded-bl-xl  ${
+        className={` flex justify-center items-center p-4 cursor-pointer text-white  ${
           activeSettingsTab === 'light' ? 'bg-black-700' : 'bg-black-600'
         }`}
         onClick={(e) => dispatch(setActiveSettingsTab('light'))}
       >
         <MdOutlineLightMode size="1.5rem"></MdOutlineLightMode>
+      </div>
+      <div
+        className={` flex justify-center items-center p-4 cursor-pointer text-white rounded-bl-xl  ${
+          activeSettingsTab === 'partners' ? 'bg-black-700' : 'bg-black-600'
+        }`}
+        onClick={(e) => dispatch(setActiveSettingsTab('partners'))}
+      >
+        <img
+          src={`/images/stickers/partners/flow/icon.svg`}
+          alt={'flow'}
+          height="32px"
+          width="32px"
+        />
       </div>
     </>
   );

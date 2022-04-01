@@ -4,6 +4,7 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { Provider } from 'react-redux';
+import '../configs/flow';
 
 import { store } from '../store/store';
 

@@ -12,7 +12,6 @@ import {
   decreaseStickerSize,
   increaseStickerAngle,
   increaseStickerSize,
-  setActiveSticker,
 } from './stickers.reducer';
 import { setCurrentPaintingMode } from '../painting-mode/painting-mode.reducer';
 import { useScrollDirection } from '../../utils/use-scroll-direction';
@@ -23,16 +22,19 @@ const Stickers = () => {
   const unityContext = useAppSelector((state) => state.painter.unityContext);
 
   const dispatch = useAppDispatch();
-  const stickersGroupList = useAppSelector(
-    (state) => state.stickers.stickersGroupList
+  const arlequinStickersGroupList = useAppSelector(
+    (state) => state.stickers.arlequinStickersGroupList
+  );
+  const partnersStickersGroupList = useAppSelector(
+    (state) => state.stickers.partnersStickersGroupList
   );
   const stickerSize = useAppSelector((state) => state.stickers.stickerSize);
   const stickerAngle = useAppSelector((state) => state.stickers.stickerAngle);
+  const partnersList = useAppSelector((state) => state.partners.list);
 
   const setSticker = (sticker: string) => {
     unityContext?.send('HudManager', 'SetSticker', sticker);
     unityContext?.send('HudManager', 'SetPaintingMode', 'Sticker');
-    dispatch(setActiveSticker(sticker));
     dispatch(setCurrentPaintingMode('sticker'));
   };
 
@@ -69,7 +71,7 @@ const Stickers = () => {
         allowMultiple
         defaultIndex={[0]}
       >
-        {stickersGroupList.map((group, index) => (
+        {arlequinStickersGroupList.map((group, index) => (
           <AccordionItem key={index}>
             <AccordionButton className="flex justify-between">
               <p className="text-white font-bold text-[0.875rem] mt-3 mb-1">
@@ -97,6 +99,37 @@ const Stickers = () => {
             </AccordionPanel>
           </AccordionItem>
         ))}
+        {partnersStickersGroupList.map(
+          (group, index) =>
+            group.enabled && (
+              <AccordionItem key={index}>
+                <AccordionButton className="flex justify-between">
+                  <p className="text-white font-bold text-[0.875rem] mt-3 mb-1">
+                    {group.title}
+                  </p>
+                  <AccordionIcon className="!text-white text-xl" />
+                </AccordionButton>
+                <AccordionPanel>
+                  <div className="grid grid-cols-[repeat(5,minmax(2rem,3rem))] gap-2">
+                    {group.list.map((sticker, index) => (
+                      <div
+                        key={index}
+                        className="cursor-pointer bg-black-400 rounded-lg"
+                        onClick={(e) => setSticker(sticker)}
+                      >
+                        <img
+                          src={`/images/stickers/${group.path}/${sticker}.webp`}
+                          alt={sticker}
+                          height="75px"
+                          width="75px"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </AccordionPanel>
+              </AccordionItem>
+            )
+        )}
       </Accordion>
     </div>
   );
