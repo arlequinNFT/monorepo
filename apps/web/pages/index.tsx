@@ -15,8 +15,19 @@ export function Index() {
         <Header></Header>
         {/* <Intro></Intro> */}
         <ScratchMe
-          width={800}
-          height={600}
+          width={1200}
+          height={800}
+          foregroundImageSrc={'/images/white.png'}
+          backgroundImageSrc={'/images/colored.png'}
+          strokeWidth={20}
+          onProgress={(percent) => console.log(`${percent}% cleared`)}
+          onCompleted={() => console.log(`Scratch Card Completed!`)}
+          completedAt={30}
+        />
+
+        <ScratchMe
+          width={1200}
+          height={800}
           foregroundImageSrc={'/images/white.png'}
           backgroundImageSrc={'/images/colored.png'}
           strokeWidth={20}
