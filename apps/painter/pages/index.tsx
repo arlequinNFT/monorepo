@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
 import Unity, { UnityContext } from 'react-unity-webgl';
-import { mutate, logIn, signUp, tx } from '@onflow/fcl';
+import * as fcl from '@onflow/fcl';
 import { ComponentsButton } from '@arlequin/components/button';
 import ArleesMode from '../components/arlees-mode/arlees-mode.component';
 import BackgroundColor from '../components/background-color/background-color.component';
@@ -42,6 +42,8 @@ import ArleeLightsRotation from '../components/arlee-lights-rotation/arlee-light
 import { addColorToSwatches } from '../components/swatches/swatches.reducer';
 import Partners from '../components/partners/partners.component';
 import { MINT_ARLEE_SCENE_NFT } from '../cadence/transactions/ArleeScene/mintArleeSceneNFT';
+import { web3Client } from '../configs/web3';
+import { setCurrentUser } from '../store/reducers/auth.reducer';
 const Index: NextPage = () => {
   const { keyPress } = useScrollDirection();
 
@@ -79,17 +81,22 @@ const Index: NextPage = () => {
 
   const mint = async () => {
     if (currentUser?.loggedIn) {
-      const res = await mutate({
-        cadence: MINT_ARLEE_SCENE_NFT,
-        limit: 999,
-      });
-      await tx(res).onceSealed();
+      unityContext.send('HudManager', 'RequestArtwork');
+      console.log('logged');
     } else {
-      logIn();
+      fcl.logIn();
     }
   };
 
   //#region Use Effects
+  useEffect(
+    () =>
+      fcl.currentUser.subscribe((user) => {
+        dispatch(setCurrentUser(user));
+      }),
+    [dispatch]
+  );
+
   useEffect(() => {
     const unityContext = new UnityContext({
       loaderUrl: 'builds/Build/painter.loader.js',
@@ -106,6 +113,39 @@ const Index: NextPage = () => {
     if (unityContext) {
       unityContext?.on('SendIsUnityReady', async () => {
         unityContext.send('Redirection', 'StartPlayground');
+      });
+    }
+  }, [unityContext]);
+
+  useEffect(() => {
+    if (unityContext) {
+      unityContext?.on('SendArtwork', async (json, thumbnail: string) => {
+        console.log({ json });
+        console.log({ thumbnail });
+
+        // const metadata = new Blob([JSON.stringify(json)], {
+        //   type: 'application/json',
+        // });
+
+        // const files = [
+        //   new File([thumbnail], 'thumbnail.png'),
+        //   new File([metadata], 'metadata.json'),
+        // ];
+        // const cid = await web3Client.put(files);
+
+        // if (cid) {
+        //   console.log(cid);
+
+        //   // const res = await fcl.mutate({
+        //   //   cadence: MINT_ARLEE_SCENE_NFT,
+        //   //   limit: 999,
+        //   //   args: (arg, t) => [
+        //   //     arg(cid, t.String),
+        //   //     arg('description', t.String),
+        //   //   ],
+        //   // });
+        //   // await tx(res).onceSealed();
+        // }
       });
     }
   }, [unityContext]);
