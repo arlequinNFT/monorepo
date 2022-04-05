@@ -106,7 +106,6 @@ const Index = () => {
         stickers.map((s) => {
           const stringifiedList = JSON.stringify({ sharedStickers: s.list });
           unityContext?.send('HudManager', 'LoadStickers', stringifiedList);
-          console.log(typeof stringifiedList);
         });
 
         dispatch(hideLoadingScreen());
