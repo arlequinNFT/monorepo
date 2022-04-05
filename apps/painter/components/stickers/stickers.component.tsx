@@ -86,7 +86,7 @@ const Stickers = () => {
                     onClick={(e) => setSticker(sticker.name)}
                   >
                     <img
-                      src={sticker.base64}
+                      src={`data:image/png;base64,${sticker.base64}`}
                       alt={sticker.name}
                       height="75px"
                       width="75px"

@@ -104,9 +104,9 @@ const Index = () => {
         unityContext?.send('HudManager', 'LoadMetaPet', currentArlee);
         unityContext?.send('HudManager', 'SetBrushColor', currentBrushColor);
         stickers.map((s) => {
-          const stringifiedList = JSON.stringify(s.list);
+          const stringifiedList = JSON.stringify({ sharedStickers: s.list });
           unityContext?.send('HudManager', 'LoadStickers', stringifiedList);
-          console.log(stringifiedList);
+          console.log(typeof stringifiedList);
         });
 
         dispatch(hideLoadingScreen());
