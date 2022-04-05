@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
 import Unity, { UnityContext } from 'react-unity-webgl';
-
+import { mutate, logIn, signUp, tx } from '@onflow/fcl';
 import { ComponentsButton } from '@arlequin/components/button';
 import ArleesMode from '../components/arlees-mode/arlees-mode.component';
 import BackgroundColor from '../components/background-color/background-color.component';
@@ -41,12 +41,14 @@ import GroundLightColor from '../components/ground-light-color/ground-light-colo
 import ArleeLightsRotation from '../components/arlee-lights-rotation/arlee-lights-rotation.component';
 import { addColorToSwatches } from '../components/swatches/swatches.reducer';
 import Partners from '../components/partners/partners.component';
+import { MINT_ARLEE_SCENE_NFT } from '../cadence/transactions/ArleeScene/mintArleeSceneNFT';
 const Index: NextPage = () => {
   const { keyPress } = useScrollDirection();
 
   //#region Selectors
   const dispatch = useAppDispatch();
   const unityContext = useAppSelector((state) => state.painter.unityContext);
+  const currentUser = useAppSelector((state) => state.auth.currentUser);
   const currentBrushColor = useAppSelector(
     (state) => state.brushColor.currentBrushColor
   );
@@ -75,7 +77,17 @@ const Index: NextPage = () => {
 
   //#endregion
 
-  const generateImage = () => unityContext?.send('HudManager', 'RequestAvatar');
+  const mint = async () => {
+    if (currentUser?.loggedIn) {
+      const res = await mutate({
+        cadence: MINT_ARLEE_SCENE_NFT,
+        limit: 999,
+      });
+      await tx(res).onceSealed();
+    } else {
+      logIn();
+    }
+  };
 
   //#region Use Effects
   useEffect(() => {
@@ -167,58 +179,6 @@ const Index: NextPage = () => {
       )}
 
       <div className={styles['layout']}>
-        {/* <div className="flex flex-col bg-black-700">
-          <div className="w-full p-4 text-center">
-            <a
-              href="http://arlequin.gg/"
-              target="_blank"
-              rel="noreferrer"
-              className="text-rainbow font-extrabold text-3xl"
-            >
-              Arlequin
-            </a>
-          </div>
-
-          <div className="flex flex-col flex-1 px-4">
-            <p className="text-black-200">Arlees</p>
-
-            <ArleesMode></ArleesMode>
-
-            <div className="w-full relative overflow-hidden flex-1">
-              {currentArleesMode === 'species' && <ArleesList></ArleesList>}
-              {currentArleesMode === 'poses' && <PosesList></PosesList>}
-            </div>
-          </div>
-
-          <div className="flex items-center justify-center pt-2 gap-x-2 w-full bg-black-600">
-            <a
-              href="https://discord.gg/rBPP7uxnwd"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Image
-                className="bg-black-300 rounded-full cursor-pointer"
-                src="/icons/discord.svg"
-                alt="Discord icon"
-                width="36px"
-                height="36px"
-              />
-            </a>
-            <a
-              href="https://twitter.com/ArlequinNFT"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Image
-                className="bg-black-300 rounded-full cursor-pointer"
-                src="/icons/twitter.svg"
-                alt="Twitter icon"
-                width="36px"
-                height="36px"
-              />
-            </a>
-          </div>
-        </div> */}
         <div className="bg-black">
           <div className="h-full w-full relative">
             {unityContext && (
@@ -357,8 +317,8 @@ const Index: NextPage = () => {
           </div>
 
           <div className="flex justify-center  w-full py-3 bg-black-600">
-            <ComponentsButton color="secondary" rounded onClick={generateImage}>
-              GENERATE IMAGE
+            <ComponentsButton color="secondary" rounded onClick={mint}>
+              MINT (10 $FLOW)
             </ComponentsButton>
           </div>
         </div>

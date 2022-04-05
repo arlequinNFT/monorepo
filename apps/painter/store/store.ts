@@ -5,6 +5,7 @@ import arleeLight2Reducer from '../components/arlee-light-2/arlee-light-2.reduce
 import arleeLight3Reducer from '../components/arlee-light-3/arlee-light-3.reducer';
 import arleeLightsRotationReducer from '../components/arlee-lights-rotation/arlee-lights-rotation.reducer';
 import arleesModeReducer from '../components/arlees-mode/arlees-mode.reducer';
+import authReducer from './reducers/auth.reducer';
 import backgroundColorReducer from '../components/background-color/background-color.reducer';
 import brushColorReducer from '../components/brush-color/brush-color.reducer';
 import brushOpacityReducer from '../components/brush-opacity/brush-opacity.reducer';
@@ -23,6 +24,7 @@ import swatchesReducer from '../components/swatches/swatches.reducer';
 
 export const store = configureStore({
   reducer: {
+    auth: authReducer,
     arleeLight1: arleeLight1Reducer,
     arleeLight2: arleeLight2Reducer,
     arleeLight3: arleeLight3Reducer,
