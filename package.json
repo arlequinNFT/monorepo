@@ -26,9 +26,11 @@
     "@onflow/fcl": "^0.0.78",
     "@onflow/types": "^0.0.6",
     "@reduxjs/toolkit": "^1.7.1",
+    "@supabase/supabase-js": "^1.33.3",
     "autoprefixer": "^10.4.2",
     "core-js": "^3.6.5",
     "next": "11.1.0",
+    "plaiceholder": "^2.3.0",
     "postcss": "^8.4.5",
     "react": "17.0.2",
     "react-colorful": "^5.5.1",
@@ -43,9 +45,11 @@
     "react-unity-webgl": "^8.7.3",
     "react-use-scroll-direction": "^0.1.0",
     "regenerator-runtime": "0.13.7",
+    "sharp": "^0.30.3",
     "tailwindcss": "^3.0.13",
     "tslib": "^2.0.0",
-    "use-debounce": "^7.0.1"
+    "use-debounce": "^7.0.1",
+    "web3.storage": "^4.0.0"
   },
   "devDependencies": {
     "@nrwl/cli": "12.10.1",

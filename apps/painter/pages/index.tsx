@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
 import Unity, { UnityContext } from 'react-unity-webgl';
-
 import { ComponentsButton } from '@arlequin/components/button';
 import ArleesMode from '../components/arlees-mode/arlees-mode.component';
 import BackgroundColor from '../components/background-color/background-color.component';
@@ -21,7 +20,6 @@ import {
 import { useScrollDirection } from '../utils/use-scroll-direction';
 import styles from './index.module.scss';
 
-import type { NextPage } from 'next';
 import SettingsTabs from '../components/settings-tabs/settings-tabs.component';
 import Stickers from '../components/stickers/stickers.component';
 import BrushOpacity from '../components/brush-opacity/brush-opacity.component';
@@ -40,7 +38,7 @@ import {
 import GroundLightColor from '../components/ground-light-color/ground-light-color.component';
 import ArleeLightsRotation from '../components/arlee-lights-rotation/arlee-lights-rotation.component';
 import { addColorToSwatches } from '../components/swatches/swatches.reducer';
-const Index: NextPage = () => {
+const Index = () => {
   const { keyPress } = useScrollDirection();
 
   //#region Selectors
@@ -67,6 +65,8 @@ const Index: NextPage = () => {
   const currentArleesMode = useAppSelector(
     (state) => state.arleesMode.currentArleesMode
   );
+
+  const stickers = useAppSelector((state) => state.stickers.stickersGroupList);
   const sceneLoaded = useAppSelector((state) => state.painter.sceneLoaded);
   const activeSettingsTab = useAppSelector(
     (state) => state.settingsTabs.activeSettingsTab
@@ -103,6 +103,12 @@ const Index: NextPage = () => {
         // initialization
         unityContext?.send('HudManager', 'LoadMetaPet', currentArlee);
         unityContext?.send('HudManager', 'SetBrushColor', currentBrushColor);
+        stickers.map((s) => {
+          const stringifiedList = JSON.stringify(s.list);
+          unityContext?.send('HudManager', 'LoadStickers', stringifiedList);
+          console.log(stringifiedList);
+        });
+
         dispatch(hideLoadingScreen());
         dispatch(setSceneLoaded());
       });
@@ -115,6 +121,7 @@ const Index: NextPage = () => {
     currentBrushColor,
     currentBrushOpacity,
     dispatch,
+    stickers,
   ]);
 
   useEffect(() => {
@@ -149,6 +156,7 @@ const Index: NextPage = () => {
       });
     }
   }, [unityContext, currentBrushOpacity, currentBrushThickness, dispatch]);
+
   //#endregion
 
   return (
@@ -166,58 +174,6 @@ const Index: NextPage = () => {
       )}
 
       <div className={styles['layout']}>
-        {/* <div className="flex flex-col bg-black-700">
-          <div className="w-full p-4 text-center">
-            <a
-              href="http://arlequin.gg/"
-              target="_blank"
-              rel="noreferrer"
-              className="text-rainbow font-extrabold text-3xl"
-            >
-              Arlequin
-            </a>
-          </div>
-
-          <div className="flex flex-col flex-1 px-4">
-            <p className="text-black-200">Arlees</p>
-
-            <ArleesMode></ArleesMode>
-
-            <div className="w-full relative overflow-hidden flex-1">
-              {currentArleesMode === 'species' && <ArleesList></ArleesList>}
-              {currentArleesMode === 'poses' && <PosesList></PosesList>}
-            </div>
-          </div>
-
-          <div className="flex items-center justify-center pt-2 gap-x-2 w-full bg-black-600">
-            <a
-              href="https://discord.gg/rBPP7uxnwd"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Image
-                className="bg-black-300 rounded-full cursor-pointer"
-                src="/icons/discord.svg"
-                alt="Discord icon"
-                width="36px"
-                height="36px"
-              />
-            </a>
-            <a
-              href="https://twitter.com/ArlequinNFT"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Image
-                className="bg-black-300 rounded-full cursor-pointer"
-                src="/icons/twitter.svg"
-                alt="Twitter icon"
-                width="36px"
-                height="36px"
-              />
-            </a>
-          </div>
-        </div> */}
         <div className="bg-black">
           <div className="h-full w-full relative">
             {unityContext && (
