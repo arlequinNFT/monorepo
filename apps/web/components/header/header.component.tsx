@@ -1,12 +1,15 @@
+import { ComponentsButton } from '@arlequin/components/button';
 import Link from 'next/link';
 import React from 'react';
+import * as fcl from '@onflow/fcl';
 import { useInView } from 'react-intersection-observer';
+import { useAppDispatch, useAppSelector } from '../../store/hook';
 
 const Header = () => {
   const { ref, inView, entry } = useInView({
-    /* Optional options */
     threshold: 0,
   });
+  const currentUser = useAppSelector((state) => state.auth.currentUser);
 
   return (
     <header
@@ -52,6 +55,22 @@ const Header = () => {
           </li>
         </ul>
         <ul className="order-1 md:order-3 flex items-center gap-x-2 md:ml-auto">
+          {!currentUser?.loggedIn && (
+            <li>
+              <ComponentsButton onClick={(e) => fcl.logIn()}>
+                Connection Wallet
+              </ComponentsButton>
+            </li>
+          )}
+
+          {currentUser?.loggedIn && (
+            <li>
+              <ComponentsButton onClick={(e) => fcl.logIn()}>
+                {currentUser.addr}
+              </ComponentsButton>
+            </li>
+          )}
+
           <li>
             <a
               href="https://discord.gg/arlequin"
