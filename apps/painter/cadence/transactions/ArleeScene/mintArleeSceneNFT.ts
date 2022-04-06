@@ -1,9 +1,9 @@
 export const MINT_ARLEE_SCENE_NFT = `
 import MetadataViews from 0xMetadataViews
 import NonFungibleToken 0xNonFungibleToken
-import Arlequin 0xArlequin
-import ArleeScene 0xArleeScene
 import FlowToken 0xFlowToken
+import Arlequin 0xArlequin
+import ArleeScene 0xArlequin
 
 transaction(cid: String, description: String) {
 
