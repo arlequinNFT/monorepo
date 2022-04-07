@@ -1,9 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  byc_1,
+  emotion_1,
+  emotion_2,
+  emotion_3,
+  emotion_4,
+  emotion_5,
+  emotion_6,
+  piggos_1,
+  piggos_2,
+  zeedz_1,
+  zeedz_2,
+} from './stickers';
 
 interface StickerGroup {
-  title: string;
-  list: string[];
   enabled?: boolean;
+  list: { name: string; base64: string }[];
+  title: string;
 }
 
 interface State {
@@ -21,37 +34,70 @@ const initialState: State = {
     {
       title: 'Emotions',
       list: [
-        'emotion_1',
-        'emotion_2',
-        'emotion_3',
-        'emotion_4',
-        'emotion_5',
-        'emotion_6',
+        {
+          name: 'emotion_1',
+          base64: emotion_1,
+        },
+        {
+          name: 'emotion_2',
+          base64: emotion_2,
+        },
+        {
+          name: 'emotion_3',
+          base64: emotion_3,
+        },
+        {
+          name: 'emotion_4',
+          base64: emotion_4,
+        },
+        {
+          name: 'emotion_5',
+          base64: emotion_5,
+        },
+        {
+          name: 'emotion_6',
+          base64: emotion_6,
+        },
       ],
-    },
-    {
-      title: 'Symbols',
-      list: ['heart_1', 'heart_2', 'star_1', 'star_2'],
-    },
-    {
-      title: 'Misc',
-      list: ['bandaid_1', 'bandaid_2'],
     },
   ],
   partnersStickersGroupList: [
     {
       title: 'Barter Yard Club',
-      list: ['werewolf'],
+      list: [
+        {
+          name: 'byc_1',
+          base64: byc_1,
+        },
+      ],
       enabled: false,
     },
     {
       title: 'CryptoPiggos',
-      list: ['piggos-1', 'piggos-2'],
+      list: [
+        {
+          name: 'piggos_1',
+          base64: piggos_1,
+        },
+        {
+          name: 'piggos_2',
+          base64: piggos_2,
+        },
+      ],
       enabled: false,
     },
     {
       title: 'ZeedZ',
-      list: ['zeedz-1', 'zeedz-2'],
+      list: [
+        {
+          name: 'zeedz_1',
+          base64: zeedz_1,
+        },
+        {
+          name: 'zeedz_2',
+          base64: zeedz_2,
+        },
+      ],
       enabled: false,
     },
   ],

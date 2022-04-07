@@ -22,6 +22,11 @@ const initialState: State = {
       image: '',
       enabled: false,
     },
+    {
+      title: 'ZeedZ',
+      image: '',
+      enabled: false,
+    },
   ],
 };
 

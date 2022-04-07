@@ -76,6 +76,11 @@ const Index: NextPage = () => {
   const activeSettingsTab = useAppSelector(
     (state) => state.settingsTabs.activeSettingsTab
   );
+  const stickers = useAppSelector((state) =>
+    state.stickers.arlequinStickersGroupList.concat(
+      state.stickers.partnersStickersGroupList
+    )
+  );
 
   //#endregion
 
@@ -85,11 +90,6 @@ const Index: NextPage = () => {
     } else {
       fcl.logIn();
     }
-
-    const files = [
-      // new File([thumbnail], 'thumbnail.png'),
-      new File(['contents-of-file-1'], 'plain-utf8.txt'),
-    ];
   };
 
   //#region Use Effects
@@ -120,23 +120,6 @@ const Index: NextPage = () => {
       });
     }
   }, [unityContext]);
-
-  useEffect(() => {
-    const checkIfArleeSceneNFTIsOpen = async () => {
-      const res = await fcl.query({
-        cadence: `
-              import Arlequin from 0xArlequin
-
-pub fun main() : Bool {
-    return Arlequin.getArleeSceneMintable()
-}
-              `,
-      });
-
-      console.log(res);
-    };
-    checkIfArleeSceneNFTIsOpen();
-  }, []);
 
   useEffect(() => {
     if (unityContext) {
@@ -176,6 +159,10 @@ pub fun main() : Bool {
         // initialization
         unityContext?.send('HudManager', 'LoadMetaPet', currentArlee);
         unityContext?.send('HudManager', 'SetBrushColor', currentBrushColor);
+        stickers.map((s) => {
+          const stringifiedList = JSON.stringify({ sharedStickers: s.list });
+          unityContext?.send('HudManager', 'LoadStickers', stringifiedList);
+        });
         dispatch(hideLoadingScreen());
         dispatch(setSceneLoaded());
       });
@@ -187,6 +174,7 @@ pub fun main() : Bool {
     currentBackgroundColor,
     currentBrushColor,
     currentBrushOpacity,
+    stickers,
     dispatch,
   ]);
 

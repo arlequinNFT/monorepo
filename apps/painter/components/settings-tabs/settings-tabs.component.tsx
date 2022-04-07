@@ -62,7 +62,7 @@ const SettingsTabs = () => {
         onClick={(e) => dispatch(setActiveSettingsTab('partners'))}
       >
         <img
-          src={`/images/stickers/partners/flow/icon.svg`}
+          src={`/images/flow-logo.png`}
           alt={'flow'}
           height="32px"
           width="32px"

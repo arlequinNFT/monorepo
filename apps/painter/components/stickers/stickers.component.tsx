@@ -85,11 +85,11 @@ const Stickers = () => {
                   <div
                     key={index}
                     className="cursor-pointer bg-black-400 rounded-lg"
-                    onClick={(e) => setSticker(sticker)}
+                    onClick={(e) => setSticker(sticker.name)}
                   >
                     <img
-                      src={`/images/stickers/${group.path}/${sticker}.webp`}
-                      alt={sticker}
+                      src={`data:image/png;base64,${sticker.base64}`}
+                      alt={sticker.name}
                       height="75px"
                       width="75px"
                     />
@@ -115,11 +115,11 @@ const Stickers = () => {
                       <div
                         key={index}
                         className="cursor-pointer bg-black-400 rounded-lg"
-                        onClick={(e) => setSticker(sticker)}
+                        onClick={(e) => setSticker(sticker.name)}
                       >
                         <img
-                          src={`/images/stickers/${group.path}/${sticker}.webp`}
-                          alt={sticker}
+                          src={`data:image/png;base64,${sticker.base64}`}
+                          alt={sticker.name}
                           height="75px"
                           width="75px"
                         />
