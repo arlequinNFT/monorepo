@@ -15,15 +15,13 @@ const Partners = () => {
   return (
     <>
       <p className="text-black-200 font-bold text-[0.875rem]">
-        Unlock our partners images access and you get your place as a voter for
-        their upcoming Art Contest!
+        Purchase our PartnerNFT to unlock new features!
       </p>
       <hr className="my-6 w-1/2" />
       {list.map((l) => (
         <>
           <div className="mb-4">
-            <h2 className="text-white text-2xl font-bold">{l.name}</h2>
-            <p className="text-white">{l.description}</p>
+            <h2 className="text-white text-2xl font-bold">{l.title}</h2>
             <p className="text-white">{l.image}</p>
 
             <div className="flex w-full justify-center">
@@ -31,7 +29,7 @@ const Partners = () => {
                 <p className="text-white uppercase">Unlocked!</p>
               ) : (
                 <button
-                  onClick={(e) => unlock(l.name)}
+                  onClick={(e) => unlock(l.title)}
                   className="py-4 px-6 text-white bg-red uppercase rounded-full"
                 >
                   Unlock (3 $FLOW)

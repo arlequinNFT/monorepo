@@ -1,8 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface Partner {
-  name: string;
-  description: string;
+  title: string;
   image: string;
   enabled: boolean;
 }
@@ -14,14 +13,12 @@ interface State {
 const initialState: State = {
   list: [
     {
-      name: 'byc',
-      description: 'Get the werewolf inside of you!',
+      title: 'Barter Yard Club',
       image: '',
       enabled: false,
     },
     {
-      name: 'piggos',
-      description: 'Some cute piggos!',
+      title: 'CryptoPiggos',
       image: '',
       enabled: false,
     },
@@ -33,7 +30,7 @@ export const slice = createSlice({
   initialState,
   reducers: {
     enablePartner: (state, action: PayloadAction<{ partnerName: string }>) => {
-      state.list.find((p) => p.name === action.payload.partnerName).enabled =
+      state.list.find((p) => p.title === action.payload.partnerName).enabled =
         true;
     },
   },

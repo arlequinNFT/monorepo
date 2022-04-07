@@ -1,9 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface StickerGroup {
-  name?: string;
   title: string;
-  path: string;
   list: string[];
   enabled?: boolean;
 }
@@ -22,7 +20,6 @@ const initialState: State = {
   arlequinStickersGroupList: [
     {
       title: 'Emotions',
-      path: 'emotions',
       list: [
         'emotion_1',
         'emotion_2',
@@ -34,28 +31,27 @@ const initialState: State = {
     },
     {
       title: 'Symbols',
-      path: 'stars',
       list: ['heart_1', 'heart_2', 'star_1', 'star_2'],
     },
     {
       title: 'Misc',
-      path: 'misc',
       list: ['bandaid_1', 'bandaid_2'],
     },
   ],
   partnersStickersGroupList: [
     {
-      name: 'byc',
       title: 'Barter Yard Club',
-      path: 'partners/byc',
       list: ['werewolf'],
       enabled: false,
     },
     {
-      name: 'piggos',
       title: 'CryptoPiggos',
-      path: 'partners/piggos',
       list: ['piggos-1', 'piggos-2'],
+      enabled: false,
+    },
+    {
+      title: 'ZeedZ',
+      list: ['zeedz-1', 'zeedz-2'],
       enabled: false,
     },
   ],
@@ -89,7 +85,7 @@ export const slice = createSlice({
 
     enablePartner: (state, action: PayloadAction<{ partnerName: string }>) => {
       state.partnersStickersGroupList.find(
-        (p) => p.name === action.payload.partnerName
+        (p) => p.title === action.payload.partnerName
       ).enabled = true;
     },
   },
