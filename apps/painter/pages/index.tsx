@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
 import Unity, { UnityContext } from 'react-unity-webgl';
-import { NFTStorage } from 'nft.storage';
-
 import * as fcl from '@onflow/fcl';
 import { ComponentsButton } from '@arlequin/components/button';
 import ArleesMode from '../components/arlees-mode/arlees-mode.component';
@@ -44,9 +42,8 @@ import ArleeLightsRotation from '../components/arlee-lights-rotation/arlee-light
 import { addColorToSwatches } from '../components/swatches/swatches.reducer';
 import Partners from '../components/partners/partners.component';
 import { MINT_ARLEE_SCENE_NFT } from '../cadence/transactions/ArleeScene/mintArleeSceneNFT';
-import { web3Client } from '../configs/web3';
+import { nftstorageClient } from '../configs/nftstorage';
 import { setCurrentUser } from '../store/reducers/auth.reducer';
-import { Web3Storage } from 'web3.storage';
 const Index: NextPage = () => {
   const { keyPress } = useScrollDirection();
 
@@ -85,7 +82,6 @@ const Index: NextPage = () => {
   const mint = async () => {
     if (currentUser?.loggedIn) {
       unityContext.send('HudManager', 'RequestArtwork');
-      console.log('logged');
     } else {
       fcl.logIn();
     }
@@ -126,33 +122,49 @@ const Index: NextPage = () => {
   }, [unityContext]);
 
   useEffect(() => {
+    const checkIfArleeSceneNFTIsOpen = async () => {
+      const res = await fcl.query({
+        cadence: `
+              import Arlequin from 0xArlequin
+
+pub fun main() : Bool {
+    return Arlequin.getArleeSceneMintable()
+}
+              `,
+      });
+
+      console.log(res);
+    };
+    checkIfArleeSceneNFTIsOpen();
+  }, []);
+
+  useEffect(() => {
     if (unityContext) {
       unityContext?.on(
         'SendArtwork',
         async (metadata: string, thumbnail: string) => {
-          console.log({ metadata });
-          console.log({ thumbnail });
+          const files = [
+            new File([new Blob([metadata])], 'metadata.txt', {
+              type: 'text/plain',
+            }),
+            new File([new Blob([thumbnail])], 'thumbnail.txt', {
+              type: 'text/plain',
+            }),
+          ];
 
-          const nftstorage = new NFTStorage({
-            token:
-              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDU4RTUwRWRCN0U2YWFlOGJiNDVDQjU3ZEVmMmRiYzQ3ODhDNGNjRjYiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY0OTI0OTQzMzQyOSwibmFtZSI6ImFybGVxdWluLWRldiJ9.90n0AFzQxuZIKTNXras_K9arSf8CdGsQNySf6vkS1es',
-          });
+          const cid = await nftstorageClient.storeDirectory(files);
 
-          const cid = await nftstorage.storeBlob(new Blob(['hello']));
-
-          // if (cid) {
-          // console.log(cid);
-
-          // const res = await fcl.mutate({
-          //   cadence: MINT_ARLEE_SCENE_NFT,
-          //   limit: 999,
-          //   args: (arg, t) => [
-          //     arg(cid, t.String),
-          //     arg('description', t.String),
-          //   ],
-          // });
-          // await tx(res).onceSealed();
-          // }
+          if (cid) {
+            const res = await fcl.mutate({
+              cadence: MINT_ARLEE_SCENE_NFT,
+              limit: 999,
+              args: (arg, t) => [
+                arg(cid, t.String),
+                arg('description', t.String),
+              ],
+            });
+            await fcl.tx(res).onceSealed();
+          }
         }
       );
     }

@@ -1,9 +1,10 @@
 export const MINT_ARLEE_SCENE_NFT = `
 import MetadataViews from 0xMetadataViews
-import NonFungibleToken 0xNonFungibleToken
-import FlowToken 0xFlowToken
-import Arlequin 0xArlequin
-import ArleeScene 0xArlequin
+import NonFungibleToken from 0xNonFungibleToken
+import FlowToken from 0xFlowToken
+import Arlequin from 0xArlequin
+import ArleeScene from 0xArlequin
+import ArleePartner from 0xArlequin
 
 transaction(cid: String, description: String) {
 
@@ -11,12 +12,15 @@ transaction(cid: String, description: String) {
 
     prepare(acct: AuthAccount) {
         //acct setup
-        let sceneNFTStoragePath = ArleeScene.CollectionStoragePath
-        let sceneNFTPublicPath = ArleeScene.CollectionPublicPath
+        if acct.borrow<&ArleePartner.Collection>(from: ArleePartner.CollectionStoragePath) == nil {
+            acct.save(<- ArleePartner.createEmptyCollection(), to: ArleePartner.CollectionStoragePath)
+            acct.link<&ArleePartner.Collection{ArleePartner.CollectionPublic, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection}>
+                (ArleePartner.CollectionPublicPath, target:ArleePartner.CollectionStoragePath)
+        }
 
-        if acct.borrow<&ArleeScene.Collection>(from: sceneNFTStoragePath) == nil {
-            acct.save(<- ArleeScene.createEmptyCollection(), to: sceneNFTStoragePath)
-            acct.link<&{ArleeScene.CollectionPublic, NonFungibleToken.CollectionPublic, MetadataViews.Resolver}>
+        if acct.borrow<&ArleeScene.Collection>(from: ArleeScene.CollectionStoragePath) == nil {
+            acct.save(<- ArleeScene.createEmptyCollection(), to: ArleeScene.CollectionStoragePath)
+            acct.link<&ArleeScene.Collection{ArleeScene.CollectionPublic, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection}>
                 (ArleeScene.CollectionPublicPath, target:ArleeScene.CollectionStoragePath)
         }
 

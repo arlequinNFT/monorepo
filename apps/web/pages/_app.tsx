@@ -5,6 +5,7 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { Provider } from 'react-redux';
 import { store } from '../store/store';
+import Layout from '../components/layout/layout';
 
 function CustomApp({ Component, pageProps }: AppProps) {
   return (
@@ -13,7 +14,9 @@ function CustomApp({ Component, pageProps }: AppProps) {
         <title>Arlequin | Paint • Vote • Earn</title>
       </Head>
       <Provider store={store}>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </Provider>
     </>
   );
