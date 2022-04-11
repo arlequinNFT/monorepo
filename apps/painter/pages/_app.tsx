@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import '../configs/flow';
 
 import { store } from '../store/store';
+import { ComponentsButton } from '@arlequin/components/button';
 
 function App({ Component, pageProps }: AppProps) {
   return (

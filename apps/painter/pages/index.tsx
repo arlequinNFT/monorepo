@@ -21,7 +21,7 @@ import {
 import { useScrollDirection } from '../utils/use-scroll-direction';
 import styles from './index.module.scss';
 
-import type { NextPage } from 'next';
+import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
 import SettingsTabs from '../components/settings-tabs/settings-tabs.component';
 import Stickers from '../components/stickers/stickers.component';
 import BrushOpacity from '../components/brush-opacity/brush-opacity.component';
@@ -44,11 +44,32 @@ import Partners from '../components/partners/partners.component';
 import { MINT_ARLEE_SCENE_NFT } from '../cadence/transactions/ArleeScene/mintArleeSceneNFT';
 import { nftstorageClient } from '../configs/nftstorage';
 import { setCurrentUser } from '../store/reducers/auth.reducer';
-const Index: NextPage = () => {
+import {
+  setStickersGroup,
+  Sticker,
+} from '../components/stickers/stickers.reducer';
+
+const Index: NextPage = ({
+  emotionsStickers,
+  heartsStickers,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { keyPress } = useScrollDirection();
 
   //#region Selectors
   const dispatch = useAppDispatch();
+  const showLoadingScreen = useAppSelector(
+    (state) => state.painter.showLoadingScreen
+  );
+  const currentArleesMode = useAppSelector(
+    (state) => state.arleesMode.currentArleesMode
+  );
+  const sceneLoaded = useAppSelector((state) => state.painter.sceneLoaded);
+  const activeSettingsTab = useAppSelector(
+    (state) => state.settingsTabs.activeSettingsTab
+  );
+  //#endregion
+
+  //#region Initialization
   const unityContext = useAppSelector((state) => state.painter.unityContext);
   const currentUser = useAppSelector((state) => state.auth.currentUser);
   const currentBrushColor = useAppSelector(
@@ -66,33 +87,7 @@ const Index: NextPage = () => {
   const currentArlee = useAppSelector(
     (state) => state.speciesList.currentArlee
   );
-  const showLoadingScreen = useAppSelector(
-    (state) => state.painter.showLoadingScreen
-  );
-  const currentArleesMode = useAppSelector(
-    (state) => state.arleesMode.currentArleesMode
-  );
-  const sceneLoaded = useAppSelector((state) => state.painter.sceneLoaded);
-  const activeSettingsTab = useAppSelector(
-    (state) => state.settingsTabs.activeSettingsTab
-  );
-  const stickers = useAppSelector((state) =>
-    state.stickers.arlequinStickersGroupList.concat(
-      state.stickers.partnersStickersGroupList
-    )
-  );
 
-  //#endregion
-
-  const mint = async () => {
-    if (currentUser?.loggedIn) {
-      unityContext.send('HudManager', 'RequestArtwork');
-    } else {
-      fcl.logIn();
-    }
-  };
-
-  //#region Use Effects
   useEffect(
     () =>
       fcl.currentUser.subscribe((user) => {
@@ -120,6 +115,55 @@ const Index: NextPage = () => {
       });
     }
   }, [unityContext]);
+
+  useEffect(() => {
+    if (unityContext && currentArlee && !sceneLoaded) {
+      unityContext?.on('SendIsPlaygroundReady', async () => {
+        unityContext?.send('HudManager', 'LoadMetaPet', currentArlee);
+        unityContext?.send('HudManager', 'SetBrushColor', currentBrushColor);
+        const stringifiedList = JSON.stringify({
+          sharedStickers: [...emotionsStickers, ...heartsStickers],
+        });
+        unityContext?.send('HudManager', 'LoadStickers', stringifiedList);
+        dispatch(
+          setStickersGroup({
+            name: 'Emotion',
+            stickers: emotionsStickers,
+          })
+        );
+        dispatch(
+          setStickersGroup({
+            name: 'Hearts',
+            stickers: heartsStickers,
+          })
+        );
+
+        dispatch(hideLoadingScreen());
+        dispatch(setSceneLoaded());
+      });
+    }
+  }, [
+    unityContext,
+    currentArlee,
+    currentUser,
+    sceneLoaded,
+    emotionsStickers,
+    heartsStickers,
+    currentBackgroundColor,
+    currentBrushColor,
+    currentBrushOpacity,
+    dispatch,
+  ]);
+  //#endregion
+
+  //#region Mint Arlee Scene
+  const mint = async () => {
+    if (currentUser?.loggedIn) {
+      unityContext.send('HudManager', 'RequestArtwork');
+    } else {
+      fcl.logIn();
+    }
+  };
 
   useEffect(() => {
     if (unityContext) {
@@ -152,31 +196,7 @@ const Index: NextPage = () => {
       );
     }
   }, [unityContext]);
-
-  useEffect(() => {
-    if (unityContext && currentArlee && !sceneLoaded) {
-      unityContext?.on('SendIsPlaygroundReady', async () => {
-        // initialization
-        unityContext?.send('HudManager', 'LoadMetaPet', currentArlee);
-        unityContext?.send('HudManager', 'SetBrushColor', currentBrushColor);
-        stickers.map((s) => {
-          const stringifiedList = JSON.stringify({ sharedStickers: s.list });
-          unityContext?.send('HudManager', 'LoadStickers', stringifiedList);
-        });
-        dispatch(hideLoadingScreen());
-        dispatch(setSceneLoaded());
-      });
-    }
-  }, [
-    unityContext,
-    currentArlee,
-    sceneLoaded,
-    currentBackgroundColor,
-    currentBrushColor,
-    currentBrushOpacity,
-    stickers,
-    dispatch,
-  ]);
+  //#endregion
 
   useEffect(() => {
     if (keyPress?.ctrl || keyPress?.alt || keyPress?.shift) {
@@ -185,17 +205,6 @@ const Index: NextPage = () => {
       unityContext?.send('HudManager', 'EnableZoom');
     }
   }, [unityContext, keyPress]);
-
-  useEffect(() => {
-    if (unityContext) {
-      unityContext.on('SendAvatar', async (avatar) => {
-        const downloadLink = document.createElement('a');
-        downloadLink.href = `data:image/png;base64,${avatar}`;
-        downloadLink.download = 'arlequinNFT_avatar';
-        downloadLink.click();
-      });
-    }
-  }, [unityContext]);
 
   useEffect(() => {
     if (unityContext) {
@@ -210,12 +219,11 @@ const Index: NextPage = () => {
       });
     }
   }, [unityContext, currentBrushOpacity, currentBrushThickness, dispatch]);
-  //#endregion
 
   return (
     <>
       {showLoadingScreen && (
-        <div className="absolute bg-purple h-screen w-screen z-[999]">
+        <div className="absolute bg-black-700 h-screen w-screen z-[999]">
           <div className="grid place-content-center h-full w-full">
             <div className="flex items-baseline">
               <p className="font-extrabold text-4xl text-white animate-pulse">
@@ -365,9 +373,16 @@ const Index: NextPage = () => {
           </div>
 
           <div className="flex justify-center  w-full py-3 bg-black-600">
-            <ComponentsButton color="secondary" rounded onClick={mint}>
-              MINT (10 $FLOW)
-            </ComponentsButton>
+            {currentUser?.addr && (
+              <ComponentsButton color="secondary" rounded onClick={mint}>
+                MINT (10 $FLOW)
+              </ComponentsButton>
+            )}
+            {!currentUser?.addr && (
+              <ComponentsButton color="secondary" rounded onClick={fcl.logIn}>
+                Connect Wallet
+              </ComponentsButton>
+            )}
           </div>
         </div>
       </div>
@@ -377,3 +392,23 @@ const Index: NextPage = () => {
 };
 
 export default Index;
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const emotionsStickersRes = await fetch(
+    'https://bafkreigc2n6mba76xwe2c5fbp35dfaclgmflpb45tpbst6evs5meatz7lm.ipfs.nftstorage.link/'
+  );
+  const emotionsStickers: { list: Sticker[] } =
+    await emotionsStickersRes.json();
+
+  const heartsStickersRes = await fetch(
+    'https://bafkreibldqba5wmaw24vhvmxfqyi4nswrex2gbdtks6ntd4zlc2sqsmafq.ipfs.nftstorage.link/'
+  );
+  const heartsStickers: { list: Sticker[] } = await heartsStickersRes.json();
+
+  return {
+    props: {
+      emotionsStickers: emotionsStickers.list,
+      heartsStickers: heartsStickers.list,
+    },
+  };
+};
