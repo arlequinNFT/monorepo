@@ -1,41 +1,17 @@
 import { useAppDispatch, useAppSelector } from '../../store/hook';
-import { enablePartner, setAllPartners } from './partners.reducer';
+import { enablePartner } from './partners.reducer';
 import * as fcl from '@onflow/fcl';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MINT_ARLEE_PARTNER_NFT } from '../../cadence/transactions/ArleePartner/mintArleePartnerNFT';
-import { GET_ALL_PARTNERS_MINTABLE } from '../../cadence/scripts/get_all_partners_mintable';
-import { GET_USER_PARTNERS_NFTS } from '../../cadence/scripts/get_user_partners_nfts';
+import {
+  setPartnersStickersGroup,
+  Sticker,
+} from '../stickers/stickers.reducer';
 
 const Partners = () => {
   const dispatch = useAppDispatch();
 
   const list = useAppSelector((state) => state.partners.list);
-  const currentUser = useAppSelector((state) => state.auth.currentUser);
-
-  useEffect(() => {
-    const fetchAllPartners = async () => {
-      const allPartners = await fcl.query({
-        cadence: GET_ALL_PARTNERS_MINTABLE, // {CryptoPiggos: true, Zeedz: true}
-      });
-      dispatch(setAllPartners({ allPartners }));
-    };
-    fetchAllPartners();
-  }, [dispatch]);
-
-  useEffect(() => {
-    const enableUserPartners = async () => {
-      if (currentUser?.addr) {
-        const userPartnersNFTs = await fcl.query({
-          cadence: GET_USER_PARTNERS_NFTS, // [{name: 'CryptoPiggos'}, {name: 'Zeedz'}]
-          args: (arg, t) => [arg(currentUser?.addr, t.Address)],
-        });
-        userPartnersNFTs?.map((partner) => {
-          dispatch(enablePartner({ partnerName: partner.name }));
-        });
-      }
-    };
-    enableUserPartners();
-  }, [dispatch, currentUser]);
 
   const unlock = (partnerName: string) => {
     const mintPartnerNFT = async () => {
@@ -47,6 +23,27 @@ const Partners = () => {
       await fcl.tx(res).onceSealed();
 
       dispatch(enablePartner({ partnerName }));
+      switch (partnerName) {
+        case 'CryptoPiggos':
+          {
+            const piggosStickersRes = await fetch(
+              'https://bafkreiashukkbjdtzggebjeq7h5fzh52hd3mozeqr7ts474jkliuxmmkvm.ipfs.nftstorage.link/'
+            );
+            const piggosStickers: { list: Sticker[] } =
+              await piggosStickersRes.json();
+
+            dispatch(
+              setPartnersStickersGroup({
+                name: 'CryptoPiggos',
+                stickers: piggosStickers.list,
+              })
+            );
+          }
+          break;
+
+        default:
+          break;
+      }
     };
 
     mintPartnerNFT();

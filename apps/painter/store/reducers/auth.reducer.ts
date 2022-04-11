@@ -1,7 +1,6 @@
-
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface User  {
+export interface User {
   addr: string;
   cid: string;
   loggedIn: boolean;
@@ -27,6 +26,6 @@ export const slice = createSlice({
     },
   },
 });
-export const { setCurrentUser } = slice.actions;
+export const { setCurrentUser, unauthenticate } = slice.actions;
 
 export default slice.reducer;

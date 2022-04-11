@@ -11,7 +11,8 @@ interface StickersGroup {
 }
 
 interface State {
-  stickersGroup: StickersGroup[];
+  arlequinStickersGroup: StickersGroup[];
+  partnersStickersGroup: StickersGroup[];
 
   stickerAngle: number;
   stickerSize: number;
@@ -20,7 +21,8 @@ interface State {
 }
 
 const initialState: State = {
-  stickersGroup: [],
+  arlequinStickersGroup: [],
+  partnersStickersGroup: [],
   stickerAngle: 0,
   stickerSize: 34,
   minStickerSize: 10,
@@ -31,13 +33,24 @@ export const slice = createSlice({
   name: 'stickers',
   initialState,
   reducers: {
-    setStickersGroup: (
+    setArlequinStickersGroup: (
       state,
       {
         payload: { name, stickers },
       }: PayloadAction<{ name: string; stickers: Sticker[] }>
     ) => {
-      state.stickersGroup.push({ name, stickers });
+      state.arlequinStickersGroup.push({ name, stickers });
+    },
+    setPartnersStickersGroup: (
+      state,
+      {
+        payload: { name, stickers },
+      }: PayloadAction<{ name: string; stickers: Sticker[] }>
+    ) => {
+      state.partnersStickersGroup.push({ name, stickers });
+    },
+    emptyPartnersStickersGroup: (state) => {
+      state.partnersStickersGroup = [];
     },
     decreaseStickerSize: (state) => {
       if (state.stickerSize > state.minStickerSize) {
@@ -63,7 +76,9 @@ export const {
   decreaseStickerSize,
   increaseStickerAngle,
   increaseStickerSize,
-  setStickersGroup,
+  setArlequinStickersGroup,
+  setPartnersStickersGroup,
+  emptyPartnersStickersGroup,
 } = slice.actions;
 
 export default slice.reducer;

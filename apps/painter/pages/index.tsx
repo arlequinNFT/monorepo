@@ -43,11 +43,22 @@ import { addColorToSwatches } from '../components/swatches/swatches.reducer';
 import Partners from '../components/partners/partners.component';
 import { MINT_ARLEE_SCENE_NFT } from '../cadence/transactions/ArleeScene/mintArleeSceneNFT';
 import { nftstorageClient } from '../configs/nftstorage';
-import { setCurrentUser } from '../store/reducers/auth.reducer';
+import { setCurrentUser, unauthenticate } from '../store/reducers/auth.reducer';
 import {
-  setStickersGroup,
+  emptyPartnersStickersGroup,
+  setArlequinStickersGroup,
+  setPartnersStickersGroup,
   Sticker,
 } from '../components/stickers/stickers.reducer';
+import { GET_ALL_PARTNERS_MINTABLE } from '../cadence/scripts/get_all_partners_mintable';
+import { GET_USER_PARTNERS_NFTS } from '../cadence/scripts/get_user_partners_nfts';
+import {
+  setAllPartners,
+  enablePartner,
+  setAllPartnersLoaded,
+  setUserPartnersLoaded,
+  disableAllPartners,
+} from '../components/partners/partners.reducer';
 
 const Index: NextPage = ({
   emotionsStickers,
@@ -126,13 +137,13 @@ const Index: NextPage = ({
         });
         unityContext?.send('HudManager', 'LoadStickers', stringifiedList);
         dispatch(
-          setStickersGroup({
+          setArlequinStickersGroup({
             name: 'Emotion',
             stickers: emotionsStickers,
           })
         );
         dispatch(
-          setStickersGroup({
+          setArlequinStickersGroup({
             name: 'Hearts',
             stickers: heartsStickers,
           })
@@ -198,6 +209,66 @@ const Index: NextPage = ({
   }, [unityContext]);
   //#endregion
 
+  //#region Partners
+  const allPartnersLoaded = useAppSelector(
+    (state) => state.partners.allPartnersLoaded
+  );
+  const userPartnersLoaded = useAppSelector(
+    (state) => state.partners.userPartnersLoaded
+  );
+  useEffect(() => {
+    if (!allPartnersLoaded) {
+      const fetchAllPartners = async () => {
+        const allPartners = await fcl.query({
+          cadence: GET_ALL_PARTNERS_MINTABLE, // {CryptoPiggos: true, Zeedz: true}
+        });
+        dispatch(setAllPartners({ allPartners }));
+      };
+      fetchAllPartners();
+
+      dispatch(setAllPartnersLoaded());
+    }
+  }, [dispatch, currentUser, allPartnersLoaded]);
+  useEffect(() => {
+    if (!userPartnersLoaded && currentUser?.addr) {
+      const fetchUserPartners = async () => {
+        const userPartnersNFTs = await fcl.query({
+          cadence: GET_USER_PARTNERS_NFTS, // [{name: 'CryptoPiggos'}, {name: 'Zeedz'}]
+          args: (arg, t) => [arg(currentUser?.addr, t.Address)],
+        });
+        userPartnersNFTs?.map(async (partner) => {
+          dispatch(enablePartner({ partnerName: partner.name }));
+
+          switch (partner.name) {
+            case 'CryptoPiggos':
+              {
+                const piggosStickersRes = await fetch(
+                  'https://bafkreiashukkbjdtzggebjeq7h5fzh52hd3mozeqr7ts474jkliuxmmkvm.ipfs.nftstorage.link/'
+                );
+                const piggosStickers: { list: Sticker[] } =
+                  await piggosStickersRes.json();
+
+                dispatch(
+                  setPartnersStickersGroup({
+                    name: 'CryptoPiggos',
+                    stickers: piggosStickers.list,
+                  })
+                );
+              }
+              break;
+
+            default:
+              break;
+          }
+        });
+      };
+      fetchUserPartners();
+
+      dispatch(setUserPartnersLoaded());
+    }
+  }, [dispatch, currentUser, userPartnersLoaded]);
+  //#endregion
+
   useEffect(() => {
     if (keyPress?.ctrl || keyPress?.alt || keyPress?.shift) {
       unityContext?.send('HudManager', 'DisableZoom');
@@ -219,6 +290,13 @@ const Index: NextPage = ({
       });
     }
   }, [unityContext, currentBrushOpacity, currentBrushThickness, dispatch]);
+
+  const logOut = () => {
+    fcl.unauthenticate();
+    dispatch(unauthenticate());
+    dispatch(emptyPartnersStickersGroup());
+    dispatch(disableAllPartners());
+  };
 
   return (
     <>
@@ -372,16 +450,38 @@ const Index: NextPage = ({
             )}
           </div>
 
-          <div className="flex justify-center  w-full py-3 bg-black-600">
+          <div className="p-3 bg-black-600">
             {currentUser?.addr && (
-              <ComponentsButton color="secondary" rounded onClick={mint}>
-                MINT (10 $FLOW)
-              </ComponentsButton>
+              <>
+                <p
+                  className="  text-white text-xs underline cursor-pointer mb-2"
+                  onClick={logOut}
+                >
+                  Log out
+                </p>
+                <div className="text-center">
+                  <ComponentsButton color="secondary" rounded onClick={mint}>
+                    MINT (10 $FLOW)
+                  </ComponentsButton>
+                </div>
+              </>
             )}
+
             {!currentUser?.addr && (
-              <ComponentsButton color="secondary" rounded onClick={fcl.logIn}>
-                Connect Wallet
-              </ComponentsButton>
+              <>
+                <p className="text-white text-xs mb-2">
+                  Connect wallet to mint your Arlee
+                </p>
+                <div className="text-center">
+                  <ComponentsButton
+                    color="secondary"
+                    rounded
+                    onClick={fcl.logIn}
+                  >
+                    Connect Wallet
+                  </ComponentsButton>
+                </div>
+              </>
             )}
           </div>
         </div>
