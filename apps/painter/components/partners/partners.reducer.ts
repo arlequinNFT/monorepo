@@ -26,7 +26,7 @@ export const slice = createSlice({
         true;
     },
     disableAllPartners: (state) => {
-      state.list.map((p) => ({ ...p, enabled: false }));
+      state.list = state.list.map((p) => ({ ...p, enabled: false }));
     },
     setAllPartners: (state, action: PayloadAction<{ allPartners: any }>) => {
       state.list = Object.keys(action.payload.allPartners).map((partner) => ({
