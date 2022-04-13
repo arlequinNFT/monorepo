@@ -17,14 +17,14 @@
   // }
 
   &-secondary {
-    background: theme('colors.red');
+    background: theme('colors.black-400');
     color: white;
     transition-property: all;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
 
     &:hover {
-      background: theme('colors.red-light');
+      background: theme('colors.black-300');
       transition-property: all;
       transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
       transition-duration: 250ms;

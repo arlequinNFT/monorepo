@@ -17,12 +17,8 @@ const Header = () => {
 
       {!currentUser?.loggedIn && (
         <div>
-          <ComponentsButton
-            color="secondary"
-            rounded
-            onClick={(e) => fcl.logIn()}
-          >
-            Connect Wallet
+          <ComponentsButton color="secondary" rounded link="collection">
+            My Collection
           </ComponentsButton>
         </div>
       )}

@@ -18,6 +18,7 @@ import paintingModeReducer from '../components/painting-mode/painting-mode.reduc
 import partnersReducer from '../components/partners/partners.reducer';
 import posesListReducer from '../components/poses-list/poses-list.reducer';
 import settingsTabsReducer from '../components/settings-tabs/settings-tabs.reducer';
+import mintReducer from '../components/mint/mint.reducer';
 import speciesListReducer from '../components/species-list/species-list.reducer';
 import stickersReducer from '../components/stickers/stickers.reducer';
 import swatchesReducer from '../components/swatches/swatches.reducer';
@@ -39,6 +40,7 @@ export const store = configureStore({
     brushThickness: brushThicknessReducer,
     paintingMode: paintingModeReducer,
     painter: painterReducer,
+    mint: mintReducer,
     partners: partnersReducer,
     posesList: posesListReducer,
     settingsTabs: settingsTabsReducer,

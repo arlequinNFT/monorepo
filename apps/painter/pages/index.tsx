@@ -2,14 +2,13 @@ import React, { useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
 import Unity, { UnityContext } from 'react-unity-webgl';
 import * as fcl from '@onflow/fcl';
-import { ComponentsButton } from '@arlequin/components/button';
 import ArleesMode from '../components/arlees-mode/arlees-mode.component';
 import BackgroundColor from '../components/background-color/background-color.component';
 import BrushColor from '../components/brush-color/brush-color.component';
 import BrushSize from '../components/brush-thickness/brush-thickness.component';
 import PaintingMode from '../components/painting-mode/painting-mode.component';
 import PosesList from '../components/poses-list/poses-list.component';
-import ArleesList from '../components/species-list/species-list.component';
+import SpeciesList from '../components/species-list/species-list.component';
 import Swatches from '../components/swatches/swatches.component';
 import UndoRedo from '../components/undo-redo/undo-redo.component';
 import { useAppDispatch, useAppSelector } from '../store/hook';
@@ -36,16 +35,12 @@ import {
   AccordionButton,
   AccordionIcon,
   AccordionPanel,
-} from '@chakra-ui/accordion';
+} from '@chakra-ui/react';
 import GroundLightColor from '../components/ground-light-color/ground-light-color.component';
 import ArleeLightsRotation from '../components/arlee-lights-rotation/arlee-lights-rotation.component';
 import { addColorToSwatches } from '../components/swatches/swatches.reducer';
-import Partners from '../components/partners/partners.component';
-import { MINT_ARLEE_SCENE_NFT } from '../cadence/transactions/ArleeScene/mintArleeSceneNFT';
-import { nftstorageClient } from '../configs/nftstorage';
-import { setCurrentUser, unauthenticate } from '../store/reducers/auth.reducer';
+import { setCurrentUser } from '../store/reducers/auth.reducer';
 import {
-  emptyPartnersStickersGroup,
   setArlequinStickersGroup,
   setPartnersStickersGroup,
   Sticker,
@@ -57,8 +52,8 @@ import {
   enablePartner,
   setAllPartnersLoaded,
   setUserPartnersLoaded,
-  disableAllPartners,
 } from '../components/partners/partners.reducer';
+import Mint from '../components/mint/mint.component';
 
 const Index: NextPage = ({
   emotionsStickers,
@@ -167,107 +162,65 @@ const Index: NextPage = ({
   ]);
   //#endregion
 
-  //#region Mint Arlee Scene
-  const mint = async () => {
-    if (currentUser?.loggedIn) {
-      unityContext.send('HudManager', 'RequestArtwork');
-    } else {
-      fcl.logIn();
-    }
-  };
-
-  useEffect(() => {
-    if (unityContext) {
-      unityContext?.on(
-        'SendArtwork',
-        async (metadata: string, thumbnail: string) => {
-          const files = [
-            new File([new Blob([metadata])], 'metadata.txt', {
-              type: 'text/plain',
-            }),
-            new File([new Blob([thumbnail])], 'thumbnail.txt', {
-              type: 'text/plain',
-            }),
-          ];
-
-          const cid = await nftstorageClient.storeDirectory(files);
-
-          if (cid) {
-            const res = await fcl.mutate({
-              cadence: MINT_ARLEE_SCENE_NFT,
-              limit: 999,
-              args: (arg, t) => [
-                arg(cid, t.String),
-                arg('description', t.String),
-              ],
-            });
-            await fcl.tx(res).onceSealed();
-          }
-        }
-      );
-    }
-  }, [unityContext]);
-  //#endregion
-
   //#region Partners
-  const allPartnersLoaded = useAppSelector(
-    (state) => state.partners.allPartnersLoaded
-  );
-  const userPartnersLoaded = useAppSelector(
-    (state) => state.partners.userPartnersLoaded
-  );
-  useEffect(() => {
-    if (!allPartnersLoaded) {
-      const fetchAllPartners = async () => {
-        const allPartners = await fcl.query({
-          cadence: GET_ALL_PARTNERS_MINTABLE, // {CryptoPiggos: true, Zeedz: true}
-        });
-        dispatch(setAllPartners({ allPartners }));
-      };
-      fetchAllPartners();
+  // const allPartnersLoaded = useAppSelector(
+  //   (state) => state.partners.allPartnersLoaded
+  // );
+  // const userPartnersLoaded = useAppSelector(
+  //   (state) => state.partners.userPartnersLoaded
+  // );
+  // useEffect(() => {
+  //   if (!allPartnersLoaded) {
+  //     const fetchAllPartners = async () => {
+  //       const allPartners = await fcl.query({
+  //         cadence: GET_ALL_PARTNERS_MINTABLE, // {CryptoPiggos: true, Zeedz: true}
+  //       });
+  //       dispatch(setAllPartners({ allPartners }));
+  //     };
+  //     fetchAllPartners();
 
-      dispatch(setAllPartnersLoaded());
-    }
-  }, [dispatch, currentUser, allPartnersLoaded]);
-  useEffect(() => {
-    if (!userPartnersLoaded && currentUser?.addr) {
-      const fetchUserPartners = async () => {
-        const userPartnersNFTs = await fcl.query({
-          cadence: GET_USER_PARTNERS_NFTS, // [{name: 'CryptoPiggos'}, {name: 'Zeedz'}]
-          args: (arg, t) => [arg(currentUser?.addr, t.Address)],
-        });
-        userPartnersNFTs?.map(async (partner) => {
-          dispatch(enablePartner({ partnerName: partner.name }));
+  //     dispatch(setAllPartnersLoaded());
+  //   }
+  // }, [dispatch, currentUser, allPartnersLoaded]);
+  // useEffect(() => {
+  //   if (!userPartnersLoaded && currentUser?.addr) {
+  //     const fetchUserPartners = async () => {
+  //       const userPartnersNFTs = await fcl.query({
+  //         cadence: GET_USER_PARTNERS_NFTS, // [{name: 'CryptoPiggos'}, {name: 'Zeedz'}]
+  //         args: (arg, t) => [arg(currentUser?.addr, t.Address)],
+  //       });
+  //       userPartnersNFTs?.map(async (partner) => {
+  //         dispatch(enablePartner({ partnerName: partner.name }));
 
-          switch (partner.name) {
-            case 'CryptoPiggos':
-              {
-                const piggosStickersRes = await fetch(
-                  'https://bafkreiashukkbjdtzggebjeq7h5fzh52hd3mozeqr7ts474jkliuxmmkvm.ipfs.nftstorage.link/'
-                );
-                const piggosStickers: { list: Sticker[] } =
-                  await piggosStickersRes.json();
+  //         switch (partner.name) {
+  //           case 'CryptoPiggos':
+  //             {
+  //               const piggosStickersRes = await fetch(
+  //                 'https://bafkreiashukkbjdtzggebjeq7h5fzh52hd3mozeqr7ts474jkliuxmmkvm.ipfs.nftstorage.link/'
+  //               );
+  //               const piggosStickers: { list: Sticker[] } =
+  //                 await piggosStickersRes.json();
 
-                dispatch(
-                  setPartnersStickersGroup({
-                    name: 'CryptoPiggos',
-                    stickers: piggosStickers.list,
-                  })
-                );
-              }
-              break;
+  //               dispatch(
+  //                 setPartnersStickersGroup({
+  //                   name: 'CryptoPiggos',
+  //                   stickers: piggosStickers.list,
+  //                 })
+  //               );
+  //             }
+  //             break;
 
-            default:
-              break;
-          }
-        });
-      };
-      fetchUserPartners();
+  //           default:
+  //             break;
+  //         }
+  //       });
+  //     };
+  //     fetchUserPartners();
 
-      dispatch(setUserPartnersLoaded());
-    }
-  }, [dispatch, currentUser, userPartnersLoaded]);
-  //#endregion
+  //     dispatch(setUserPartnersLoaded());
+  //   }
+  // }, [dispatch, currentUser, userPartnersLoaded]);
+  // //#endregion
 
   useEffect(() => {
     if (keyPress?.ctrl || keyPress?.alt || keyPress?.shift) {
@@ -290,13 +243,6 @@ const Index: NextPage = ({
       });
     }
   }, [unityContext, currentBrushOpacity, currentBrushThickness, dispatch]);
-
-  const logOut = () => {
-    fcl.unauthenticate();
-    dispatch(unauthenticate());
-    dispatch(emptyPartnersStickersGroup());
-    dispatch(disableAllPartners());
-  };
 
   return (
     <>
@@ -340,7 +286,9 @@ const Index: NextPage = ({
                 <ArleesMode></ArleesMode>
 
                 <div className="w-full relative overflow-hidden flex-1">
-                  {currentArleesMode === 'species' && <ArleesList></ArleesList>}
+                  {currentArleesMode === 'species' && (
+                    <SpeciesList></SpeciesList>
+                  )}
                   {currentArleesMode === 'poses' && <PosesList></PosesList>}
                 </div>
               </>
@@ -441,49 +389,8 @@ const Index: NextPage = ({
                 </Accordion>
               </>
             )}
-
-            {activeSettingsTab === 'partners' && (
-              <>
-                <p className="uppercase text-white mb-2">Partners</p>
-                <Partners></Partners>
-              </>
-            )}
           </div>
-
-          <div className="p-3 bg-black-600">
-            {currentUser?.addr && (
-              <>
-                <p
-                  className="  text-white text-xs underline cursor-pointer mb-2"
-                  onClick={logOut}
-                >
-                  Log out
-                </p>
-                <div className="text-center">
-                  <ComponentsButton color="secondary" rounded onClick={mint}>
-                    MINT (10 $FLOW)
-                  </ComponentsButton>
-                </div>
-              </>
-            )}
-
-            {!currentUser?.addr && (
-              <>
-                <p className="text-white text-xs mb-2">
-                  Connect wallet to mint your Arlee
-                </p>
-                <div className="text-center">
-                  <ComponentsButton
-                    color="secondary"
-                    rounded
-                    onClick={fcl.logIn}
-                  >
-                    Connect Wallet
-                  </ComponentsButton>
-                </div>
-              </>
-            )}
-          </div>
+          <Mint></Mint>
         </div>
       </div>
       <ReactTooltip type="light" effect="solid" />

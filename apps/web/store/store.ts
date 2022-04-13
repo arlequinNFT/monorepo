@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import authReducer from './reducers/auth.reducer';
+import collectionReducer from '../pages/collection/store';
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
+    collection: collectionReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

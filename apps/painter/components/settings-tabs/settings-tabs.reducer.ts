@@ -6,6 +6,7 @@ export type SettingsTabs =
   | 'stickers'
   | 'environment'
   | 'light'
+  | 'mint'
   | 'partners';
 
 interface State {

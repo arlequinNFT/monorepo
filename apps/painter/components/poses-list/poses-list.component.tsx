@@ -19,7 +19,7 @@ const PosesList = () => {
     unityContext?.send('HudManager', 'SetPose', pose);
 
   return (
-    <div className="grid space-y-4 absolute -inset-0 overflow-y-scroll pr-2">
+    <div className="grid space-y-4 absolute -inset-0 overflow-y-scroll pr-2 pb-4">
       {poses.map((pose, key) => {
         return (
           <img
