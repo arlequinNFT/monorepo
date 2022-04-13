@@ -5,7 +5,7 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
-} from '@chakra-ui/accordion';
+} from '@chakra-ui/react';
 import { useAppDispatch, useAppSelector } from '../../store/hook';
 import {
   decreaseStickerAngle,
@@ -68,11 +68,11 @@ const Stickers = () => {
       <Accordion
         className="w-full absolute pr-2 pb-2"
         allowMultiple
-        defaultIndex={[0]}
+        defaultIndex={[0, 1, 2]}
       >
         {arlequinStickersGroup.map((group, index) => (
-          <AccordionItem key={index}>
-            <AccordionButton className="flex justify-between">
+          <AccordionItem className="border-none" key={index}>
+            <AccordionButton className="flex justify-between !p-0 !shadow-none">
               <p className="text-white font-bold text-[0.875rem] mt-3 mb-1">
                 {group.name}
               </p>
@@ -99,8 +99,8 @@ const Stickers = () => {
           </AccordionItem>
         ))}
         {partnersStickersGroup.map((group, index) => (
-          <AccordionItem key={index}>
-            <AccordionButton className="flex justify-between">
+          <AccordionItem className="border-none" key={index}>
+            <AccordionButton className="flex justify-between !p-0 !shadow-none">
               <p className="text-white font-bold text-[0.875rem] mt-3 mb-1">
                 {group.name}
               </p>

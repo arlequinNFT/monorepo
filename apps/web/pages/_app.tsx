@@ -6,6 +6,7 @@ import Head from 'next/head';
 import { Provider } from 'react-redux';
 import { store } from '../store/store';
 import Layout from '../components/layout/layout';
+import { ChakraProvider } from '@chakra-ui/react';
 
 function CustomApp({ Component, pageProps }: AppProps) {
   return (
@@ -14,9 +15,11 @@ function CustomApp({ Component, pageProps }: AppProps) {
         <title>Arlequin: The Artists Metaverse</title>
       </Head>
       <Provider store={store}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <ChakraProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ChakraProvider>
       </Provider>
     </>
   );

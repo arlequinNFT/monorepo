@@ -89,9 +89,12 @@ const Mint = () => {
               >
                 Log out
               </p>
-              <div className="text-center">
+              <div className="flex gap-x-4">
                 <ComponentsButton color="secondary" rounded onClick={onOpen}>
                   MINT
+                </ComponentsButton>
+                <ComponentsButton color="secondary" rounded onClick={onOpen}>
+                  SUBMIT
                 </ComponentsButton>
               </div>
             </>

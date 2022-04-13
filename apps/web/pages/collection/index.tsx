@@ -1,5 +1,5 @@
 import * as fcl from '@onflow/fcl';
-import { GET_USER_ARLEE_SCENE_NFTS } from '../../cadence/scripts/getUserArleeSceneNFTs';
+import { GET_USER_ARLEE_SCENE_NFTS } from '../../cadence/scripts/get_user_arlee_scene_nfts';
 import { useEffect } from 'react';
 import { useAppSelector } from '../../store/hook';
 import { ComponentsButton } from '@arlequin/components/button';

@@ -342,9 +342,9 @@ const Index: NextPage = ({
             {activeSettingsTab === 'light' && (
               <>
                 <Accordion className="w-full" allowMultiple defaultIndex={[0]}>
-                  <AccordionItem>
-                    <AccordionButton className="flex justify-between">
-                      <p className="text-white font-bold text-[0.875rem] mt-3 mb-1">
+                  <AccordionItem className="border-none">
+                    <AccordionButton className="flex justify-between mt-3 mb-1 !p-0 !shadow-none">
+                      <p className="text-white font-bold text-[0.875rem]">
                         Light 1
                       </p>
                       <AccordionIcon className="!text-white text-xl" />
@@ -353,9 +353,9 @@ const Index: NextPage = ({
                       <ArleeLight1></ArleeLight1>
                     </AccordionPanel>
                   </AccordionItem>
-                  <AccordionItem>
-                    <AccordionButton className="flex justify-between">
-                      <p className="text-white font-bold text-[0.875rem] mt-3 mb-1">
+                  <AccordionItem className="border-none">
+                    <AccordionButton className="flex justify-between mt-3 mb-1 !p-0 !shadow-none">
+                      <p className="text-white font-bold text-[0.875rem]">
                         Light 2
                       </p>
                       <AccordionIcon className="!text-white text-xl" />
@@ -364,9 +364,9 @@ const Index: NextPage = ({
                       <ArleeLight2></ArleeLight2>
                     </AccordionPanel>
                   </AccordionItem>
-                  <AccordionItem>
-                    <AccordionButton className="flex justify-between">
-                      <p className="text-white font-bold text-[0.875rem] mt-3 mb-1">
+                  <AccordionItem className="border-none">
+                    <AccordionButton className="flex justify-between mt-3 mb-1 !p-0 !shadow-none">
+                      <p className="text-white font-bold text-[0.875rem]">
                         Light 3
                       </p>
                       <AccordionIcon className="!text-white text-xl" />
@@ -375,9 +375,9 @@ const Index: NextPage = ({
                       <ArleeLight3></ArleeLight3>
                     </AccordionPanel>
                   </AccordionItem>
-                  <AccordionItem>
-                    <AccordionButton className="flex justify-between">
-                      <p className="text-white font-bold text-[0.875rem] mt-3 mb-1">
+                  <AccordionItem className="border-none">
+                    <AccordionButton className="flex justify-between mt-3 mb-1 !p-0 !shadow-none">
+                      <p className="text-white font-bold text-[0.875rem]">
                         Lights Rotation
                       </p>
                       <AccordionIcon className="!text-white text-xl" />
