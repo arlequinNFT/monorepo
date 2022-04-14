@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import authReducer from './reducers/auth.reducer';
 import collectionReducer from '../pages/collection/store';
+import viewerReducer from '../pages/viewer/store';
 import arleeLight1Reducer from '../components/arlee-light-1/arlee-light-1.reducer';
 import arleeLight2Reducer from '../components/arlee-light-2/arlee-light-2.reducer';
 import arleeLight3Reducer from '../components/arlee-light-3/arlee-light-3.reducer';
@@ -49,6 +50,7 @@ export const store = configureStore({
     speciesList: speciesListReducer,
     stickers: stickersReducer,
     swatches: swatchesReducer,
+    viewer: viewerReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -1,20 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface State {
-  image: string;
+  thumbnail: string;
 }
 
-const initialState: State = { image: '' };
+const initialState: State = { thumbnail: '' };
 
 export const slice = createSlice({
   name: 'mint',
   initialState,
   reducers: {
-    setImage: (state, action: PayloadAction<string>) => {
-      state.image = action.payload;
+    setThumbnail: (state, action: PayloadAction<string>) => {
+      state.thumbnail = action.payload;
     },
   },
 });
-export const { setImage } = slice.actions;
+export const { setThumbnail } = slice.actions;
 
 export default slice.reducer;

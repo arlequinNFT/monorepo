@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
 import Unity, { UnityContext } from 'react-unity-webgl';
-import * as fcl from '@onflow/fcl';
+import { FaMediumM, FaDiscord, FaTwitter } from 'react-icons/fa';
+import Link from 'next/link';
+
 import ArleesMode from '../../components/arlees-mode/arlees-mode.component';
 import BackgroundColor from '../../components/background-color/background-color.component';
 import BrushColor from '../../components/brush-color/brush-color.component';
@@ -96,6 +98,18 @@ const Painter: NextPage = ({
       dataUrl: 'builds/Build/painter.data',
       frameworkUrl: 'builds/Build/painter.framework.js',
       codeUrl: 'builds/Build/painter.wasm',
+      webglContextAttributes: {
+        alpha: true,
+        antialias: true,
+        depth: true,
+        failIfMajorPerformanceCaveat: true,
+        powerPreference: 'high-performance',
+        premultipliedAlpha: true,
+        preserveDrawingBuffer: true,
+        stencil: true,
+        desynchronized: true,
+        xrCompatible: true,
+      },
     });
     if (unityContext) {
       dispatch(setUnityContext(unityContext));
@@ -108,7 +122,7 @@ const Painter: NextPage = ({
         unityContext.send('Redirection', 'StartPlayground');
       });
     }
-  }, [unityContext]);
+  }, [unityContext, dispatch]);
 
   useEffect(() => {
     if (unityContext && currentArlee && !unityLoaded) {
@@ -252,6 +266,7 @@ const Painter: NextPage = ({
             {unityContext && (
               <>
                 <Unity
+                  className="hover:!cursor-move"
                   unityContext={unityContext}
                   style={{
                     width: '100%',
@@ -263,6 +278,46 @@ const Painter: NextPage = ({
 
             <div className="absolute right-0 top-0">
               <SettingsTabs></SettingsTabs>
+            </div>
+            <div className="absolute left-2 bottom-2">
+              <ul className="flex gap-x-2">
+                <li>
+                  <a
+                    href="https://discord.gg/arlequin"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <FaDiscord size={'2em'}></FaDiscord>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://twitter.com/arlequinNFT"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <FaTwitter size={'2em'}></FaTwitter>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://medium.com/@arlequinnft"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <FaMediumM size={'2em'}></FaMediumM>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div className="absolute right-2 bottom-2">
+              <ul className="flex gap-x-2">
+                <li>
+                  <Link href="/collection">
+                    <a target="_blank">My collection</a>
+                  </Link>
+                </li>
+              </ul>
             </div>
           </div>
         </div>

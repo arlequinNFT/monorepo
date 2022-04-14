@@ -1,6 +1,7 @@
 import { ComponentsButton } from '@arlequin/components/button';
 import { useAppDispatch, useAppSelector } from '../../store/hook';
 import * as fcl from '@onflow/fcl';
+
 import { unauthenticate } from '../../store/reducers/auth.reducer';
 import { disableAllPartners } from '../partners/partners.reducer';
 import { emptyPartnersStickersGroup } from '../stickers/stickers.reducer';
@@ -16,7 +17,7 @@ import {
   ModalCloseButton,
   useDisclosure,
 } from '@chakra-ui/react';
-import { setImage } from './mint.reducer';
+import { setThumbnail } from './mint.reducer';
 
 const Mint = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -25,7 +26,7 @@ const Mint = () => {
 
   const unityContext = useAppSelector((state) => state.painter.unityContext);
   const currentUser = useAppSelector((state) => state.auth.currentUser);
-  const image = useAppSelector((state) => state.mint.image);
+  const thumbnail = useAppSelector((state) => state.mint.thumbnail);
 
   const logOut = () => {
     fcl.unauthenticate();
@@ -34,59 +35,52 @@ const Mint = () => {
     dispatch(disableAllPartners());
   };
 
-  const mint = async () => {
+  const openMintModal = async () => {
     if (currentUser?.loggedIn) {
-      unityContext.send('HudManager', 'RequestArtwork');
+      const thumbnail = unityContext.takeScreenshot('image/jpeg', 1.0);
+
+      dispatch(setThumbnail(thumbnail));
+      onOpen();
     } else {
       fcl.logIn();
     }
   };
 
-  const requestAvatar = async () => {
-    unityContext.send('HudManager', 'RequestAvatar');
+  const requestArtwork = async () => {
+    unityContext.send('HudManager', 'RequestArtwork');
   };
 
   useEffect(() => {
     if (unityContext) {
-      unityContext.on('SendAvatar', async (avatar) => {
-        const image = `data:image/png;base64,${avatar}`;
-        dispatch(setImage(image));
-        onOpen();
+      unityContext?.on('SendArtwork', async (metadata: string) => {
+        const metadataFile = new File([new Blob([metadata])], 'metadata.txt', {
+          type: 'text/plain',
+        });
+        const res: Response = await fetch(thumbnail);
+        const blob: Blob = await res.blob();
+        const thumbnailFile = new File([blob], 'thumbnail.jpeg', {
+          type: 'image/jpeg',
+        });
+
+        const cid = await nftstorageClient.storeDirectory([
+          metadataFile,
+          thumbnailFile,
+        ]);
+
+        if (cid) {
+          const res = await fcl.mutate({
+            cadence: MINT_ARLEE_SCENE_NFT,
+            limit: 999,
+            args: (arg, t) => [
+              arg(cid, t.String),
+              arg('description', t.String),
+            ],
+          });
+          await fcl.tx(res).onceSealed();
+        }
       });
     }
-  }, [unityContext, onOpen, dispatch]);
-
-  useEffect(() => {
-    if (unityContext) {
-      unityContext?.on(
-        'SendArtwork',
-        async (metadata: string, thumbnail: string) => {
-          const files = [
-            new File([new Blob([metadata])], 'metadata.txt', {
-              type: 'text/plain',
-            }),
-            new File([new Blob([thumbnail])], 'thumbnail.txt', {
-              type: 'text/plain',
-            }),
-          ];
-
-          const cid = await nftstorageClient.storeDirectory(files);
-
-          if (cid) {
-            const res = await fcl.mutate({
-              cadence: MINT_ARLEE_SCENE_NFT,
-              limit: 999,
-              args: (arg, t) => [
-                arg(cid, t.String),
-                arg('description', t.String),
-              ],
-            });
-            await fcl.tx(res).onceSealed();
-          }
-        }
-      );
-    }
-  }, [unityContext]);
+  }, [unityContext, thumbnail]);
 
   return (
     <>
@@ -104,7 +98,7 @@ const Mint = () => {
                 <ComponentsButton
                   color="secondary"
                   rounded
-                  onClick={requestAvatar}
+                  onClick={openMintModal}
                 >
                   MINT
                 </ComponentsButton>
@@ -114,9 +108,7 @@ const Mint = () => {
 
           {!currentUser?.addr && (
             <>
-              <p className="text-white text-xs mb-2">
-                Connect wallet to unlock all features
-              </p>
+              <p className="text-white text-xs mb-2">Connect wallet to mint</p>
               <div className="text-center">
                 <ComponentsButton color="secondary" rounded onClick={fcl.logIn}>
                   Connect
@@ -127,37 +119,33 @@ const Mint = () => {
         </div>
       </div>
 
-      <Modal isOpen={isOpen} onClose={onClose} size="2xl" isCentered>
+      <Modal isOpen={isOpen} onClose={onClose} size="6xl" isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>You're going to mint this Arlee</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <div className="flex justify-center p-4">
-              <img
-                className="object-contain w-2/3"
-                src={image}
-                alt="thumbnail"
-              />
-            </div>
-            <div>
-              <p className="text-center text-xl py-4">
-                The Zeedz contest is currently running! <br /> Participate to
-                win NFTs and $FLOW!{' '}
-                <span className="underline">More infos</span>
-              </p>
-              <div className="grid grid-cols-12 py-4">
-                <div className="col-span-6 border-r-4 flex flex-col p-8">
-                  <ComponentsButton color="secondary" rounded>
+            <div className="grid grid-cols-12 gap-x-4 p-4">
+              <div className="col-span-6 text-center ">
+                <img src={thumbnail} alt="thumbnail" />
+                <input
+                  className="text-small mt-2 focus:outline-none"
+                  maxLength={100}
+                  placeholder="a cool description..."
+                  type="text"
+                />
+              </div>
+
+              <div className="flex flex-col col-span-6">
+                <ul className="mb-auto">
+                  <li>Artist: {currentUser?.addr}</li>
+                  <li>Species: Cacatoes</li>
+                </ul>
+                <div className="flex flex-col mx-auto">
+                  <ComponentsButton onClick={requestArtwork} color="secondary">
                     Mint
                   </ComponentsButton>
                   <small className="text-right">12 $F</small>
-                </div>
-                <div className="col-span-6 flex flex-col p-8">
-                  <ComponentsButton color="secondary" rounded>
-                    Mint + Participate
-                  </ComponentsButton>
-                  <small className="text-right">15 $F</small>
                 </div>
               </div>
             </div>

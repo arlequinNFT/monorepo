@@ -1,10 +1,13 @@
 import * as fcl from '@onflow/fcl';
 import { GET_USER_ARLEE_SCENE_NFTS } from '../../cadence/scripts/get_user_arlee_scene_nfts';
 import { useEffect } from 'react';
-import { useAppSelector } from '../../store/hook';
+import { useAppDispatch, useAppSelector } from '../../store/hook';
 import { ComponentsButton } from '@arlequin/components/button';
+import { setArleesCollection } from './store';
+import Link from 'next/link';
 
 export function Collection() {
+  const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.auth.currentUser);
   const arleesCollection = useAppSelector(
     (state) => state.collection.arleesCollection
@@ -17,10 +20,11 @@ export function Collection() {
           cadence: GET_USER_ARLEE_SCENE_NFTS,
           args: (arg, t) => [arg(currentUser?.addr, t.Address)],
         });
+        dispatch(setArleesCollection(res));
       }
     };
     getUserArleeSceneNFTs();
-  }, [currentUser]);
+  }, [currentUser, dispatch]);
 
   if (!currentUser?.addr) {
     return (
@@ -61,116 +65,21 @@ export function Collection() {
             <>
               <h1 className="text-2xl mb-4">My Arlees</h1>
               <div className="grid gap-8 grid-cols-auto-xl">
-                <div className=" shadow-md">
-                  <img
-                    src="https://www.miroir-mag.fr/wp-content/uploads/2022/01/uob80LBVgzA.jpg"
-                    alt=""
-                  />
-                  <div className="bg-white p-4">
-                    <p className="uppercase">Lorem ispum</p>
-                    <p>Lorem ispum</p>
-                  </div>
-                </div>
-                <div className=" shadow-md">
-                  <img
-                    src="https://www.miroir-mag.fr/wp-content/uploads/2022/01/uob80LBVgzA.jpg"
-                    alt=""
-                  />
-                  <div className="bg-white p-4">
-                    <p className="uppercase">Lorem ispum</p>
-                    <p>Lorem ispum</p>
-                  </div>
-                </div>
-                <div className=" shadow-md">
-                  <img
-                    src="https://www.miroir-mag.fr/wp-content/uploads/2022/01/uob80LBVgzA.jpg"
-                    alt=""
-                  />
-                  <div className="bg-white p-4">
-                    <p className="uppercase">Lorem ispum</p>
-                    <p>Lorem ispum</p>
-                  </div>
-                </div>
-                <div className=" shadow-md">
-                  <img
-                    src="https://www.miroir-mag.fr/wp-content/uploads/2022/01/uob80LBVgzA.jpg"
-                    alt=""
-                  />
-                  <div className="bg-white p-4">
-                    <p className="uppercase">Lorem ispum</p>
-                    <p>Lorem ispum</p>
-                  </div>
-                </div>
-                <div className=" shadow-md">
-                  <img
-                    src="https://www.miroir-mag.fr/wp-content/uploads/2022/01/uob80LBVgzA.jpg"
-                    alt=""
-                  />
-                  <div className="bg-white p-4">
-                    <p className="uppercase">Lorem ispum</p>
-                    <p>Lorem ispum</p>
-                  </div>
-                </div>
-                <div className=" shadow-md">
-                  <img
-                    src="https://www.miroir-mag.fr/wp-content/uploads/2022/01/uob80LBVgzA.jpg"
-                    alt=""
-                  />
-                  <div className="bg-white p-4">
-                    <p className="uppercase">Lorem ispum</p>
-                    <p>Lorem ispum</p>
-                  </div>
-                </div>
-                <div className=" shadow-md">
-                  <img
-                    src="https://www.miroir-mag.fr/wp-content/uploads/2022/01/uob80LBVgzA.jpg"
-                    alt=""
-                  />
-                  <div className="bg-white p-4">
-                    <p className="uppercase">Lorem ispum</p>
-                    <p>Lorem ispum</p>
-                  </div>
-                </div>
-                <div className=" shadow-md">
-                  <img
-                    src="https://www.miroir-mag.fr/wp-content/uploads/2022/01/uob80LBVgzA.jpg"
-                    alt=""
-                  />
-                  <div className="bg-white p-4">
-                    <p className="uppercase">Lorem ispum</p>
-                    <p>Lorem ispum</p>
-                  </div>
-                </div>
-                <div className=" shadow-md">
-                  <img
-                    src="https://www.miroir-mag.fr/wp-content/uploads/2022/01/uob80LBVgzA.jpg"
-                    alt=""
-                  />
-                  <div className="bg-white p-4">
-                    <p className="uppercase">Lorem ispum</p>
-                    <p>Lorem ispum</p>
-                  </div>
-                </div>
-                <div className=" shadow-md">
-                  <img
-                    src="https://www.miroir-mag.fr/wp-content/uploads/2022/01/uob80LBVgzA.jpg"
-                    alt=""
-                  />
-                  <div className="bg-white p-4">
-                    <p className="uppercase">Lorem ispum</p>
-                    <p>Lorem ispum</p>
-                  </div>
-                </div>
-                <div className=" shadow-md">
-                  <img
-                    src="https://www.miroir-mag.fr/wp-content/uploads/2022/01/uob80LBVgzA.jpg"
-                    alt=""
-                  />
-                  <div className="bg-white p-4">
-                    <p className="uppercase">Lorem ispum</p>
-                    <p>Lorem ispum</p>
-                  </div>
-                </div>
+                {arleesCollection.map((item, index) => (
+                  <Link key={index} href={`/viewer?cid=${item.cid}`}>
+                    <a>
+                      <div className="cursor-pointer shadow-md">
+                        <img
+                          src={`https://${item.cid}.ipfs.nftstorage.link/thumbnail.jpeg`}
+                        />
+                        <div className="bg-white p-4">
+                          <p className="uppercase">Lorem ispum</p>
+                          <p>Lorem ispum</p>
+                        </div>
+                      </div>
+                    </a>
+                  </Link>
+                ))}
               </div>
             </>
           )}
