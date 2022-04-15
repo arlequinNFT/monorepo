@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface Arlee {
   description: string;
+  cid: string;
 }
 
 interface State {
