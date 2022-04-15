@@ -169,6 +169,7 @@ const Painter: NextPage = ({
   //#endregion
 
   //#region Partners
+
   // const allPartnersLoaded = useAppSelector(
   //   (state) => state.partners.allPartnersLoaded
   // );
