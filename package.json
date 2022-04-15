@@ -9,12 +9,12 @@
     "export:drop": "nx export drop",
     "export:painter": "nx export painter",
     "export:web": "nx export web",
-    "build:painter": "nx serve painter",
-    "build:drop": "nx serve drop",
-    "build:web": "nx serve web",
-    "test:drop": "nx serve drop",
-    "test:painter": "nx serve painter",
-    "test:web": "nx serve web"
+    "build:painter": "nx build painter",
+    "build:drop": "nx build drop",
+    "build:web": "nx build web",
+    "test:drop": "nx build drop",
+    "test:painter": "nx build painter",
+    "test:web": "nx build web"
   },
   "private": true,
   "dependencies": {

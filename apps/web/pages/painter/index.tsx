@@ -12,7 +12,11 @@ import SpeciesList from '../../components/species-list/species-list.component';
 import Swatches from '../../components/swatches/swatches.component';
 import UndoRedo from '../../components/undo-redo/undo-redo.component';
 import { useAppDispatch, useAppSelector } from '../../store/hook';
-import { hideLoadingScreen, setUnityLoaded, setUnityContext } from './store';
+import {
+  hideLoadingScreen,
+  setUnityLoaded,
+  setUnityContext,
+} from '../../store/reducers/painter.reducer';
 import { useScrollDirection } from '../../utils/use-scroll-direction';
 import styles from './index.module.scss';
 

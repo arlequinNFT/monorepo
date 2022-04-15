@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import authReducer from './reducers/auth.reducer';
-import collectionReducer from '../pages/collection/store';
+import collectionReducer from './reducers/collection.reducer';
 import arleeLight1Reducer from '../components/arlee-light-1/arlee-light-1.reducer';
 import arleeLight2Reducer from '../components/arlee-light-2/arlee-light-2.reducer';
 import arleeLight3Reducer from '../components/arlee-light-3/arlee-light-3.reducer';
@@ -17,7 +17,7 @@ import groundLightIntensityReducer from '../components/ground-light-intensity/gr
 import paintingModeReducer from '../components/painting-mode/painting-mode.reducer';
 import partnersReducer from '../components/partners/partners.reducer';
 import mintReducer from '../components/mint/mint.reducer';
-import painterReducer from '../pages/painter/store';
+import painterReducer from './reducers/painter.reducer';
 import posesListReducer from '../components/poses-list/poses-list.reducer';
 import settingsTabsReducer from '../components/settings-tabs/settings-tabs.reducer';
 import speciesListReducer from '../components/species-list/species-list.reducer';
